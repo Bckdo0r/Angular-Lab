@@ -30,3 +30,20 @@ body:has(abm-page-solucion) {
   background-color: var(--mat-sys-background);
   color: var(--mat-sys-on-background);
 }
+
+/*
+ * Snackbar coherente con el tema global del sitio.
+ *
+ * Por defecto Material pinta el snackbar con "colores inversos"
+ * (inverse-surface): la barra queda CLARA en modo oscuro y oscura en modo
+ * claro, lo que se leía como un pedazo de otra temática. Los estilos del
+ * componente usan esos tokens directamente y ganan por especificidad, así
+ * que los redefinimos dentro del contenedor: todo su subárbol los hereda
+ * y la barra sigue el tema del sitio.
+ */
+.mat-mdc-snack-bar-container {
+  --mat-sys-inverse-surface: var(--superficie);
+  --mat-sys-inverse-on-surface: var(--texto);
+  --mat-sys-inverse-primary: var(--acento);
+  --mat-snackbar-container-shape: 8px;
+}
