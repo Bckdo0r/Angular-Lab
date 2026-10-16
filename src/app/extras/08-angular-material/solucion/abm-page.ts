@@ -1,5 +1,9 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
+import { CurrencyPipe, registerLocaleData } from '@angular/common';
+// Registro local del locale es-AR (mismo razonamiento que ../ejercicio).
+import localeEsAr from '@angular/common/locales/es-AR';
+
+registerLocaleData(localeEsAr);
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -20,7 +24,7 @@ import { DialogoEditorSolucion } from './dialogo-editor';
  */
 @Component({
   selector: 'abm-page-solucion',
-  imports: [DecimalPipe, MatButtonModule, MatIconModule, MatPaginatorModule, MatTableModule],
+  imports: [CurrencyPipe, MatButtonModule, MatIconModule, MatPaginatorModule, MatTableModule],
   templateUrl: './abm-page.html',
   styleUrl: './abm-page.css',
 })
@@ -51,7 +55,7 @@ export class AbmPageSolucion {
   // contraste con el modal siempre-vivo + output() de la 05.
   protected abrirNuevo(): void {
     this.dialogos
-      .open(DialogoEditorSolucion, { data: { insumo: null }, width: '440px' })
+      .open(DialogoEditorSolucion, { data: { insumo: null }, width: '520px' })
       .afterClosed()
       .subscribe((datos: InsumoNuevo | undefined) => {
         // Cancelar/ESC → undefined: no hay nada que guardar.
@@ -65,7 +69,7 @@ export class AbmPageSolucion {
   // payload para que guardarDesdeDialogo sepa que es actualización.
   protected abrirEdicion(insumo: Insumo): void {
     this.dialogos
-      .open(DialogoEditorSolucion, { data: { insumo }, width: '440px' })
+      .open(DialogoEditorSolucion, { data: { insumo }, width: '520px' })
       .afterClosed()
       .subscribe((datos: InsumoNuevo | undefined) => {
         if (datos) {

@@ -1,5 +1,11 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
+import { CurrencyPipe, registerLocaleData } from '@angular/common';
+// Registro local del locale es-AR: la práctica no quiere tocar la app entera
+// (app.config.ts), así que registra SOLO los datos que necesita el pipe
+// moneda para formatear "$ 32.500,00" al estilo argentino.
+import localeEsAr from '@angular/common/locales/es-AR';
+
+registerLocaleData(localeEsAr);
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -29,7 +35,7 @@ import { DialogoEditor } from './dialogo-editor';
  */
 @Component({
   selector: 'abm-page',
-  imports: [DecimalPipe, MatButtonModule, MatIconModule, MatPaginatorModule, MatTableModule],
+  imports: [CurrencyPipe, MatButtonModule, MatIconModule, MatPaginatorModule, MatTableModule],
   templateUrl: './abm-page.html',
   styleUrl: './abm-page.css',
 })
@@ -81,7 +87,7 @@ export class AbmPage {
   //   abrirEdicion). La forma Material, en contraste con el modal casero de la
   //   05 (que vivía siempre en la plantilla y hablaba con output()):
   //     this.dialogos
-  //       .open(DialogoEditor, { data: { insumo: null }, width: '440px' })
+  //       .open(DialogoEditor, { data: { insumo: null }, width: '520px' })
   //       .afterClosed()
   //       .subscribe((datos: InsumoNuevo | undefined) => {
   //         if (datos) this.guardarDesdeDialogo(datos, null); // null = alta
