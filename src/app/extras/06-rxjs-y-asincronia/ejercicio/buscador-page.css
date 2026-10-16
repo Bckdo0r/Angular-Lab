@@ -25,7 +25,9 @@ h1 {
   background: var(--entrada-fondo);
   color: var(--texto);
   font: inherit;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .filtro:focus,
@@ -93,38 +95,4 @@ tbody tr:hover {
   padding: 0.1rem 0.6rem;
   font-size: 0.8rem;
   font-weight: 600;
-}
-
-/* ─── Caja "cómo probarlo" ───────────────────────────────────────── */
-.como-probar {
-  margin-top: 1.5rem;
-  padding: 1rem 1.25rem;
-  background: var(--superficie);
-  border: 1px solid var(--borde);
-  border-radius: 8px;
-  box-shadow: var(--sombra-tarjeta);
-}
-
-.como-probar h2 {
-  margin: 0 0 0.5rem;
-  font-size: 1rem;
-}
-
-.como-probar ol {
-  margin: 0;
-  padding-left: 1.25rem;
-  color: var(--texto-suave);
-  line-height: 1.7;
-}
-
-.como-probar strong {
-  color: var(--texto);
-}
-
-.como-probar code {
-  background: var(--acento-suave);
-  color: var(--acento);
-  border-radius: 4px;
-  padding: 0.05rem 0.35rem;
-  font-size: 0.9em;
 }
