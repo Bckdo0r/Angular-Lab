@@ -1,5 +1,5 @@
-import { CurrencyPipe } from '@angular/common';
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
+import { formatoPrecio } from './formato-precio';
 import { NotificacionesBus } from './notificaciones-bus';
 import { Producto } from './producto';
 import { SelectorCantidad } from './selector-cantidad';
@@ -16,7 +16,7 @@ import { SelectorCantidad } from './selector-cantidad';
  */
 @Component({
   selector: 'producto-fila',
-  imports: [SelectorCantidad, CurrencyPipe],
+  imports: [SelectorCantidad],
   templateUrl: './producto-fila.html',
   styleUrl: './producto-fila.css',
 })
@@ -29,6 +29,9 @@ export class ProductoFila {
 
   /** Cantidad local elegida para este producto (enlazada al selector). */
   protected readonly cantidad = signal(1);
+
+  /** Precio con formato argentino: "ARS 45.000" (símbolo separado). */
+  protected readonly precioFormateado = computed(() => formatoPrecio(this.producto().precio));
 
   agregar(): void {
     // TODO: [Paso 4a] - Avisale al bus que el usuario quiere agregar este

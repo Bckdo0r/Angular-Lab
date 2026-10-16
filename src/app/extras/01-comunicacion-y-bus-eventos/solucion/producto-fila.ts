@@ -1,5 +1,5 @@
-import { CurrencyPipe } from '@angular/common';
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
+import { formatoPrecio } from './formato-precio';
 import { NotificacionesBus } from './notificaciones-bus';
 import { Producto } from './producto';
 import { SelectorCantidadSolucion } from './selector-cantidad';
@@ -13,7 +13,7 @@ import { SelectorCantidadSolucion } from './selector-cantidad';
  */
 @Component({
   selector: 'producto-fila-solucion',
-  imports: [SelectorCantidadSolucion, CurrencyPipe],
+  imports: [SelectorCantidadSolucion],
   templateUrl: './producto-fila.html',
   styleUrl: './producto-fila.css',
 })
@@ -24,13 +24,12 @@ export class ProductoFilaSolucion {
 
   protected readonly cantidad = signal(1);
 
+  /** Precio con formato argentino: "ARS 45.000" (símbolo separado). */
+  protected readonly precioFormateado = computed(() => formatoPrecio(this.producto().precio));
+
   agregar(): void {
     // [Paso 4a] El nieto solo AVISA: no toca la lista (no es suya).
-    this.bus.notificarProductoAgregado(
-      this.producto().id,
-      this.producto().nombre,
-      this.cantidad(),
-    );
+    this.bus.notificarProductoAgregado(this.producto().id, this.producto().nombre, this.cantidad());
   }
 
   eliminar(): void {

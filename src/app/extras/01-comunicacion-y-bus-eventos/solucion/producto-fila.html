@@ -1,6 +1,6 @@
 <tr>
   <td>{{ producto().nombre }}</td>
-  <td class="precio">{{ producto().precio | currency: 'ARS' : 'symbol' : '1.0-0' }}</td>
+  <td class="precio">{{ precioFormateado() }}</td>
   <td class="acciones">
     <selector-cantidad-solucion [(cantidad)]="cantidad" />
     <button type="button" class="primario" (click)="agregar()">➕ Agregar</button>

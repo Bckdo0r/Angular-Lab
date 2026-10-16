@@ -2,8 +2,8 @@
   <section class="panel">
     <h2>Catálogo</h2>
     <p class="ayuda">
-      Las filas son el componente <strong>nieto</strong> (<code>producto-fila</code>). Al
-      eliminar o agregar, el nieto avisa a este <strong>abuelo</strong> a través del
+      Las filas son el componente <strong>nieto</strong> (<code>producto-fila</code>). Al eliminar o
+      agregar, el nieto avisa a este <strong>abuelo</strong> a través del
       <code>NotificacionesBus</code> sin pasar por <code>producto-tabla</code> (hijo).
     </p>
 
@@ -11,7 +11,7 @@
 
     <p class="total">
       Valor del catálogo:
-      <strong>{{ total() | currency: 'ARS' : 'symbol' : '1.0-0' }}</strong>
+      <strong>{{ totalFormateado() }}</strong>
     </p>
   </section>
 
@@ -19,8 +19,8 @@
     <section class="panel">
       <h2>Carrito: {{ carrito() }} unidades</h2>
       <p class="ayuda">
-        Enlace bidireccional personalizado con <code>[(cantidad)]</code> (el abuelo también
-        puede usar el selector directamente):
+        Enlace bidireccional personalizado con <code>[(cantidad)]</code> (el abuelo también puede
+        usar el selector directamente):
       </p>
       <div class="carrito-demo">
         <selector-cantidad-solucion [(cantidad)]="cantidadCarrito" />
