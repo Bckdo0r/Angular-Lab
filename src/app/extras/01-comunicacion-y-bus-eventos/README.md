@@ -93,7 +93,7 @@ Abrí la página del ejercicio (<http://localhost:4200/extras/01>) y verificá p
 Probá en <http://localhost:4200/extras/01>:
 
 1. **Two-way binding:** el selector de la sección "Carrito" suma y resta, y el número del texto (`1 elegidas`, `2 elegidas`...) cambia junto con él.
-2. **Agregar:** tocá "➕ Agregar" en una fila (probá con cantidad 2 en el selector de la fila): el contador "Carrito: X unidades" aumenta exactamente esa cantidad y aparece la notificación `✅ Agregaste 2 × Teclado mecánico`.
+2. **Agregar:** tocá el botón "Agregar" en una fila (probá con cantidad 2 en el selector de la fila): el contador "Carrito: X unidades" aumenta exactamente esa cantidad y aparece la notificación `✅ Agregaste 2 × Teclado mecánico`.
 3. **Eliminar:** tocá 🗑️ en una fila: el producto desaparece de la tabla, el **valor del catálogo se recalcula solo** (es un `computed()`) y aparece la notificación `🗑 Eliminaste "..."`.
 4. **Nieto → abuelo sin intermediarios:** abrí `producto-tabla.ts` y verificá que no tuviste que tocarlo para que el flujo funcione (no tiene outputs ni inyecta el bus).
 5. **Sin leaks:** navegá a otra ruta y volvé; todo sigue funcionando (la suscripción se limpia con `takeUntilDestroyed()`).

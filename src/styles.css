@@ -25,6 +25,11 @@
   /* Campos de formulario (inputs y selects) */
   --entrada-borde: #ccc;
   --entrada-fondo: #ffffff;
+  /* Paleta decorativa de fondo (inspirada en angular.dev).
+     En oscuro se mezclan con negro, como hace el sitio oficial. */
+  --deco-violeta: oklch(53.18% 0.28 296.97);
+  --deco-rosa: oklch(69.02% 0.277 332.77);
+  --deco-azul: oklch(51.01% 0.274 263.83);
 }
 
 html.oscuro {
@@ -49,15 +54,91 @@ html.oscuro {
   /* Campos de formulario */
   --entrada-borde: #3a3948;
   --entrada-fondo: #232331;
+  /* Paleta decorativa en oscuro: mismos matices, atenuados sobre el fondo. */
+  --deco-violeta: color-mix(in srgb, oklch(53.18% 0.28 296.97), black 45%);
+  --deco-rosa: color-mix(in srgb, oklch(69.02% 0.277 332.77), black 45%);
+  --deco-azul: color-mix(in srgb, oklch(51.01% 0.274 263.83), black 45%);
 }
 
 /* ─── Estilos base globales ─────────────────────────────────────── */
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  background: var(--fondo);
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
   color: var(--texto);
-  transition: background-color 0.25s ease, color 0.25s ease;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+
+  /* Fondo decorativo estilo angular.dev: tres blobs radiales suaves y
+     fijos (no scrollean) detrás de todo el contenido, con la paleta
+     violeta/rosa/azul del sitio oficial. Alphas bajos para que las
+     tarjetas y el texto sigan mandando; el color de base es --fondo. */
+  background:
+    radial-gradient(
+      42rem 30rem at 12% -6%,
+      color-mix(in srgb, var(--deco-violeta) 16%, transparent),
+      transparent 65%
+    ),
+    radial-gradient(
+      38rem 26rem at 92% 4%,
+      color-mix(in srgb, var(--deco-rosa) 13%, transparent),
+      transparent 65%
+    ),
+    radial-gradient(
+      46rem 34rem at 78% 100%,
+      color-mix(in srgb, var(--deco-azul) 11%, transparent),
+      transparent 70%
+    ),
+    var(--fondo);
+  background-attachment: fixed;
+}
+
+/* ─── Barras diagonales “/” estilo angular.dev ─────────────────────
+   Réplica del patrón de la home oficial (su clase .pattern): un SVG
+   tiling de barras redondeadas (20px, rotadas -60°) que angular.dev
+   usa como MÁSCARA en tiles de 22px sobre un gradiente de color. Acá
+   el gradiente va de violeta a rosa de izquierda a derecha, con los
+   tokens --deco-* (en oscuro ya vienen atenuados). Una viñeta radial
+   como segunda máscara desvanece el parche hacia los bordes. Dos
+   parches fijos en esquinas opuestas, detrás de todo el contenido
+   (z-index: -1) y sin capturar eventos. */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(90deg, var(--deco-violeta), var(--deco-rosa));
+  mask-image:
+    url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'><defs><pattern id='p' patternUnits='userSpaceOnUse' width='72' height='72'><g transform='translate(36 36) rotate(-60)'><line x1='-10' y1='0' x2='10' y2='0' stroke='white' stroke-width='3' stroke-linecap='round'/></g></pattern></defs><rect width='100%' height='100%' fill='url(%23p)'/></svg>"),
+    radial-gradient(closest-side, #000 20%, transparent 78%);
+  mask-size:
+    22px 22px,
+    100% 100%;
+  mask-repeat: repeat, no-repeat;
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
+}
+
+/* Parche superior derecho, medio fuera de la pantalla. */
+body::before {
+  top: -10rem;
+  right: -12rem;
+  width: 40rem;
+  height: 30rem;
+}
+
+/* Parche inferior izquierdo, espejado. */
+body::after {
+  bottom: -12rem;
+  left: -14rem;
+  width: 44rem;
+  height: 32rem;
 }
 
 code {

@@ -27,9 +27,9 @@
   width: auto;
 }
 
-/* Wordmark con los colores de la marca: "angular" en degradado rosa → violeta
-   y "lab" en verde, con una separación visible entre ambas.
-   Son colores de identidad fijos, iguales en tema claro y oscuro. */
+/* Wordmark con los colores de la marca: "Angular" en degradado rosa → violeta
+   y "Lab" en verde (iniciales en mayúscula), con una separación visible entre
+   ambas. Son colores de identidad fijos, iguales en tema claro y oscuro. */
 .marca-texto {
   display: inline-flex;
   align-items: baseline;

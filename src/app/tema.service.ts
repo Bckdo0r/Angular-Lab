@@ -45,11 +45,14 @@ export class TemaService {
     this.aplicar(nuevo);
   }
 
-  /** Sincroniza la clase CSS del <html> y el color-scheme del documento. */
+  /** Sincroniza la clase CSS del <html> y el color-scheme del documento.
+   *  OJO: `color-scheme` solo acepta `light`/`dark` (no `claro`/`oscuro`);
+   *  un valor inválido se descarta en silencio y los tokens de Material,
+   *  que usan `light-dark(...)`, quedarían pegados al tema del arranque. */
   private aplicar(tema: Tema): void {
     const raiz = document.documentElement;
     raiz.classList.toggle(CLASE_OSCURO, tema === 'oscuro');
-    raiz.style.colorScheme = tema;
+    raiz.style.colorScheme = tema === 'oscuro' ? 'dark' : 'light';
   }
 }
 

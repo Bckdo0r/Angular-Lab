@@ -2,7 +2,29 @@ import { Routes } from '@angular/router';
 import { rutasPractica04 } from './extras/04-auth-jwt-guards-interceptors/rutas';
 import { rutasPractica09 } from './extras/09-ngrx-store/rutas';
 import { rutasPractica07 } from './extras/07-ruteo-avanzado/rutas';
+import { SalidaDemo, salida } from './compartido/salida-demo';
 
+/**
+ * RUTAS DE LA APLICACIÓN
+ *
+ * Todas las páginas de RESULTADO (lecciones del tutorial y prácticas, tanto
+ * el ejercicio como la solución) se renderizan dentro del recuadro "Output"
+ * (`SalidaDemo`, ver compartido/salida-demo.ts):
+ *
+ *   - Rutas planas → `children: [salida(loader, título)]` (helper).
+ *   - Rutas que ya tienen `children` propias (12/13sol/14/14sol y los
+ *     sub-layouts de las prácticas 04/07/09) → `component: SalidaDemo` en
+ *     la ruta padre y el contenido original anidado bajo un `path: ''`.
+ *
+ * El nivel agregado siempre tiene `path: ''`, así que las URLs NO cambian
+ * y los guards/redirects absolutos siguen funcionando igual.
+ *
+ * Excepciones SIN recuadro (a propósito):
+ *   - Home `/` y los índices `/tutorial` y `/extras`: no son resultados.
+ *   - Lección 13 (ejercicio): su README le pide al alumno agregar `children`
+ *     a ESTA ruta exacta; envolverla cambiaría el objetivo del ejercicio.
+ *   - Lección 25: solo lectura, no tiene resultado que enmarcar.
+ */
 export const routes: Routes = [
   // ─── Página de inicio: acceso a Tutorial y Prácticas ─────────
   {
@@ -21,203 +43,309 @@ export const routes: Routes = [
   // ─── Lección 01 — Anatomía de un Componente ──────────────────
   {
     path: 'tutorial/01',
-    loadComponent: () => import('./tutorial/01-componentes/leccion').then((m) => m.Leccion01),
-    title: 'Lección 01 — Anatomía de un Componente',
+    children: [
+      salida(
+        () => import('./tutorial/01-componentes/leccion').then((m) => m.Leccion01),
+        'Lección 01 — Anatomía de un Componente',
+      ),
+    ],
   },
   {
     path: 'tutorial/01/solucion',
-    loadComponent: () =>
-      import('./tutorial/01-componentes/solucion/solucion').then((m) => m.Leccion01Solucion),
-    title: 'Solución 01 — Anatomía de un Componente',
+    children: [
+      salida(
+        () =>
+          import('./tutorial/01-componentes/solucion/solucion').then((m) => m.Leccion01Solucion),
+        'Solución 01 — Anatomía de un Componente',
+      ),
+    ],
   },
 
   // ─── Lección 02 — Actualizar la clase del componente ─────────
   {
     path: 'tutorial/02',
-    loadComponent: () =>
-      import('./tutorial/02-clase-del-componente/leccion').then((m) => m.Leccion02),
-    title: 'Lección 02 — Actualizar la clase del componente',
+    children: [
+      salida(
+        () => import('./tutorial/02-clase-del-componente/leccion').then((m) => m.Leccion02),
+        'Lección 02 — Actualizar la clase del componente',
+      ),
+    ],
   },
   {
     path: 'tutorial/02/solucion',
-    loadComponent: () =>
-      import('./tutorial/02-clase-del-componente/solucion/solucion').then(
-        (m) => m.Leccion02Solucion,
+    children: [
+      salida(
+        () =>
+          import('./tutorial/02-clase-del-componente/solucion/solucion').then(
+            (m) => m.Leccion02Solucion,
+          ),
+        'Solución 02 — Actualizar la clase del componente',
       ),
-    title: 'Solución 02 — Actualizar la clase del componente',
+    ],
   },
 
   // ─── Lección 03 — Componer componentes ───────────────────────
   {
     path: 'tutorial/03',
-    loadComponent: () =>
-      import('./tutorial/03-componer-componentes/leccion').then((m) => m.Leccion03),
-    title: 'Lección 03 — Componer componentes',
+    children: [
+      salida(
+        () => import('./tutorial/03-componer-componentes/leccion').then((m) => m.Leccion03),
+        'Lección 03 — Componer componentes',
+      ),
+    ],
   },
   {
     path: 'tutorial/03/solucion',
-    loadComponent: () =>
-      import('./tutorial/03-componer-componentes/solucion/solucion').then(
-        (m) => m.Leccion03Solucion,
+    children: [
+      salida(
+        () =>
+          import('./tutorial/03-componer-componentes/solucion/solucion').then(
+            (m) => m.Leccion03Solucion,
+          ),
+        'Solución 03 — Componer componentes',
       ),
-    title: 'Solución 03 — Componer componentes',
+    ],
   },
 
   // ─── Lección 04 — Control de flujo: @if ──────────────────────
   {
     path: 'tutorial/04',
-    loadComponent: () => import('./tutorial/04-control-flow-if/leccion').then((m) => m.Leccion04),
-    title: 'Lección 04 — Control de flujo: @if',
+    children: [
+      salida(
+        () => import('./tutorial/04-control-flow-if/leccion').then((m) => m.Leccion04),
+        'Lección 04 — Control de flujo: @if',
+      ),
+    ],
   },
   {
     path: 'tutorial/04/solucion',
-    loadComponent: () =>
-      import('./tutorial/04-control-flow-if/solucion/solucion').then((m) => m.Leccion04Solucion),
-    title: 'Solución 04 — Control de flujo: @if',
+    children: [
+      salida(
+        () =>
+          import('./tutorial/04-control-flow-if/solucion/solucion').then(
+            (m) => m.Leccion04Solucion,
+          ),
+        'Solución 04 — Control de flujo: @if',
+      ),
+    ],
   },
 
   // ─── Lección 05 — Control de flujo: @for ─────────────────────
   {
     path: 'tutorial/05',
-    loadComponent: () => import('./tutorial/05-control-flow-for/leccion').then((m) => m.Leccion05),
-    title: 'Lección 05 — Control de flujo: @for',
+    children: [
+      salida(
+        () => import('./tutorial/05-control-flow-for/leccion').then((m) => m.Leccion05),
+        'Lección 05 — Control de flujo: @for',
+      ),
+    ],
   },
   {
     path: 'tutorial/05/solucion',
-    loadComponent: () =>
-      import('./tutorial/05-control-flow-for/solucion/solucion').then((m) => m.Leccion05Solucion),
-    title: 'Solución 05 — Control de flujo: @for',
+    children: [
+      salida(
+        () =>
+          import('./tutorial/05-control-flow-for/solucion/solucion').then(
+            (m) => m.Leccion05Solucion,
+          ),
+        'Solución 05 — Control de flujo: @for',
+      ),
+    ],
   },
 
   // ─── Lección 06 — Property binding ───────────────────────────
   {
     path: 'tutorial/06',
-    loadComponent: () => import('./tutorial/06-property-binding/leccion').then((m) => m.Leccion06),
-    title: 'Lección 06 — Property binding',
+    children: [
+      salida(
+        () => import('./tutorial/06-property-binding/leccion').then((m) => m.Leccion06),
+        'Lección 06 — Property binding',
+      ),
+    ],
   },
   {
     path: 'tutorial/06/solucion',
-    loadComponent: () =>
-      import('./tutorial/06-property-binding/solucion/solucion').then((m) => m.Leccion06Solucion),
-    title: 'Solución 06 — Property binding',
+    children: [
+      salida(
+        () =>
+          import('./tutorial/06-property-binding/solucion/solucion').then(
+            (m) => m.Leccion06Solucion,
+          ),
+        'Solución 06 — Property binding',
+      ),
+    ],
   },
 
   // ─── Lección 07 — Manejo de eventos ──────────────────────────
   {
     path: 'tutorial/07',
-    loadComponent: () => import('./tutorial/07-event-handling/leccion').then((m) => m.Leccion07),
-    title: 'Lección 07 — Manejo de eventos',
+    children: [
+      salida(
+        () => import('./tutorial/07-event-handling/leccion').then((m) => m.Leccion07),
+        'Lección 07 — Manejo de eventos',
+      ),
+    ],
   },
   {
     path: 'tutorial/07/solucion',
-    loadComponent: () =>
-      import('./tutorial/07-event-handling/solucion/solucion').then((m) => m.Leccion07Solucion),
-    title: 'Solución 07 — Manejo de eventos',
+    children: [
+      salida(
+        () =>
+          import('./tutorial/07-event-handling/solucion/solucion').then((m) => m.Leccion07Solucion),
+        'Solución 07 — Manejo de eventos',
+      ),
+    ],
   },
 
   // ─── Lección 08 — Inputs ─────────────────────────────────────
   {
     path: 'tutorial/08',
-    loadComponent: () => import('./tutorial/08-input/leccion').then((m) => m.Leccion08),
-    title: 'Lección 08 — Inputs',
+    children: [
+      salida(
+        () => import('./tutorial/08-input/leccion').then((m) => m.Leccion08),
+        'Lección 08 — Inputs',
+      ),
+    ],
   },
   {
     path: 'tutorial/08/solucion',
-    loadComponent: () =>
-      import('./tutorial/08-input/solucion/solucion').then((m) => m.Leccion08Solucion),
-    title: 'Solución 08 — Inputs',
+    children: [
+      salida(
+        () => import('./tutorial/08-input/solucion/solucion').then((m) => m.Leccion08Solucion),
+        'Solución 08 — Inputs',
+      ),
+    ],
   },
 
   // ─── Lección 09 — Outputs ────────────────────────────────────
   {
     path: 'tutorial/09',
-    loadComponent: () => import('./tutorial/09-output/leccion').then((m) => m.Leccion09),
-    title: 'Lección 09 — Outputs',
+    children: [
+      salida(
+        () => import('./tutorial/09-output/leccion').then((m) => m.Leccion09),
+        'Lección 09 — Outputs',
+      ),
+    ],
   },
   {
     path: 'tutorial/09/solucion',
-    loadComponent: () =>
-      import('./tutorial/09-output/solucion/solucion').then((m) => m.Leccion09Solucion),
-    title: 'Solución 09 — Outputs',
+    children: [
+      salida(
+        () => import('./tutorial/09-output/solucion/solucion').then((m) => m.Leccion09Solucion),
+        'Solución 09 — Outputs',
+      ),
+    ],
   },
 
   // ─── Lección 10 — Vistas diferibles (@defer) ─────────────────
   {
     path: 'tutorial/10',
-    loadComponent: () => import('./tutorial/10-deferrable-views/leccion').then((m) => m.Leccion10),
-    title: 'Lección 10 — Vistas diferibles (@defer)',
+    children: [
+      salida(
+        () => import('./tutorial/10-deferrable-views/leccion').then((m) => m.Leccion10),
+        'Lección 10 — Vistas diferibles (@defer)',
+      ),
+    ],
   },
   {
     path: 'tutorial/10/solucion',
-    loadComponent: () =>
-      import('./tutorial/10-deferrable-views/solucion/solucion').then((m) => m.Leccion10Solucion),
-    title: 'Solución 10 — Vistas diferibles (@defer)',
+    children: [
+      salida(
+        () =>
+          import('./tutorial/10-deferrable-views/solucion/solucion').then(
+            (m) => m.Leccion10Solucion,
+          ),
+        'Solución 10 — Vistas diferibles (@defer)',
+      ),
+    ],
   },
 
   // ─── Lección 11 — Optimización de imágenes ───────────────────
   {
     path: 'tutorial/11',
-    loadComponent: () =>
-      import('./tutorial/11-optimizando-imagenes/leccion').then((m) => m.Leccion11),
-    title: 'Lección 11 — Optimización de imágenes',
+    children: [
+      salida(
+        () => import('./tutorial/11-optimizando-imagenes/leccion').then((m) => m.Leccion11),
+        'Lección 11 — Optimización de imágenes',
+      ),
+    ],
   },
   {
     path: 'tutorial/11/solucion',
-    loadComponent: () =>
-      import('./tutorial/11-optimizando-imagenes/solucion/solucion').then(
-        (m) => m.Leccion11Solucion,
+    children: [
+      salida(
+        () =>
+          import('./tutorial/11-optimizando-imagenes/solucion/solucion').then(
+            (m) => m.Leccion11Solucion,
+          ),
+        'Solución 11 — Optimización de imágenes',
       ),
-    title: 'Solución 11 — Optimización de imágenes',
+    ],
   },
 
   // ─── Lección 12 — Habilitar el routing ───────────────────────
+  // La lección ya trae rutas hijas propias: se anida el contenido original
+  // bajo un `path: ''` dentro del recuadro (URLs sin cambios).
   {
     path: 'tutorial/12',
-    loadComponent: () => import('./tutorial/12-enable-routing/leccion').then((m) => m.Leccion12),
+    component: SalidaDemo,
     children: [
       {
         path: '',
         loadComponent: () =>
-          import('./tutorial/12-enable-routing/home/home').then((m) => m.Leccion12Home),
-        title: 'App Home Page',
-      },
-      {
-        path: 'user',
-        loadComponent: () =>
-          import('./tutorial/12-enable-routing/user/user').then((m) => m.Leccion12User),
-        title: 'App User Page',
+          import('./tutorial/12-enable-routing/leccion').then((m) => m.Leccion12),
+        title: 'Lección 12 — Habilitar el routing',
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./tutorial/12-enable-routing/home/home').then((m) => m.Leccion12Home),
+            title: 'App Home Page',
+          },
+          {
+            path: 'user',
+            loadComponent: () =>
+              import('./tutorial/12-enable-routing/user/user').then((m) => m.Leccion12User),
+            title: 'App User Page',
+          },
+        ],
       },
     ],
-    title: 'Lección 12 — Habilitar el routing',
   },
   {
     path: 'tutorial/12/solucion',
-    loadComponent: () =>
-      import('./tutorial/12-enable-routing/solucion/solucion').then((m) => m.Leccion12Solucion),
+    component: SalidaDemo,
     children: [
       {
         path: '',
         loadComponent: () =>
-          import('./tutorial/12-enable-routing/solucion/home/home').then(
-            (m) => m.Leccion12SolucionHome,
-          ),
-      },
-      {
-        path: 'home',
-        loadComponent: () =>
-          import('./tutorial/12-enable-routing/solucion/home/home').then(
-            (m) => m.Leccion12SolucionHome,
-          ),
-      },
-      {
-        path: 'user',
-        loadComponent: () =>
-          import('./tutorial/12-enable-routing/solucion/user/user').then(
-            (m) => m.Leccion12SolucionUser,
-          ),
+          import('./tutorial/12-enable-routing/solucion/solucion').then((m) => m.Leccion12Solucion),
+        title: 'Solución 12 — Habilitar el routing',
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./tutorial/12-enable-routing/solucion/home/home').then(
+                (m) => m.Leccion12SolucionHome,
+              ),
+          },
+          {
+            path: 'home',
+            loadComponent: () =>
+              import('./tutorial/12-enable-routing/solucion/home/home').then(
+                (m) => m.Leccion12SolucionHome,
+              ),
+          },
+          {
+            path: 'user',
+            loadComponent: () =>
+              import('./tutorial/12-enable-routing/solucion/user/user').then(
+                (m) => m.Leccion12SolucionUser,
+              ),
+          },
+        ],
       },
     ],
-    title: 'Solución 12 — Habilitar el routing',
   },
 
   // ─── Lección 13 — Definir una ruta ───────────────────────────
@@ -225,6 +353,9 @@ export const routes: Routes = [
   // Las páginas ya existen (Leccion13Home y Leccion13User); te falta a vos:
   // agregar el array `children` con `path: ''` (Home) y `path: 'user'` (User).
   // El snippet exacto está en src/app/tutorial/13-define-a-route/README.md
+  //
+  // ⚠️ SIN recuadro "Output" a propósito: el ejercicio consiste en editar
+  // ESTA ruta (ver README); envolverla cambiaría el objetivo de la lección.
   {
     path: 'tutorial/13',
     loadComponent: () => import('./tutorial/13-define-a-route/leccion').then((m) => m.Leccion13),
@@ -234,206 +365,300 @@ export const routes: Routes = [
   },
   {
     path: 'tutorial/13/solucion',
-    loadComponent: () =>
-      import('./tutorial/13-define-a-route/solucion/solucion').then((m) => m.Leccion13Solucion),
+    component: SalidaDemo,
     children: [
       {
         path: '',
         loadComponent: () =>
-          import('./tutorial/13-define-a-route/solucion/home/home').then(
-            (m) => m.Leccion13SolucionHome,
-          ),
-      },
-      {
-        path: 'home',
-        loadComponent: () =>
-          import('./tutorial/13-define-a-route/solucion/home/home').then(
-            (m) => m.Leccion13SolucionHome,
-          ),
-      },
-      {
-        path: 'user',
-        loadComponent: () =>
-          import('./tutorial/13-define-a-route/solucion/user/user').then(
-            (m) => m.Leccion13SolucionUser,
-          ),
+          import('./tutorial/13-define-a-route/solucion/solucion').then((m) => m.Leccion13Solucion),
+        title: 'Solución 13 — Definir una ruta',
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./tutorial/13-define-a-route/solucion/home/home').then(
+                (m) => m.Leccion13SolucionHome,
+              ),
+          },
+          {
+            path: 'home',
+            loadComponent: () =>
+              import('./tutorial/13-define-a-route/solucion/home/home').then(
+                (m) => m.Leccion13SolucionHome,
+              ),
+          },
+          {
+            path: 'user',
+            loadComponent: () =>
+              import('./tutorial/13-define-a-route/solucion/user/user').then(
+                (m) => m.Leccion13SolucionUser,
+              ),
+          },
+        ],
       },
     ],
-    title: 'Solución 13 — Definir una ruta',
   },
 
   // ─── Lección 14 — Navegación con routerLink ──────────────────
   {
     path: 'tutorial/14',
-    loadComponent: () => import('./tutorial/14-routerlink/leccion').then((m) => m.Leccion14),
+    component: SalidaDemo,
     children: [
       {
         path: '',
-        loadComponent: () =>
-          import('./tutorial/14-routerlink/home/home').then((m) => m.Leccion14Home),
-        title: 'App Home Page',
-      },
-      {
-        path: 'user',
-        loadComponent: () =>
-          import('./tutorial/14-routerlink/user/user').then((m) => m.Leccion14User),
-        title: 'App User Page',
+        loadComponent: () => import('./tutorial/14-routerlink/leccion').then((m) => m.Leccion14),
+        title: 'Lección 14 — Navegación con routerLink',
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./tutorial/14-routerlink/home/home').then((m) => m.Leccion14Home),
+            title: 'App Home Page',
+          },
+          {
+            path: 'user',
+            loadComponent: () =>
+              import('./tutorial/14-routerlink/user/user').then((m) => m.Leccion14User),
+            title: 'App User Page',
+          },
+        ],
       },
     ],
-    title: 'Lección 14 — Navegación con routerLink',
   },
   {
     path: 'tutorial/14/solucion',
-    loadComponent: () =>
-      import('./tutorial/14-routerlink/solucion/solucion').then((m) => m.Leccion14Solucion),
+    component: SalidaDemo,
     children: [
       {
         path: '',
         loadComponent: () =>
-          import('./tutorial/14-routerlink/solucion/home/home').then(
-            (m) => m.Leccion14SolucionHome,
-          ),
-      },
-      {
-        path: 'home',
-        loadComponent: () =>
-          import('./tutorial/14-routerlink/solucion/home/home').then(
-            (m) => m.Leccion14SolucionHome,
-          ),
-      },
-      {
-        path: 'user',
-        loadComponent: () =>
-          import('./tutorial/14-routerlink/solucion/user/user').then(
-            (m) => m.Leccion14SolucionUser,
-          ),
+          import('./tutorial/14-routerlink/solucion/solucion').then((m) => m.Leccion14Solucion),
+        title: 'Solución 14 — Navegación con routerLink',
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./tutorial/14-routerlink/solucion/home/home').then(
+                (m) => m.Leccion14SolucionHome,
+              ),
+          },
+          {
+            path: 'home',
+            loadComponent: () =>
+              import('./tutorial/14-routerlink/solucion/home/home').then(
+                (m) => m.Leccion14SolucionHome,
+              ),
+          },
+          {
+            path: 'user',
+            loadComponent: () =>
+              import('./tutorial/14-routerlink/solucion/user/user').then(
+                (m) => m.Leccion14SolucionUser,
+              ),
+          },
+        ],
       },
     ],
-    title: 'Solución 14 — Navegación con routerLink',
   },
 
   // ─── Lección 15 — Formularios ────────────────────────────────
   {
     path: 'tutorial/15',
-    loadComponent: () => import('./tutorial/15-forms/leccion').then((m) => m.Leccion15),
-    title: 'Lección 15 — Formularios',
+    children: [
+      salida(
+        () => import('./tutorial/15-forms/leccion').then((m) => m.Leccion15),
+        'Lección 15 — Formularios',
+      ),
+    ],
   },
   {
     path: 'tutorial/15/solucion',
-    loadComponent: () =>
-      import('./tutorial/15-forms/solucion/solucion').then((m) => m.Leccion15Solucion),
-    title: 'Solución 15 — Formularios',
+    children: [
+      salida(
+        () => import('./tutorial/15-forms/solucion/solucion').then((m) => m.Leccion15Solucion),
+        'Solución 15 — Formularios',
+      ),
+    ],
   },
 
   // ─── Lección 16 — Valores de controles de formulario ─────────
   {
     path: 'tutorial/16',
-    loadComponent: () =>
-      import('./tutorial/16-form-control-values/leccion').then((m) => m.Leccion16),
-    title: 'Lección 16 — Valores de controles de formulario',
+    children: [
+      salida(
+        () => import('./tutorial/16-form-control-values/leccion').then((m) => m.Leccion16),
+        'Lección 16 — Valores de controles de formulario',
+      ),
+    ],
   },
   {
     path: 'tutorial/16/solucion',
-    loadComponent: () =>
-      import('./tutorial/16-form-control-values/solucion/solucion').then(
-        (m) => m.Leccion16Solucion,
+    children: [
+      salida(
+        () =>
+          import('./tutorial/16-form-control-values/solucion/solucion').then(
+            (m) => m.Leccion16Solucion,
+          ),
+        'Solución 16 — Valores de controles de formulario',
       ),
-    title: 'Solución 16 — Valores de controles de formulario',
+    ],
   },
 
   // ─── Lección 17 — Formularios reactivos ──────────────────────
   {
     path: 'tutorial/17',
-    loadComponent: () => import('./tutorial/17-reactive-forms/leccion').then((m) => m.Leccion17),
-    title: 'Lección 17 — Formularios reactivos',
+    children: [
+      salida(
+        () => import('./tutorial/17-reactive-forms/leccion').then((m) => m.Leccion17),
+        'Lección 17 — Formularios reactivos',
+      ),
+    ],
   },
   {
     path: 'tutorial/17/solucion',
-    loadComponent: () =>
-      import('./tutorial/17-reactive-forms/solucion/solucion').then((m) => m.Leccion17Solucion),
-    title: 'Solución 17 — Formularios reactivos',
+    children: [
+      salida(
+        () =>
+          import('./tutorial/17-reactive-forms/solucion/solucion').then((m) => m.Leccion17Solucion),
+        'Solución 17 — Formularios reactivos',
+      ),
+    ],
   },
 
   // ─── Lección 18 — Validación de formularios ──────────────────
   {
     path: 'tutorial/18',
-    loadComponent: () => import('./tutorial/18-forms-validation/leccion').then((m) => m.Leccion18),
-    title: 'Lección 18 — Validación de formularios',
+    children: [
+      salida(
+        () => import('./tutorial/18-forms-validation/leccion').then((m) => m.Leccion18),
+        'Lección 18 — Validación de formularios',
+      ),
+    ],
   },
   {
     path: 'tutorial/18/solucion',
-    loadComponent: () =>
-      import('./tutorial/18-forms-validation/solucion/solucion').then((m) => m.Leccion18Solucion),
-    title: 'Solución 18 — Validación de formularios',
+    children: [
+      salida(
+        () =>
+          import('./tutorial/18-forms-validation/solucion/solucion').then(
+            (m) => m.Leccion18Solucion,
+          ),
+        'Solución 18 — Validación de formularios',
+      ),
+    ],
   },
 
   // ─── Lección 19 — Crear un servicio inyectable ───────────────
   {
     path: 'tutorial/19',
-    loadComponent: () =>
-      import('./tutorial/19-injectable-service/leccion').then((m) => m.Leccion19),
-    title: 'Lección 19 — Crear un servicio inyectable',
+    children: [
+      salida(
+        () => import('./tutorial/19-injectable-service/leccion').then((m) => m.Leccion19),
+        'Lección 19 — Crear un servicio inyectable',
+      ),
+    ],
   },
   {
     path: 'tutorial/19/solucion',
-    loadComponent: () =>
-      import('./tutorial/19-injectable-service/solucion/solucion').then((m) => m.Leccion19Solucion),
-    title: 'Solución 19 — Crear un servicio inyectable',
+    children: [
+      salida(
+        () =>
+          import('./tutorial/19-injectable-service/solucion/solucion').then(
+            (m) => m.Leccion19Solucion,
+          ),
+        'Solución 19 — Crear un servicio inyectable',
+      ),
+    ],
   },
 
   // ─── Lección 20 — Inyección de dependencias con inject() ─────
   {
     path: 'tutorial/20',
-    loadComponent: () => import('./tutorial/20-inject-based-di/leccion').then((m) => m.Leccion20),
-    title: 'Lección 20 — Inyección de dependencias con inject()',
+    children: [
+      salida(
+        () => import('./tutorial/20-inject-based-di/leccion').then((m) => m.Leccion20),
+        'Lección 20 — Inyección de dependencias con inject()',
+      ),
+    ],
   },
   {
     path: 'tutorial/20/solucion',
-    loadComponent: () =>
-      import('./tutorial/20-inject-based-di/solucion/solucion').then((m) => m.Leccion20Solucion),
-    title: 'Solución 20 — Inyección de dependencias con inject()',
+    children: [
+      salida(
+        () =>
+          import('./tutorial/20-inject-based-di/solucion/solucion').then(
+            (m) => m.Leccion20Solucion,
+          ),
+        'Solución 20 — Inyección de dependencias con inject()',
+      ),
+    ],
   },
 
   // ─── Lección 22 — Pipes ──────────────────────────────────────
   {
     path: 'tutorial/22',
-    loadComponent: () => import('./tutorial/22-pipes/leccion').then((m) => m.Leccion22),
-    title: 'Lección 22 — Pipes',
+    children: [
+      salida(
+        () => import('./tutorial/22-pipes/leccion').then((m) => m.Leccion22),
+        'Lección 22 — Pipes',
+      ),
+    ],
   },
   {
     path: 'tutorial/22/solucion',
-    loadComponent: () =>
-      import('./tutorial/22-pipes/solucion/solucion').then((m) => m.Leccion22Solucion),
-    title: 'Solución 22 — Pipes',
+    children: [
+      salida(
+        () => import('./tutorial/22-pipes/solucion/solucion').then((m) => m.Leccion22Solucion),
+        'Solución 22 — Pipes',
+      ),
+    ],
   },
 
   // ─── Lección 23 — Formatear datos con pipes ──────────────────
   {
     path: 'tutorial/23',
-    loadComponent: () => import('./tutorial/23-pipes-format-data/leccion').then((m) => m.Leccion23),
-    title: 'Lección 23 — Formatear datos con pipes',
+    children: [
+      salida(
+        () => import('./tutorial/23-pipes-format-data/leccion').then((m) => m.Leccion23),
+        'Lección 23 — Formatear datos con pipes',
+      ),
+    ],
   },
   {
     path: 'tutorial/23/solucion',
-    loadComponent: () =>
-      import('./tutorial/23-pipes-format-data/solucion/solucion').then((m) => m.Leccion23Solucion),
-    title: 'Solución 23 — Formatear datos con pipes',
+    children: [
+      salida(
+        () =>
+          import('./tutorial/23-pipes-format-data/solucion/solucion').then(
+            (m) => m.Leccion23Solucion,
+          ),
+        'Solución 23 — Formatear datos con pipes',
+      ),
+    ],
   },
 
   // ─── Lección 24 — Crear un pipe personalizado ────────────────
   {
     path: 'tutorial/24',
-    loadComponent: () => import('./tutorial/24-create-a-pipe/leccion').then((m) => m.Leccion24),
-    title: 'Lección 24 — Crear un pipe personalizado',
+    children: [
+      salida(
+        () => import('./tutorial/24-create-a-pipe/leccion').then((m) => m.Leccion24),
+        'Lección 24 — Crear un pipe personalizado',
+      ),
+    ],
   },
   {
     path: 'tutorial/24/solucion',
-    loadComponent: () =>
-      import('./tutorial/24-create-a-pipe/solucion/solucion').then((m) => m.Leccion24Solucion),
-    title: 'Solución 24 — Crear un pipe personalizado',
+    children: [
+      salida(
+        () =>
+          import('./tutorial/24-create-a-pipe/solucion/solucion').then((m) => m.Leccion24Solucion),
+        'Solución 24 — Crear un pipe personalizado',
+      ),
+    ],
   },
 
-  // ─── Lección 25 — Próximos pasos (solo lectura) ──────────────
+  // ─── Lección 25 — Próximos pasos (solo lectura, sin recuadro) ─
   {
     path: 'tutorial/25',
     loadComponent: () => import('./tutorial/25-next-steps/leccion').then((m) => m.Leccion25),
@@ -452,37 +677,53 @@ export const routes: Routes = [
   // ─── Práctica 01 — Comunicación y Bus de Eventos ─────────────
   {
     path: 'extras/01',
-    loadComponent: () =>
-      import('./extras/01-comunicacion-y-bus-eventos/ejercicio/productos-page').then(
-        (m) => m.ProductosPage,
+    children: [
+      salida(
+        () =>
+          import('./extras/01-comunicacion-y-bus-eventos/ejercicio/productos-page').then(
+            (m) => m.ProductosPage,
+          ),
+        'Práctica 01 — Comunicación y Bus de Eventos',
       ),
-    title: 'Práctica 01 — Comunicación y Bus de Eventos',
+    ],
   },
   {
     path: 'extras/01/solucion',
-    loadComponent: () =>
-      import('./extras/01-comunicacion-y-bus-eventos/solucion/productos-page').then(
-        (m) => m.ProductosPageSolucion,
+    children: [
+      salida(
+        () =>
+          import('./extras/01-comunicacion-y-bus-eventos/solucion/productos-page').then(
+            (m) => m.ProductosPageSolucion,
+          ),
+        'Solución 01 — Comunicación y Bus de Eventos',
       ),
-    title: 'Solución 01 — Comunicación y Bus de Eventos',
+    ],
   },
 
   // ─── Práctica 02 — Formularios reactivos avanzados ───────────
   {
     path: 'extras/02',
-    loadComponent: () =>
-      import('./extras/02-formularios-reactivos-avanzados/ejercicio/registro-page').then(
-        (m) => m.RegistroPage,
+    children: [
+      salida(
+        () =>
+          import('./extras/02-formularios-reactivos-avanzados/ejercicio/registro-page').then(
+            (m) => m.RegistroPage,
+          ),
+        'Práctica 02 — Formularios Reactivos Avanzados',
       ),
-    title: 'Práctica 02 — Formularios Reactivos Avanzados',
+    ],
   },
   {
     path: 'extras/02/solucion',
-    loadComponent: () =>
-      import('./extras/02-formularios-reactivos-avanzados/solucion/registro-page').then(
-        (m) => m.RegistroPageSolucion,
+    children: [
+      salida(
+        () =>
+          import('./extras/02-formularios-reactivos-avanzados/solucion/registro-page').then(
+            (m) => m.RegistroPageSolucion,
+          ),
+        'Solución 02 — Formularios Reactivos Avanzados',
       ),
-    title: 'Solución 02 — Formularios Reactivos Avanzados',
+    ],
   },
 
   // ─── Práctica 03 — HttpClient y Manejo de Errores ────────────
@@ -490,19 +731,27 @@ export const routes: Routes = [
   // registrado en app.config.ts: todo responde offline.
   {
     path: 'extras/03',
-    loadComponent: () =>
-      import('./extras/03-http-client-y-manejo-errores/ejercicio/empleados-page').then(
-        (m) => m.EmpleadosPage,
+    children: [
+      salida(
+        () =>
+          import('./extras/03-http-client-y-manejo-errores/ejercicio/empleados-page').then(
+            (m) => m.EmpleadosPage,
+          ),
+        'Práctica 03 — HttpClient y Manejo de Errores',
       ),
-    title: 'Práctica 03 — HttpClient y Manejo de Errores',
+    ],
   },
   {
     path: 'extras/03/solucion',
-    loadComponent: () =>
-      import('./extras/03-http-client-y-manejo-errores/solucion/empleados-page').then(
-        (m) => m.EmpleadosPageSolucion,
+    children: [
+      salida(
+        () =>
+          import('./extras/03-http-client-y-manejo-errores/solucion/empleados-page').then(
+            (m) => m.EmpleadosPageSolucion,
+          ),
+        'Solución 03 — HttpClient y Manejo de Errores',
       ),
-    title: 'Solución 03 — HttpClient y Manejo de Errores',
+    ],
   },
 
   // ─── Práctica 04 — Auth JWT: Guards e Interceptores ──────────
@@ -512,49 +761,74 @@ export const routes: Routes = [
   // ─── Práctica 05 — CRUD Interactivo con Modales ──────────────
   {
     path: 'extras/05',
-    loadComponent: () =>
-      import('./extras/05-crud-interactivo-con-modales/ejercicio/empleados-page').then(
-        (m) => m.EmpleadosPage,
+    children: [
+      salida(
+        () =>
+          import('./extras/05-crud-interactivo-con-modales/ejercicio/empleados-page').then(
+            (m) => m.EmpleadosPage,
+          ),
+        'Práctica 05 — CRUD Interactivo con Modales',
       ),
-    title: 'Práctica 05 — CRUD Interactivo con Modales',
+    ],
   },
   {
     path: 'extras/05/solucion',
-    loadComponent: () =>
-      import('./extras/05-crud-interactivo-con-modales/solucion/empleados-page').then(
-        (m) => m.EmpleadosPageSolucion,
+    children: [
+      salida(
+        () =>
+          import('./extras/05-crud-interactivo-con-modales/solucion/empleados-page').then(
+            (m) => m.EmpleadosPageSolucion,
+          ),
+        'Solución 05 — CRUD Interactivo con Modales',
       ),
-    title: 'Solución 05 — CRUD Interactivo con Modales',
+    ],
   },
 
   // ─── Práctica 06 — RxJS y asincronía ─────────────────────────
   {
     path: 'extras/06',
-    loadComponent: () =>
-      import('./extras/06-rxjs-y-asincronia/ejercicio/buscador-page').then((m) => m.BuscadorPage),
-    title: 'Práctica 06 — RxJS y asincronía',
+    children: [
+      salida(
+        () =>
+          import('./extras/06-rxjs-y-asincronia/ejercicio/buscador-page').then(
+            (m) => m.BuscadorPage,
+          ),
+        'Práctica 06 — RxJS y asincronía',
+      ),
+    ],
   },
   {
     path: 'extras/06/solucion',
-    loadComponent: () =>
-      import('./extras/06-rxjs-y-asincronia/solucion/buscador-page').then(
-        (m) => m.BuscadorPageSolucion,
+    children: [
+      salida(
+        () =>
+          import('./extras/06-rxjs-y-asincronia/solucion/buscador-page').then(
+            (m) => m.BuscadorPageSolucion,
+          ),
+        'Solución 06 — RxJS y asincronía',
       ),
-    title: 'Solución 06 — RxJS y asincronía',
+    ],
   },
 
   // ─── Práctica 08 — Angular Material: diálogo, tabla y feedback ─
   {
     path: 'extras/08',
-    loadComponent: () =>
-      import('./extras/08-angular-material/ejercicio/abm-page').then((m) => m.AbmPage),
-    title: 'Práctica 08 — Angular Material',
+    children: [
+      salida(
+        () => import('./extras/08-angular-material/ejercicio/abm-page').then((m) => m.AbmPage),
+        'Práctica 08 — Angular Material',
+      ),
+    ],
   },
   {
     path: 'extras/08/solucion',
-    loadComponent: () =>
-      import('./extras/08-angular-material/solucion/abm-page').then((m) => m.AbmPageSolucion),
-    title: 'Solución 08 — Angular Material',
+    children: [
+      salida(
+        () =>
+          import('./extras/08-angular-material/solucion/abm-page').then((m) => m.AbmPageSolucion),
+        'Solución 08 — Angular Material',
+      ),
+    ],
   },
 
   // ─── Práctica 09 — Estado global con NgRx ─────────────────────
@@ -564,17 +838,27 @@ export const routes: Routes = [
   // ─── Práctica 10 — Testing de HTTP y componentes ─────────────
   {
     path: 'extras/10',
-    loadComponent: () =>
-      import('./extras/10-testing-http-componentes/ejercicio/panel-page').then((m) => m.PanelPage),
-    title: 'Práctica 10 — Testing de HTTP y componentes',
+    children: [
+      salida(
+        () =>
+          import('./extras/10-testing-http-componentes/ejercicio/panel-page').then(
+            (m) => m.PanelPage,
+          ),
+        'Práctica 10 — Testing de HTTP y componentes',
+      ),
+    ],
   },
   {
     path: 'extras/10/solucion',
-    loadComponent: () =>
-      import('./extras/10-testing-http-componentes/solucion/panel-page').then(
-        (m) => m.PanelPageSolucion,
+    children: [
+      salida(
+        () =>
+          import('./extras/10-testing-http-componentes/solucion/panel-page').then(
+            (m) => m.PanelPageSolucion,
+          ),
+        'Solución 10 — Testing de HTTP y componentes',
       ),
-    title: 'Solución 10 — Testing de HTTP y componentes',
+    ],
   },
 
   // ─── Práctica 07 — Ruteo avanzado SPA ────────────────────────

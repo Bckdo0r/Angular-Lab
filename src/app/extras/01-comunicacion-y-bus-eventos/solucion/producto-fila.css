@@ -32,53 +32,48 @@ td.precio {
   gap: 0.5rem;
 }
 
-/* Botón principal: horizontal y compacto (ícono + texto en una línea).
-   `white-space: nowrap` evita que el texto se apile cuando la columna
-   de acciones está ajustada. */
+/* Botón “Agregar”: minimalista tipo ghost, sin fondo ni borde.
+   Solo texto en color acento; el hover lo señala con acento-suave. */
 button.primario {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  white-space: nowrap;
-  border: 1px solid var(--acento);
-  background: var(--acento);
-  color: var(--acento-contraste);
+  border: none;
+  background: transparent;
+  color: var(--acento);
   border-radius: 8px;
-  padding: 0.35rem 0.75rem;
+  padding: 0.35rem 0.6rem;
   font-size: 0.85rem;
   font-weight: 600;
+  white-space: nowrap;
   cursor: pointer;
-  transition:
-    background-color 0.15s ease,
-    border-color 0.15s ease;
+  transition: background-color 0.15s ease;
 }
 
 button.primario:hover {
-  background: var(--acento-fuerte);
-  border-color: var(--acento-fuerte);
+  background: var(--acento-suave);
 }
 
-/* Botón de eliminación: icon-button prolijo con estados de hover y foco. */
+/* Botón de eliminación: icon-button circular estilo Material (como el de
+   la práctica 08) replicado en CSS plano, sin depender de Material:
+   transparente, icono rojo del sistema y hover con fondo rojo sutil
+   (equivalente al “state layer” de los icon-buttons de Material). */
 button.peligro {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid color-mix(in srgb, var(--error) 45%, transparent);
-  background: var(--error-fondo);
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: none;
+  background: transparent;
   color: var(--error);
-  border-radius: 8px;
-  padding: 0.35rem 0.55rem;
-  font-size: 1rem;
+  border-radius: 50%;
+  font-size: 1.05rem;
   line-height: 1;
   cursor: pointer;
-  transition:
-    background-color 0.15s ease,
-    border-color 0.15s ease;
+  transition: background-color 0.15s ease;
 }
 
 button.peligro:hover {
-  border-color: var(--error);
-  background: color-mix(in srgb, var(--error) 15%, transparent);
+  background: color-mix(in srgb, var(--error) 12%, transparent);
 }
 
 button.primario:focus-visible,

@@ -14,7 +14,7 @@ import { IconoSvg } from '../compartido/icono-svg';
     <main class="inicio">
       <section class="hero">
         <span class="chip">Angular v22 · práctica guiada</span>
-        <h1>Aprendiendo <span class="degradado">Angular</span> haciendo</h1>
+        <h1>Tu laboratorio de <span class="degradado">Angular</span> local</h1>
         <p class="autor">
           Creada por
           <a href="https://github.com/Bckdo0r" target="_blank" rel="noopener noopener">

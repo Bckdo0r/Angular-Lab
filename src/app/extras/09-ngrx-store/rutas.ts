@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { provideState, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { SalidaDemo } from '../../compartido/salida-demo';
 
 import { visorFeature } from './visor.store';
 import { visorFeatureSolucion } from './solucion/visor.store';
@@ -27,15 +28,16 @@ import { visorFeatureSolucion } from './solucion/visor.store';
  *
  * `provideStoreDevtools({ maxAge: 25 })` conecta el store con Redux DevTools
  * (extensión del navegador) conservando hasta 25 acciones en el historial.
+ *
+ * Recuadro "Output" (SalidaDemo): la ruta padre monta el recuadro y las
+ * páginas hijas se pintan en su <router-outlet />. Los `providers` del store
+ * quedan en la ruta padre: el scope del estado no cambia.
  */
 export const rutasPractica09: Routes = [
   {
     path: 'extras/09',
-    providers: [
-      provideStore(),
-      provideState(visorFeature),
-      provideStoreDevtools({ maxAge: 25 }),
-    ],
+    component: SalidaDemo,
+    providers: [provideStore(), provideState(visorFeature), provideStoreDevtools({ maxAge: 25 })],
     children: [
       {
         path: '',
@@ -54,6 +56,7 @@ export const rutasPractica09: Routes = [
   // componentes `...Solucion`. Su store vive en `./solucion/visor.store.ts`.
   {
     path: 'extras/09/solucion',
+    component: SalidaDemo,
     providers: [
       provideStore(),
       provideState(visorFeatureSolucion),
@@ -62,14 +65,12 @@ export const rutasPractica09: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () =>
-          import('./solucion/visor-page').then((m) => m.VisorPageSolucion),
+        loadComponent: () => import('./solucion/visor-page').then((m) => m.VisorPageSolucion),
         title: 'Solución 09 — Visor de capas (NgRx)',
       },
       {
         path: 'ayuda',
-        loadComponent: () =>
-          import('./solucion/ayuda-page').then((m) => m.AyudaPageSolucion),
+        loadComponent: () => import('./solucion/ayuda-page').then((m) => m.AyudaPageSolucion),
         title: 'Solución 09 — Ayuda',
       },
     ],
