@@ -1,0 +1,52 @@
+<main class="contenedor">
+  <h1>Visor de capas <span class="tag">NgRx</span></h1>
+  <p class="bajada">
+    Práctica 09 — estado global con NgRx: el componente solo <em>emite
+    intenciones</em> (<code>store.dispatch</code>) y lee con
+    <code>store.select</code> + <code>toSignal</code>. Navegá a la
+    <a routerLink="ayuda">página de ayuda</a> y volvé: el estado del store
+    sigue intacto.
+  </p>
+
+  <div class="toolbar">
+    <input
+      class="filtro"
+      type="search"
+      placeholder="Filtrar capas por nombre..."
+      [value]="filtro()"
+      (input)="alTipearFiltro($event)"
+    />
+    <button type="button" class="primario" (click)="restablecer()">Restablecer</button>
+  </div>
+
+  <section class="panel">
+    <h2>Capas del mapa ({{ capasFiltradas().length }})</h2>
+
+    <ul class="capas">
+      @for (capa of capasFiltradas(); track capa.id) {
+        <li [class.activa]="capa.id === seleccionadaId()">
+          <label class="capa">
+            <input
+              type="checkbox"
+              [checked]="capa.visible"
+              (change)="alternarCapa(capa.id)"
+            />
+            <span class="nombre">{{ capa.nombre }}</span>
+            <span class="estado">{{ capa.visible ? 'visible' : 'oculta' }}</span>
+          </label>
+          <button type="button" (click)="seleccionarCapa(capa.id)">
+            {{ capa.id === seleccionadaId() ? '✓ seleccionada' : 'seleccionar' }}
+          </button>
+        </li>
+      } @empty {
+        <li class="vacio">Ninguna capa coincide con el filtro.</li>
+      }
+    </ul>
+  </section>
+
+  <p class="pista">
+    💡 Abrí las DevTools del navegador con la pestaña <strong>Redux</strong>
+    (extensión Redux DevTools) y mirá cómo cada clic despacha una acción
+    <code>[Visor] ...</code>.
+  </p>
+</main>
