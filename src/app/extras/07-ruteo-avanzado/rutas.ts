@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { SalidaDemo } from '../../compartido/salida-demo';
 import { soloAdminCanMatch } from './ejercicio/rol.guard';
 import { soloAdminCanMatchSolucion } from './solucion/rol.guard';
 
@@ -33,45 +34,68 @@ import { soloAdminCanMatchSolucion } from './solucion/rol.guard';
  * Nota: hay un solo '**' posible por aplicación, así que es compartido por
  * el ejercicio y la solución (la página 404 de la solución existe como
  * espejo didáctico, pero la ruta comodín apunta a la del ejercicio).
+ *
+ * Recuadro "Output" (SalidaDemo): todas las páginas de la práctica se
+ * renderizan dentro del recuadro. Rutas planas → `component: SalidaDemo`
+ * + contenido anidado bajo `path: ''`; el nivel agregado no cambia URLs.
+ * El '**' (404) también va enmarcado y SIGUE siendo la última entrada.
  */
 export const rutasPractica07: Routes = [
   // Paso 1 — ruta '' del listado. loadComponent: Angular baja este chunk
   // recién cuando se navega acá (miralo en DevTools → Network).
   {
     path: 'extras/07',
-    loadComponent: () => import('./ejercicio/listado-page').then((m) => m.ListadoPage),
-    title: 'Práctica 07 — Listado de empleados',
+    component: SalidaDemo,
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./ejercicio/listado-page').then((m) => m.ListadoPage),
+        title: 'Práctica 07 — Listado de empleados',
+      },
+    ],
   },
 
   // Paso 1 — detalle por parámetro de ruta ':id'. El valor llega al
   // componente como input() gracias a withComponentInputBinding (Paso 2).
   {
     path: 'extras/07/detalle/:id',
-    loadComponent: () => import('./ejercicio/detalle-page').then((m) => m.DetallePage),
-    title: 'Práctica 07 — Detalle de empleado',
+    component: SalidaDemo,
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./ejercicio/detalle-page').then((m) => m.DetallePage),
+        title: 'Práctica 07 — Detalle de empleado',
+      },
+    ],
   },
 
   // Pasos 7 y 8 — sub-layout con rutas hijas escritas acá: el layout se
   // carga lazy y cada hija se pinta en SU <router-outlet />.
   {
     path: 'extras/07/panel',
-    loadComponent: () => import('./ejercicio/panel-layout').then((m) => m.PanelLayout),
+    component: SalidaDemo,
     children: [
-      // Al entrar a /extras/07/panel sin más: llevar al equipo.
-      { path: '', pathMatch: 'full', redirectTo: 'equipo' },
       {
-        path: 'equipo',
-        loadComponent: () => import('./ejercicio/equipo-page').then((m) => m.EquipoPage),
-        title: 'Práctica 07 — Equipo',
-      },
-      {
-        path: 'admin',
-        loadComponent: () => import('./ejercicio/admin-page').then((m) => m.AdminPage),
-        // canMatch se evalúa ANTES de cargar el bundle: si el rol no da,
-        // la ruta se remueve del árbol (ni siquiera existe) y el navegador
-        // cae al '**' → 404. Comparalo con el canActivate de la práctica 04.
-        canMatch: [soloAdminCanMatch],
-        title: 'Práctica 07 — Panel admin',
+        path: '',
+        loadComponent: () => import('./ejercicio/panel-layout').then((m) => m.PanelLayout),
+        children: [
+          // Al entrar a /extras/07/panel sin más: llevar al equipo.
+          { path: '', pathMatch: 'full', redirectTo: 'equipo' },
+          {
+            path: 'equipo',
+            loadComponent: () => import('./ejercicio/equipo-page').then((m) => m.EquipoPage),
+            title: 'Práctica 07 — Equipo',
+          },
+          {
+            path: 'admin',
+            loadComponent: () => import('./ejercicio/admin-page').then((m) => m.AdminPage),
+            // canMatch se evalúa ANTES de cargar el bundle: si el rol no da,
+            // la ruta se remueve del árbol (ni siquiera existe) y el navegador
+            // cae al '**' → 404. Comparalo con el canActivate de la práctica 04.
+            canMatch: [soloAdminCanMatch],
+            title: 'Práctica 07 — Panel admin',
+          },
+        ],
       },
     ],
   },
@@ -80,29 +104,47 @@ export const rutasPractica07: Routes = [
   // ...Solucion) y su propio guard canMatch resuelto.
   {
     path: 'extras/07/solucion',
-    loadComponent: () => import('./solucion/listado-page').then((m) => m.ListadoPageSolucion),
-    title: 'Solución 07 — Listado de empleados',
+    component: SalidaDemo,
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./solucion/listado-page').then((m) => m.ListadoPageSolucion),
+        title: 'Solución 07 — Listado de empleados',
+      },
+    ],
   },
   {
     path: 'extras/07/solucion/detalle/:id',
-    loadComponent: () => import('./solucion/detalle-page').then((m) => m.DetallePageSolucion),
-    title: 'Solución 07 — Detalle de empleado',
+    component: SalidaDemo,
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./solucion/detalle-page').then((m) => m.DetallePageSolucion),
+        title: 'Solución 07 — Detalle de empleado',
+      },
+    ],
   },
   {
     path: 'extras/07/solucion/panel',
-    loadComponent: () => import('./solucion/panel-layout').then((m) => m.PanelLayoutSolucion),
+    component: SalidaDemo,
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'equipo' },
       {
-        path: 'equipo',
-        loadComponent: () => import('./solucion/equipo-page').then((m) => m.EquipoPageSolucion),
-        title: 'Solución 07 — Equipo',
-      },
-      {
-        path: 'admin',
-        loadComponent: () => import('./solucion/admin-page').then((m) => m.AdminPageSolucion),
-        canMatch: [soloAdminCanMatchSolucion],
-        title: 'Solución 07 — Panel admin',
+        path: '',
+        loadComponent: () => import('./solucion/panel-layout').then((m) => m.PanelLayoutSolucion),
+        children: [
+          { path: '', pathMatch: 'full', redirectTo: 'equipo' },
+          {
+            path: 'equipo',
+            loadComponent: () => import('./solucion/equipo-page').then((m) => m.EquipoPageSolucion),
+            title: 'Solución 07 — Equipo',
+          },
+          {
+            path: 'admin',
+            loadComponent: () => import('./solucion/admin-page').then((m) => m.AdminPageSolucion),
+            canMatch: [soloAdminCanMatchSolucion],
+            title: 'Solución 07 — Panel admin',
+          },
+        ],
       },
     ],
   },
@@ -114,7 +156,14 @@ export const rutasPractica07: Routes = [
   // TODAS las URLs de la app? Probalo en una copia si querés verlo romper.
   {
     path: '**',
-    loadComponent: () => import('./ejercicio/no-encontrado-page').then((m) => m.NoEncontradoPage),
-    title: 'Práctica 07 — Página no encontrada',
+    component: SalidaDemo,
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./ejercicio/no-encontrado-page').then((m) => m.NoEncontradoPage),
+        title: 'Práctica 07 — Página no encontrada',
+      },
+    ],
   },
 ];
