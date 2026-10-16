@@ -1,6 +1,7 @@
 import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { FormControl, JsonPipe, ReactiveFormsModule } from '@angular/forms';
+import { JsonPipe } from '@angular/common';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ProductosApiService, Producto } from '../productos-api.service';
 import { stockMinimo } from '../validadores';
 
