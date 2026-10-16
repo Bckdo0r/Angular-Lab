@@ -1,0 +1,139 @@
+/* ─── Buscador de empleados (Práctica 06 — solución) ────────────── */
+/* Mismos estilos que el ejercicio: compará pantallas, no CSS.       */
+.contenedor {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+h1 {
+  margin: 0 0 0.5rem;
+}
+
+.bajada {
+  color: var(--texto-suave);
+  line-height: 1.5;
+}
+
+.bajada code {
+  background: var(--acento-suave);
+  color: var(--acento);
+  border-radius: 4px;
+  padding: 0.05rem 0.35rem;
+  font-size: 0.9em;
+}
+
+.filtro {
+  width: 100%;
+  max-width: 380px;
+  display: block;
+  margin: 1.25rem 0;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--entrada-borde);
+  border-radius: 8px;
+  background: var(--entrada-fondo);
+  color: var(--texto);
+  font: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.filtro:focus,
+.filtro:focus-visible {
+  outline: none;
+  border-color: var(--acento);
+  box-shadow: 0 0 0 3px var(--resplandor);
+}
+
+/* ─── Estados derivados de la búsqueda (cargando / error / vacío) ── */
+.estado {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  margin: 0 0 1rem;
+}
+
+.estado.cargando {
+  color: var(--texto-suave);
+}
+
+.estado.vacio {
+  color: var(--texto-suave);
+  font-style: italic;
+}
+
+.estado.error {
+  color: var(--error);
+  background: var(--error-fondo);
+  border-color: var(--error-borde);
+}
+
+/* ─── Tabla de resultados ────────────────────────────────────────── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid var(--borde);
+}
+
+th {
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+tbody tr:hover {
+  background: var(--acento-suave);
+}
+
+.badge {
+  background: var(--acento-suave);
+  color: var(--acento);
+  border-radius: 999px;
+  padding: 0.1rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* ─── Caja de verificaciones ─────────────────────────────────────── */
+.como-probar {
+  margin-top: 1.5rem;
+  padding: 1rem 1.25rem;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  box-shadow: var(--sombra-tarjeta);
+}
+
+.como-probar h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.como-probar ol {
+  margin: 0;
+  padding-left: 1.25rem;
+  color: var(--texto-suave);
+  line-height: 1.7;
+}
+
+.como-probar strong {
+  color: var(--texto);
+}
+
+.como-probar code {
+  background: var(--acento-suave);
+  color: var(--acento);
+  border-radius: 4px;
+  padding: 0.05rem 0.35rem;
+  font-size: 0.9em;
+}

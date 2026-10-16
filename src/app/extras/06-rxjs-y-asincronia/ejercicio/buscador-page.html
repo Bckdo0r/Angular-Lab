@@ -1,0 +1,72 @@
+<main class="contenedor">
+  <h1>Buscador de empleados</h1>
+  <p class="bajada">
+    Práctica 06 — RxJS y asincronía reactiva: un buscador que dispara peticiones mientras tipeás,
+    sin duplicar llamadas, sin pintar respuestas viejas y sin fugas de memoria.
+  </p>
+
+  <input
+    class="filtro"
+    type="search"
+    placeholder='Buscar por nombre... (probá "san")'
+    (input)="alTipear($event)"
+  />
+
+  <div aria-live="polite">
+    @if (cargando()) {
+      <p class="estado cargando">Buscando…</p>
+    }
+    @if (error(); as mensaje) {
+      <p class="estado error">{{ mensaje }}</p>
+    }
+    @if (vacio()) {
+      <p class="estado vacio">Ningún empleado coincide con la búsqueda.</p>
+    }
+  </div>
+
+  @if (resultado(); as empleados) {
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Área</th>
+          <th>Seniority</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (empleado of empleados; track empleado.id) {
+          <tr>
+            <td>{{ empleado.id }}</td>
+            <td>{{ empleado.nombre }}</td>
+            <td>
+              <span class="badge">{{ empleado.area }}</span>
+            </td>
+            <td>{{ empleado.seniority }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  <aside class="como-probar">
+    <h2>Cómo probarlo</h2>
+    <ol>
+      <li>Abrí DevTools → pestaña <strong>Network</strong> y filtrá por <code>empleados</code>.</li>
+      <li>
+        Tipeá <code>san</code> rápido: en Network debe aparecer <strong>1 sola</strong> petición (el
+        <code>debounceTime</code> agrupó los tipeos).
+      </li>
+      <li>
+        Escribí <code>san</code>, borrá y escribí <code>s</code>: la respuesta de
+        <code>san</code> jamás debe pintarse tarde (el <code>switchMap</code> la canceló).
+      </li>
+      <li>
+        Navegá a otra pantalla mientras vuela una petición: no debe quedar ninguna pendiente (<code
+          >takeUntilDestroyed</code
+        >
+        hizo el cleanup).
+      </li>
+    </ol>
+  </aside>
+</main>

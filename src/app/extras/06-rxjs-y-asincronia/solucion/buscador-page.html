@@ -1,0 +1,60 @@
+<main class="contenedor">
+  <h1>Buscador de empleados</h1>
+  <p class="bajada">
+    Práctica 06 — <strong>SOLUCIÓN</strong>: Subject → <code>debounceTime(300)</code> →
+    <code>distinctUntilChanged()</code> → <code>switchMap</code> →
+    <code>takeUntilDestroyed()</code>. Los comentarios del
+    <code>.ts</code> explican el porqué de cada operador.
+  </p>
+
+  <input
+    class="filtro"
+    type="search"
+    placeholder='Buscar por nombre... (probá "san")'
+    (input)="alTipear($event)"
+  />
+
+  <div aria-live="polite">
+    @if (cargando()) {
+      <p class="estado cargando">Buscando…</p>
+    }
+    @if (error(); as mensaje) {
+      <p class="estado error">{{ mensaje }}</p>
+    }
+    @if (vacio()) {
+      <p class="estado vacio">Ningún empleado coincide con la búsqueda.</p>
+    }
+  </div>
+
+  @if (resultado(); as empleados) {
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Área</th>
+          <th>Seniority</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (empleado of empleados; track empleado.id) {
+          <tr>
+            <td>{{ empleado.id }}</td>
+            <td>{{ empleado.nombre }}</td>
+            <td><span class="badge">{{ empleado.area }}</span></td>
+            <td>{{ empleado.seniority }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  <aside class="como-probar">
+    <h2>Verificaciones</h2>
+    <ol>
+      <li>Tipeá <code>san</code> rápido con Network abierto: <strong>1 sola</strong> petición.</li>
+      <li>Escribí <code>san</code>, borrá y escribí <code>s</code>: la respuesta de <code>san</code> nunca pisa al resultado (switchMap la canceló).</li>
+      <li>Navegá fuera con una búsqueda en vuelo: ninguna petición queda pendiente.</li>
+    </ol>
+  </aside>
+</main>
