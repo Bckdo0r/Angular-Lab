@@ -13,25 +13,43 @@
   -webkit-backdrop-filter: blur(10px);
 }
 
-/* Marca / logo a la izquierda */
+/* Marca / logo a la izquierda: escudo + wordmark en texto */
 .marca {
   display: flex;
   align-items: center;
   gap: 0.55rem;
   text-decoration: none;
-  color: var(--texto);
-  font-weight: 700;
-  font-size: 1.05rem;
-  letter-spacing: -0.01em;
 }
 
 .marca img {
-  border-radius: 6px;
+  display: block;
+  height: 32px;
+  width: auto;
 }
 
-.marca-texto em {
-  font-style: normal;
-  color: var(--acento);
+/* Wordmark con los colores de la marca: "angular" en degradado rosa → violeta
+   y "lab" en verde, con una separación visible entre ambas.
+   Son colores de identidad fijos, iguales en tema claro y oscuro. */
+.marca-texto {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  /* Un poco de aire vertical para que no se corte la descendente de la "g" */
+  line-height: 1.25;
+}
+
+.marca-angular {
+  background: linear-gradient(90deg, #db32c1 0%, #8c3cf4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.marca-lab {
+  color: #2ceaa4;
 }
 
 /* Enlaces de navegación, pegados a la derecha junto al botón de tema */
@@ -42,13 +60,18 @@
 }
 
 .nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   padding: 0.45rem 0.85rem;
   border-radius: 8px;
   text-decoration: none;
   color: var(--texto-suave);
   font-weight: 600;
   font-size: 0.95rem;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .nav a:hover {
@@ -75,7 +98,10 @@
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .tema:hover {
@@ -98,4 +124,28 @@
     gap: 0.75rem;
     padding: 0.6rem 1rem;
   }
+
+  /* El logotipo con wordmark es ancho: se reduce en mobile */
+  .marca img {
+    height: 26px;
+  }
+
+  .marca-texto {
+    font-size: 1.05rem;
+    gap: 0.3rem;
+  }
+}
+
+/* Pie de página con la marca de copyright, común a todas las vistas */
+.pie {
+  margin-top: 3rem;
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid var(--borde);
+  text-align: center;
+}
+
+.pie p {
+  margin: 0;
+  color: var(--texto-suave);
+  font-size: 0.85rem;
 }

@@ -1,13 +1,19 @@
 <!-- Barra superior: navegación principal con selector de tema -->
 <header class="barra">
-  <a routerLink="/" class="marca">
-    <img src="tut-logo.svg" alt="" width="28" height="28" />
-    <span class="marca-texto">Pruebas <em>Practicas</em></span>
+  <a routerLink="/" class="marca" aria-label="angularlab — ir al inicio">
+    <img ngSrc="logo-angularlab.png" alt="Logo angularlab" width="142" height="160" priority />
+    <span class="marca-texto" aria-hidden="true">
+      <span class="marca-angular">angular</span><span class="marca-lab">lab</span>
+    </span>
   </a>
 
   <nav class="nav" aria-label="Navegación principal">
-    <a routerLink="/tutorial" routerLinkActive="activa">📚 Tutorial</a>
-    <a routerLink="/extras" routerLinkActive="activa">🧪 Prácticas</a>
+    <a routerLink="/tutorial" routerLinkActive="activa"
+      ><icono-svg nombre="libro" [tamano]="17" /> Tutorial</a
+    >
+    <a routerLink="/extras" routerLinkActive="activa"
+      ><icono-svg nombre="frasco" [tamano]="17" /> Prácticas</a
+    >
   </nav>
 
   <!-- Reinicio del ejercicio visible (solo en páginas de ejercicio).
@@ -25,10 +31,17 @@
     [attr.aria-pressed]="tema.oscuro()"
     [title]="tema.oscuro() ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'"
   >
-    <span aria-hidden="true">{{ tema.oscuro() ? '☀️' : '🌙' }}</span>
+    <span aria-hidden="true"
+      ><icono-svg [nombre]="tema.oscuro() ? 'sol' : 'luna'" [tamano]="16"
+    /></span>
     <span class="tema-texto">{{ tema.oscuro() ? 'Claro' : 'Oscuro' }}</span>
   </button>
 </header>
 
 <!-- Acá se renderiza cada lección según la ruta -->
 <router-outlet />
+
+<!-- Pie de página común a todas las vistas: marca de copyright -->
+<footer class="pie">
+  <p>© {{ anio }} Practica-Angular · Creado por Bckdo0r</p>
+</footer>

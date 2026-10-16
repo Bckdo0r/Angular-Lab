@@ -1,19 +1,24 @@
 import { Component, computed, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { NgOptimizedImage } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map } from 'rxjs';
 import { ReinicioBoton } from './restauracion/boton-reinicio';
 import { TemaService } from './tema.service';
+import { IconoSvg } from './compartido/icono-svg';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, ReinicioBoton],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, ReinicioBoton, IconoSvg, NgOptimizedImage],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
   /** Servicio de tema (claro/oscuro) inyectado para la plantilla. */
   protected readonly tema = inject(TemaService);
+
+  /** Año actual para la marca de copyright del pie de página. */
+  protected readonly anio = new Date().getFullYear();
 
   private readonly router = inject(Router);
 
