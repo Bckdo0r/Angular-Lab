@@ -1,0 +1,100 @@
+<section class="contenedor">
+  <h1>ABM de insumos — Angular Material</h1>
+  <p class="bajada">
+    El mismo CRUD de la práctica 05, pero en "forma oficina": tabla
+    <code>MatTable</code>, <code>MatPaginator</code>, alta/edición con <code>MatDialog</code> y
+    borrado con confirmación Material + snackbar con "Deshacer". Buscá los
+    <code>TODO: [Paso X]</code>.
+  </p>
+
+  <div class="toolbar">
+    <button matButton="filled" (click)="abrirNuevo()">
+      <mat-icon>add</mat-icon>
+      Nuevo insumo
+    </button>
+  </div>
+
+  <div class="tarjeta">
+    <!--
+      MatTable: la tabla Material que en la 05 era un <table> con @for casero.
+      Cada columna es un <ng-container matColumnDef="..."> con su encabezado
+      (*matHeaderCellDef) y su celda (*matCellDef); el array `columnas` del
+      componente define qué columnas y en qué orden se renderizan.
+    -->
+    <table mat-table [dataSource]="paginados()" class="tabla">
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+        <td mat-cell *matCellDef="let insumo">{{ insumo.nombre }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="categoria">
+        <th mat-header-cell *matHeaderCellDef>Categoría</th>
+        <td mat-cell *matCellDef="let insumo">
+          <span class="badge">{{ insumo.categoria }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="stock">
+        <th mat-header-cell *matHeaderCellDef>Stock</th>
+        <td mat-cell *matCellDef="let insumo">{{ insumo.stock }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="precio">
+        <th mat-header-cell *matHeaderCellDef>Precio</th>
+        <td mat-cell *matCellDef="let insumo">{{ insumo.precio | number: '1.2-2' }}</td>
+      </ng-container>
+
+      <!-- TODO: [Paso 3] - Agregá la columna calculada "subtotal" (stock × precio):
+           1. En abm-page.ts, agregá 'subtotal' al array `columnas` (antes de 'acciones').
+           2. Escribí acá, encima de la columna acciones, el ng-container de la
+              columna (fijate que es el mismo formato que las de arriba):
+                <ng-container matColumnDef="subtotal">
+                  <th mat-header-cell *matHeaderCellDef>Subtotal</th>
+                  <td mat-cell *matCellDef="let insumo">
+                    {{ insumo.stock * insumo.precio | number: '1.2-2' }}
+                  </td>
+                </ng-container>
+           Si una columna está en el array `columnas` pero no tiene su
+           matColumnDef (o al revés), la tabla se queja: tienen que emparejar. -->
+
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let insumo" class="acciones">
+          <button matIconButton aria-label="Editar insumo" (click)="abrirEdicion(insumo)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            matIconButton
+            class="peligro"
+            aria-label="Eliminar insumo"
+            (click)="pedirEliminar(insumo)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+      <tr mat-row *matRowDef="let fila; columns: columnas"></tr>
+
+      <!-- Fila que se muestra solo si el slice() de la página quedó vacío. -->
+      <tr class="fila-vacia" *matNoDataRow>
+        <td [attr.colspan]="columnas.length">No hay insumos en esta página.</td>
+      </tr>
+    </table>
+
+    <!--
+      MatPaginator: los botones y el "ítems por página" ya funcionan por sí
+      solos (por eso la página no se rompe), pero el slice() de la tabla solo
+      se mueve cuando conectes el evento (page) con las signals — TODO Paso 4.
+    -->
+    <mat-paginator
+      [length]="totalInsumos()"
+      [pageIndex]="pagina()"
+      [pageSize]="porPagina()"
+      [pageSizeOptions]="opcionesPorPagina"
+      (page)="alCambiarPagina($event)"
+      aria-label="Paginación de insumos"
+    />
+  </div>
+</section>

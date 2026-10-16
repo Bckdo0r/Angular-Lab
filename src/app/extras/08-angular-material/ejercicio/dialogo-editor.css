@@ -1,0 +1,13 @@
+/* ─── Diálogo editor de insumos ─────────────────────────────────── */
+mat-dialog-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 320px;
+}
+
+.fila {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}

@@ -1,0 +1,86 @@
+/* ─── Página ABM de insumos (Angular Material) — solución ───────── */
+.contenedor {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+h1 {
+  margin: 0 0 0.5rem;
+}
+
+.bajada {
+  color: var(--texto-suave);
+  line-height: 1.5;
+}
+
+.bajada code {
+  background: var(--acento-suave);
+  color: var(--acento);
+  border-radius: 6px;
+  padding: 0.05rem 0.35rem;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 1.25rem 0;
+}
+
+/* La "tarjeta" envuelve tabla + paginador, como un surface de Material. */
+.tarjeta {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  box-shadow: var(--sombra-tarjeta);
+  overflow: hidden;
+}
+
+table.tabla {
+  width: 100%;
+}
+
+/* Encabezados al estilo del resto del sitio (tokens, no colores fijos). */
+th {
+  color: var(--texto-suave);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* Hover de fila con el acento suave del sistema (light y dark). */
+.mat-mdc-row:hover {
+  background: var(--acento-suave);
+}
+
+.badge {
+  background: var(--acento-suave);
+  color: var(--acento);
+  border-radius: 999px;
+  padding: 0.1rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.acciones {
+  white-space: nowrap;
+  text-align: right;
+}
+
+/* Botón-icono de borrado: rojo del sistema, sin hardcoded colors. */
+.mat-mdc-icon-button.peligro {
+  color: var(--error);
+}
+
+.fila-vacia td {
+  text-align: center;
+  padding: 1.25rem;
+  color: var(--texto-suave);
+  font-style: italic;
+}
+
+mat-paginator {
+  border-top: 1px solid var(--borde);
+  background: transparent;
+}
