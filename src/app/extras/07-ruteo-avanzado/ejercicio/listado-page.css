@@ -52,7 +52,9 @@ button {
   font: inherit;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
 }
 
 .primario {
@@ -96,13 +98,27 @@ button {
   gap: 1rem;
 }
 
+/* El <li> estira la tarjeta (flex) en vez de usar height: 100%:
+   el porcentaje cíclico desbordaba la tarjeta sobre la fila siguiente
+   (alto de fila = tarjeta natural, pero height: 100% le sumaba
+   padding + borde). */
+.tarjetas li {
+  display: flex;
+}
+
 .tarjeta {
   background: var(--superficie);
   border: 1px solid var(--borde);
   border-radius: 10px;
   box-shadow: var(--sombra-tarjeta);
   padding: 1rem;
-  height: 100%;
+  flex: 1;
+  width: 100%;
+  transition: transform 0.15s ease;
+}
+
+.tarjeta:hover {
+  transform: translateY(-2px);
 }
 
 .tarjeta h2 {
