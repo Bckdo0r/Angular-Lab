@@ -39,14 +39,18 @@ h1 {
 
 /* ─── Estados derivados de la búsqueda (cargando / error / vacío) ── */
 .estado {
+  width: fit-content;
   padding: 0.75rem 1rem;
   border: 1px solid var(--borde);
   border-radius: 8px;
+  background: var(--superficie);
   margin: 0 0 1rem;
 }
 
 .estado.cargando {
-  color: var(--texto-suave);
+  color: var(--acento);
+  background: var(--acento-suave);
+  border-color: transparent;
 }
 
 .estado.vacio {
@@ -63,7 +67,13 @@ h1 {
 /* ─── Tabla de resultados ────────────────────────────────────────── */
 table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  box-shadow: var(--sombra-tarjeta);
+  overflow: hidden;
 }
 
 th,
@@ -73,11 +83,21 @@ td {
   border-bottom: 1px solid var(--borde);
 }
 
+/* Columna numérica (legajo) alineada a la derecha. */
+th:first-child,
+td:first-child {
+  text-align: right;
+}
+
 th {
   color: var(--texto-suave);
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.03em;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
 }
 
 tbody tr {

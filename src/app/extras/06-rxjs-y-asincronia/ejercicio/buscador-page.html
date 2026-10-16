@@ -25,27 +25,29 @@
   </div>
 
   @if (resultado(); as empleados) {
-    <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Nombre</th>
-          <th>Área</th>
-          <th>Seniority</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (empleado of empleados; track empleado.id) {
+    @if (empleados.length) {
+      <table>
+        <thead>
           <tr>
-            <td>{{ empleado.id }}</td>
-            <td>{{ empleado.nombre }}</td>
-            <td>
-              <span class="badge">{{ empleado.area }}</span>
-            </td>
-            <td>{{ empleado.seniority }}</td>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Área</th>
+            <th>Seniority</th>
           </tr>
-        }
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          @for (empleado of empleados; track empleado.id) {
+            <tr>
+              <td>{{ empleado.id }}</td>
+              <td>{{ empleado.nombre }}</td>
+              <td>
+                <span class="badge">{{ empleado.area }}</span>
+              </td>
+              <td>{{ empleado.seniority }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
   }
 </main>
