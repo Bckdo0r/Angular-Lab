@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { fijarRol, rolSimulado } from './rol.guard;
+import { fijarRol, rolSimulado } from './rol.guard';
 
 /**
  * SUB-LAYOUT del panel — Paso 8 (rutas hijas escritas por vos).
@@ -23,11 +23,7 @@ import { fijarRol, rolSimulado } from './rol.guard;
 
       <p class="rol-linea">
         Rol simulado: <strong>{{ rolActual() }}</strong>
-        <button
-          type="button"
-          [disabled]="rolActual() === 'admin'"
-          (click)="cambiarRol('admin')"
-        >
+        <button type="button" [disabled]="rolActual() === 'admin'" (click)="cambiarRol('admin')">
           Ser admin
         </button>
         <button
@@ -39,8 +35,8 @@ import { fijarRol, rolSimulado } from './rol.guard;
         </button>
       </p>
       <p class="bajada">
-        El rol vive en <code>localStorage</code> (clave <code>practica07-rol</code>):
-        es un simulacro para probar el <code>canMatch</code> del Paso 7.
+        El rol vive en <code>localStorage</code> (clave <code>practica07-rol</code>): es un
+        simulacro para probar el <code>canMatch</code> del Paso 7.
       </p>
 
       <nav aria-label="Secciones del panel">
