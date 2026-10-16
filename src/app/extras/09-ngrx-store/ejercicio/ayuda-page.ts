@@ -26,9 +26,8 @@ import { CapaVisor, visorFeature } from '../visor.store';
       <h1>Estado del store</h1>
 
       <p class="bajada">
-        Vista en vivo del estado NgRx del visor, leída con los selectors del
-        feature (<code>selectCapas</code>, <code>selectFiltro</code>,
-        <code>selectSeleccionadaId</code>).
+        Vista en vivo del estado NgRx del visor, leída con los selectors del feature
+        (<code>selectCapas</code>, <code>selectFiltro</code>, <code>selectSeleccionadaId</code>).
       </p>
 
       <section class="tarjeta">
@@ -56,7 +55,7 @@ import { CapaVisor, visorFeature } from '../visor.store';
         <h2>Capas ({{ capas().length }})</h2>
         <ul class="capas">
           @for (capa of capas(); track capa.id) {
-            <li [class.activa]="capa.id === seleccionadaId()">
+            <li [class.activa]="capa.id === seleccionadaId()" [class.oculta]="!capa.visible">
               <span class="nombre">{{ capa.nombre }}</span>
               <span class="estado">{{ capa.visible ? 'visible' : 'oculta' }}</span>
               @if (capa.id === seleccionadaId()) {
@@ -119,6 +118,12 @@ import { CapaVisor, visorFeature } from '../visor.store';
 
     .capas li.activa {
       background: var(--acento-suave);
+    }
+
+    /* Capa oculta: nombre atenuado para leer el estado de un vistazo. */
+    .capas li.oculta .nombre {
+      color: var(--texto-suave);
+      font-weight: 500;
     }
 
     .linea {

@@ -48,7 +48,9 @@ h1 {
   background: var(--entrada-fondo);
   color: var(--texto);
   font: inherit;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .filtro:focus {
@@ -66,7 +68,9 @@ button {
   font: inherit;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
 }
 
 button:hover {
@@ -85,6 +89,7 @@ button.primario {
 
 button.primario:hover {
   background: var(--acento-fuerte);
+  border-color: var(--acento-fuerte);
 }
 
 .panel {
@@ -126,8 +131,17 @@ button.primario:hover {
 }
 
 .capas li.activa {
-  border: 1px solid var(--acento);
+  /* Sombra interna en vez de `border`: resalta la fila seleccionada sin
+     sumar 2px de alto (el `border` completo hacía "saltar" el listado). */
+  box-shadow: inset 0 0 0 1px var(--acento);
   background: var(--acento-suave);
+}
+
+/* Capa oculta: la fila se ve atenuada (el nombre pierde peso, el checkbox
+   conserva su `accent-color`) — el estado "oculta" se LEE, no hay que adivinar. */
+.capas li.oculta .nombre {
+  color: var(--texto-suave);
+  font-weight: 500;
 }
 
 .capa {
@@ -163,6 +177,7 @@ button.primario:hover {
 .vacio {
   justify-content: center;
   color: var(--texto-suave);
+  font-style: italic;
 }
 
 .pista {

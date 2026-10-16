@@ -21,7 +21,7 @@
 
     <ul class="capas">
       @for (capa of capasFiltradas(); track capa.id) {
-        <li [class.activa]="capa.id === seleccionadaId()">
+        <li [class.activa]="capa.id === seleccionadaId()" [class.oculta]="!capa.visible">
           <label class="capa">
             <input type="checkbox" [checked]="capa.visible" (change)="alternarCapa(capa.id)" />
             <span class="nombre">{{ capa.nombre }}</span>
