@@ -51,7 +51,7 @@ El par (entrada del array ↔ `matColumnDef`) es el contrato: si no emparejan, l
 <ng-container matColumnDef="subtotal">
   <th mat-header-cell *matHeaderCellDef>Subtotal</th>
   <td mat-cell *matCellDef="let insumo">
-    {{ insumo.stock * insumo.precio | number: '1.2-2' }}
+    {{ insumo.stock * insumo.precio | currency: 'ARS' : 'symbol' : '1.0-2' : 'es-AR' }}
   </td>
 </ng-container>
 ```
