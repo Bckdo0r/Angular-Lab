@@ -1,47 +1,72 @@
-<section class="panel">
+<main class="panel">
   <header class="encabezado">
     <p class="etiqueta">Práctica 10 · Solución</p>
-    <h1>Testing de HTTP y componentes — solución</h1>
-    <p class="objetivo">
-      Los specs resueltos son la <strong>referencia</strong> para comparar con tu versión en
-      <code>ejercicio/</code>. Intentá primero con los <code>it.todo</code>.
+    <h1>Demo en vivo</h1>
+    <p class="bajada">
+      Misma demo que el ejercicio: el validador <code>stockMinimo(5)</code> y el servicio
+      <code>ProductosApiService</code> funcionando acá mismo. En esta práctica los specs de
+      <code>solucion/</code> son la <strong>referencia</strong> para comparar con los
+      <code>it.todo</code> del ejercicio.
     </p>
   </header>
 
   <article class="tarjeta">
-    <h2>Specs resueltos</h2>
-    @for (spec of specs; track spec.ruta) {
-      <div class="spec">
-        <code>{{ spec.ruta }}</code>
-        <span>{{ spec.contenido }}</span>
-      </div>
+    <h2>Demo del validador <code>stockMinimo(5)</code></h2>
+    <label class="campo">
+      <span>Stock</span>
+      <input type="number" [formControl]="stock" placeholder="Probá 3 (rechaza) o 5 (justo el borde: pasa)" />
+    </label>
+
+    @if (errores(); as e) {
+      <p class="estado rechazado">
+        Rechazado — el validador devolvió <code>{{ e | json }}</code>
+      </p>
+    } @else {
+      <p class="estado aceptado">
+        Aceptado — el validador devolvió <code>null</code>
+      </p>
     }
   </article>
 
   <article class="tarjeta">
-    <h2>Criterios de aceptación</h2>
-    <ul>
-      @for (criterio of criterios; track criterio) {
-        <li>{{ criterio }}</li>
-      }
-    </ul>
-  </article>
+    <h2>Demo del servicio <code>ProductosApiService.listar()</code></h2>
+    <button class="primario" type="button" [disabled]="probando()" (click)="probarListar()">
+      Probar listar productos
+    </button>
 
-  <article class="tarjeta">
-    <h2>Decisiones didácticas</h2>
-    <ul>
-      @for (clave of claves; track clave) {
-        <li>{{ clave }}</li>
-      }
-    </ul>
-  </article>
+    @if (probando()) {
+      <p class="estado">Cargando…</p>
+    }
 
-  <article class="tarjeta">
-    <h2>Para correrlos</h2>
-    <p>
-      <code>npm test</code> — runner <strong>vitest</strong>
-      (<code>&#64;angular/build:unit-test</code>). La suite incluye los specs del ejercicio
-      (<code>it.todo</code>, no fallan) y los de esta solución (verdes y completos).
-    </p>
+    @if (productos(); as lista) {
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Categoría</th>
+            <th>Stock</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (producto of lista; track producto.id) {
+            <tr>
+              <td>{{ producto.id }}</td>
+              <td>{{ producto.nombre }}</td>
+              <td><span class="badge">{{ producto.categoria }}</span></td>
+              <td>{{ producto.stock }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="4" class="vacio">La lista llegó vacía.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+
+    @if (error(); as mensaje) {
+      <p class="estado rechazado">Error: {{ mensaje }}</p>
+    }
   </article>
-</section>
+</main>

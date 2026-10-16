@@ -1,66 +1,70 @@
-<section class="panel">
+<main class="panel">
   <header class="encabezado">
     <p class="etiqueta">Práctica 10 · Testing</p>
-    <h1>Testing de HTTP y componentes</h1>
-    <p class="objetivo">
-      Testear un componente con llamadas HTTP y un validador, <strong>sin red real</strong> y sin
-      renderizar toda la app.
+    <h1>Demo en vivo</h1>
+    <p class="bajada">
+      Las dos piezas que esta práctica testea — el validador <code>stockMinimo(5)</code> y el
+      servicio <code>ProductosApiService</code> — funcionando acá mismo.
     </p>
   </header>
 
   <article class="tarjeta">
-    <h2>La idea de esta práctica</h2>
-    <p>
-      Acá el código de producción <strong>ya está completo</strong> (el servicio
-      <code>ProductosApiService</code> y el validador <code>stockMinimo</code>). Tu trabajo es el
-      que más se hace en un equipo real: <strong>escribir los tests</strong> que prueban su
-      comportamiento. El <code>HttpTestingController</code> intercepta todas las llamadas de
-      <code>HttpClient</code>: no hay backend, la respuesta la fabricás vos con
-      <code>flush()</code> o <code>error()</code>.
-    </p>
-    <p>
-      Los <code>it.todo</code> del ejercicio no rompen el suite: la suite queda
-      <strong>verde</strong> con los TODO sin resolver y se va poniendo a medida que los reemplazás
-      por tests reales. (Detalle vitest: una suite sin <em>ningún</em> test real falla, así que cada
-      spec trae un test "dado" del Paso 1 que la mantiene verde.)
-    </p>
-  </article>
+    <h2>Demo del validador <code>stockMinimo(5)</code></h2>
+    <label class="campo">
+      <span>Stock</span>
+      <input type="number" [formControl]="stock" placeholder="Probá 3 (rechaza) o 5 (justo el borde: pasa)" />
+    </label>
 
-  <article class="tarjeta">
-    <h2>Archivos que completás</h2>
-    @for (spec of specs; track spec.ruta) {
-      <div class="spec">
-        <code>{{ spec.ruta }}</code>
-        <span>{{ spec.pasos }}</span>
-      </div>
+    @if (errores(); as e) {
+      <p class="estado rechazado">
+        Rechazado — el validador devolvió <code>{{ e | json }}</code>
+      </p>
+    } @else {
+      <p class="estado aceptado">
+        Aceptado — el validador devolvió <code>null</code>
+      </p>
     }
   </article>
 
   <article class="tarjeta">
-    <h2>Ya está resuelto (no se toca)</h2>
-    <ul>
-      @for (item of yaResuelto; track item) {
-        <li>{{ item }}</li>
-      }
-    </ul>
-  </article>
+    <h2>Demo del servicio <code>ProductosApiService.listar()</code></h2>
+    <button class="primario" type="button" [disabled]="probando()" (click)="probarListar()">
+      Probar listar productos
+    </button>
 
-  <article class="tarjeta">
-    <h2>Cómo correr los tests</h2>
-    <p>
-      <code>npm test</code> — el runner del proyecto es
-      <strong>vitest</strong> (<code>&#64;angular/build:unit-test</code>), no karma. Corre TODA la
-      suite: los specs de esta práctica viven en <code>ejercicio/*.spec.ts</code> (los que
-      completás) y en <code>solucion/*.spec.ts</code> (la referencia para comparar).
-    </p>
-  </article>
+    @if (probando()) {
+      <p class="estado">Cargando…</p>
+    }
 
-  <article class="tarjeta">
-    <h2>Conceptos y profundidad</h2>
-    <ul>
-      @for (concepto of conceptos; track concepto) {
-        <li>{{ concepto }}</li>
-      }
-    </ul>
+    @if (productos(); as lista) {
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Categoría</th>
+            <th>Stock</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (producto of lista; track producto.id) {
+            <tr>
+              <td>{{ producto.id }}</td>
+              <td>{{ producto.nombre }}</td>
+              <td><span class="badge">{{ producto.categoria }}</span></td>
+              <td>{{ producto.stock }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="4" class="vacio">La lista llegó vacía.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+
+    @if (error(); as mensaje) {
+      <p class="estado rechazado">Error: {{ mensaje }}</p>
+    }
   </article>
-</section>
+</main>

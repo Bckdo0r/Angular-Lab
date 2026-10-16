@@ -1,4 +1,4 @@
-/* Práctica 10 — página de entrada de la solución (solo tokens de styles.css). */
+/* Práctica 10 — página de demo en vivo (solo tokens de styles.css, nada hardcodeado). */
 
 .panel {
   display: flex;
@@ -6,6 +6,7 @@
   gap: 1.5rem;
   max-width: 800px;
   margin: 0 auto;
+  padding: 2rem 1rem;
 }
 
 .encabezado {
@@ -20,10 +21,11 @@
   font-size: 0.85rem;
 }
 
-.objetivo {
+.bajada {
   color: var(--texto-suave);
   max-width: 60ch;
   margin: 0 auto;
+  line-height: 1.5;
 }
 
 .tarjeta {
@@ -48,29 +50,125 @@
   font-size: 0.9em;
 }
 
-.spec {
+.campo {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  padding: 0.75rem 0;
+  gap: 0.35rem;
+  max-width: 340px;
+}
+
+.campo span {
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.campo input {
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--entrada-borde);
+  border-radius: 8px;
+  background: var(--entrada-fondo);
+  color: var(--texto);
+  font: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.campo input:focus {
+  outline: none;
+  border-color: var(--acento);
+  box-shadow: 0 0 0 3px var(--resplandor);
+}
+
+button.primario {
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--acento);
+  background: var(--acento);
+  color: var(--acento-contraste);
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+button.primario:hover:not(:disabled) {
+  background: var(--acento-fuerte);
+  border-color: var(--acento-fuerte);
+}
+
+button.primario:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+button.primario:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 2px;
+}
+
+.estado {
+  margin: 1rem 0 0;
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  color: var(--texto);
+  background: var(--acento-suave);
+}
+
+.estado.rechazado {
+  color: var(--error);
+  background: var(--error-fondo);
+  border: 1px solid var(--error-borde);
+}
+
+.estado.aceptado {
+  color: var(--texto);
+  background: var(--exito-fondo);
+  border: 1px solid var(--exito-borde);
+}
+
+.estado code {
+  background: transparent;
+}
+
+table {
+  width: 100%;
+  margin-top: 1rem;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.55rem 0.75rem;
   border-bottom: 1px solid var(--borde);
 }
 
-.spec:last-child {
-  border-bottom: none;
-}
-
-.spec span,
-.tarjeta ul {
+th {
   color: var(--texto-suave);
-  font-size: 0.95rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
-.tarjeta ul {
-  margin: 0;
-  padding-left: 1.25rem;
+tbody tr {
+  transition: background-color 0.15s ease;
 }
 
-.tarjeta li {
-  margin-bottom: 0.35rem;
+tbody tr:hover {
+  background: var(--acento-suave);
+}
+
+.badge {
+  background: var(--acento-suave);
+  color: var(--acento);
+  border-radius: 999px;
+  padding: 0.1rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.vacio {
+  text-align: center;
+  color: var(--texto-suave);
+  font-style: italic;
 }

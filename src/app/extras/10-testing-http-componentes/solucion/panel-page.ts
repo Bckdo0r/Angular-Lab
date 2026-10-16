@@ -1,51 +1,72 @@
-import { Component } from '@angular/core';
-
-/** Fila de la lista de specs de la solución. */
-interface ArchivoSpec {
-  ruta: string;
-  contenido: string;
-}
+import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { FormControl, JsonPipe, ReactiveFormsModule } from '@angular/forms';
+import { ProductosApiService, Producto } from '../productos-api.service';
+import { stockMinimo } from '../validadores';
 
 /**
- * SOLUCIÓN — Página de entrada de la práctica 10 (solo lectura).
+ * SOLUCIÓN — Página de la práctica 10: demo en vivo del código de producción.
  *
- * Igual que ../ejercicio/panel-page.ts, pero muestra la referencia: qué
- * prueban los specs resueltos y los criterios de aceptación. NO llama a
- * `ProductosApiService` en vivo (el backend falso no sirve /api/productos).
+ * Espejo de ../ejercicio/panel-page.ts (misma demo funcional del validador
+ * `stockMinimo(5)` y del servicio `ProductosApiService`), más la aclaración
+ * de que en esta práctica los specs de `solucion/` son la referencia para
+ * comparar con los `it.todo` del ejercicio.
  */
 @Component({
   selector: 'panel-page-solucion',
-  imports: [],
+  imports: [ReactiveFormsModule, JsonPipe],
   templateUrl: './panel-page.html',
   styleUrl: './panel-page.css',
 })
 export class PanelPageSolucion {
-  /** Los specs resueltos y qué demuestra cada uno. */
-  protected readonly specs: ArchivoSpec[] = [
-    {
-      ruta: 'solucion/productos-api.service.spec.ts',
-      contenido:
-        'Pasos 2, 3, 4 y 7 — expectOne + flush (éxito), error() + catchError (fallo mapeado), aserción de request.params y headers, y el verify() que caza requests colgados',
-    },
-    {
-      ruta: 'solucion/validadores.spec.ts',
-      contenido:
-        'Paso 5 — casos puros del ValidatorFn stockMinimo: rechazo, borde (== min), aceptación y vacío (lo maneja required)',
-    },
-  ];
+  private readonly api = inject(ProductosApiService);
+  private readonly destroyRef = inject(DestroyRef);
 
-  /** Los criterios de aceptación de la práctica (del temario). */
-  protected readonly criterios: string[] = [
-    'npm test verde.',
-    'Cambiar el mensaje de error del código no rompe el test del validador.',
-    'Sin verify(), el suite falla con un request pendiente.',
-  ];
+  // ─── Demo 1: el validador stockMinimo(5) ───────────────────────────────
+  /** Control con la regla de la práctica: el mínimo ES válido (5 pasa). */
+  protected readonly stock = new FormControl<number | null>(3, {
+    validators: [stockMinimo(5)],
+  });
 
-  /** Decisiones didácticas que vale la pena nombrar. */
-  protected readonly claves: string[] = [
-    'El test del catchError afirma que llega un Error con mensaje NO vacío: prueba el MAPEO, no la frase exacta.',
-    'El test del validador compara DATA ({ stockMinimo: { min } }), nunca textos: por eso cambiar mensajes no lo rompe.',
-    'El caso de borde (valor == min) se testea explícito: la regla dice "por debajo de min", el mínimo ES válido.',
-    'El test del Paso 7 hace explotar a verify() adentro del propio test para VER el error de un request pendiente.',
-  ];
+  /** Los valueChanges como signal: estado reactivo sin flags manuales. */
+  private readonly cambios = toSignal(this.stock.valueChanges, {
+    initialValue: this.stock.value,
+  });
+
+  /** La DATA que devuelve el validador: `{ stockMinimo: { min } }` o `null`. */
+  protected readonly errores = computed(() => {
+    this.cambios(); // dependencia reactiva: recalcula en cada tipeo
+    return this.stock.errors;
+  });
+
+  // ─── Demo 2: el servicio en vivo ───────────────────────────────────────
+  protected readonly probando = signal(false);
+  protected readonly productos = signal<Producto[] | null>(null);
+  protected readonly error = signal<string | null>(null);
+
+  /** Llama a `listar()` UNA vez: el guard de `probando()` bloquea el doble click. */
+  protected probarListar(): void {
+    if (this.probando()) {
+      return;
+    }
+
+    this.probando.set(true);
+    this.productos.set(null);
+    this.error.set(null);
+
+    this.api
+      .listar()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (lista) => {
+          this.productos.set(lista);
+          this.probando.set(false);
+        },
+        error: (err: Error) => {
+          // El catchError del servicio entrega un Error con mensaje amigable.
+          this.error.set(err.message);
+          this.probando.set(false);
+        },
+      });
+  }
 }

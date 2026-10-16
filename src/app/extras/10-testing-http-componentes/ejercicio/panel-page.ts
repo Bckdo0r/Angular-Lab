@@ -1,50 +1,81 @@
-import { Component } from '@angular/core';
-
-/** Fila de la lista de archivos spec que el alumno tiene que completar. */
-interface ArchivoSpec {
-  ruta: string;
-  pasos: string;
-}
+import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { FormControl, JsonPipe, ReactiveFormsModule } from '@angular/forms';
+import { ProductosApiService, Producto } from '../productos-api.service';
+import { stockMinimo } from '../validadores';
 
 /**
- * EJERCICIO — Página de entrada de la práctica 10 (solo lectura).
+ * PÁGINA DE LA PRÁCTICA 10 — demo en vivo del código de producción.
  *
- * NO llama a `ProductosApiService` en vivo: el backend falso del proyecto
- * no sirve `/api/productos` y la llamada sería un 404. Esta página explica
- * la práctica y lista los specs que hay que completar.
+ * Acá NO hay consigna (esa vive en el README): la página muestra funcionando
+ * las dos piezas que la práctica testea:
+ *
+ * 1. El validador `stockMinimo(5)` (`../validadores.ts`), montado en un
+ *    `FormControl` real: escribí un valor y mirá la DATA que devuelve
+ *    (`{ stockMinimo: { min: 5 } }` al rechazar, `null` al aceptar).
+ * 2. El servicio `ProductosApiService` (`../productos-api.service.ts`):
+ *    el botón llama a `listar()` y la página pinta sus tres estados
+ *    (cargando / resultado / error). El backend falso del proyecto no sirve
+ *    `/api/productos`, así que el `catchError` del servicio mapea el fallo
+ *    al mensaje amigable: es el comportamiento programado, en vivo.
  */
 @Component({
   selector: 'panel-page',
-  imports: [],
+  imports: [ReactiveFormsModule, JsonPipe],
   templateUrl: './panel-page.html',
   styleUrl: './panel-page.css',
 })
 export class PanelPage {
-  /** Los archivos spec que el alumno completa (los `it.todo` son sus pasos). */
-  protected readonly specs: ArchivoSpec[] = [
-    {
-      ruta: 'ejercicio/productos-api.service.spec.ts',
-      pasos: 'Pasos 2, 3, 4 y 7 — HttpTestingController: expectOne, flush, error() y verify()',
-    },
-    {
-      ruta: 'ejercicio/validadores.spec.ts',
-      pasos: 'Paso 5 — casos puros del ValidatorFn stockMinimo (sin DOM, sin HTTP)',
-    },
-  ];
+  private readonly api = inject(ProductosApiService);
+  private readonly destroyRef = inject(DestroyRef);
 
-  /** Lo que YA está escrito en el ejercicio (no se toca). */
-  protected readonly yaResuelto: string[] = [
-    'Paso 1 — beforeEach con TestBed + provideHttpClient() + provideHttpClientTesting()',
-    'Paso 7 — afterEach con controller.verify() (la red de seguridad)',
-    'productos-api.service.ts y validadores.ts (el código a testear, completo)',
-  ];
+  // ─── Demo 1: el validador stockMinimo(5) ───────────────────────────────
+  /** Control con la regla de la práctica: el mínimo ES válido (5 pasa). */
+  protected readonly stock = new FormControl<number | null>(3, {
+    validators: [stockMinimo(5)],
+  });
 
-  /** Conceptos que se practican, con la profundidad del temario. */
-  protected readonly conceptos: string[] = [
-    'TestBed + provideHttpClientTesting(): armado del entorno ★★★',
-    'HttpTestingController: expectOne, flush, error() ★★★',
-    'Aserción de params/headers en la petición (request.params) ★★',
-    'Regla de negocio, no implementación: ValidatorFn con casos puros ★★★',
-    'verify() en afterEach: cazar requests colgados ★★',
-  ];
+  /** Los valueChanges como signal: así el estado del control es reactivo
+   *  y el template se repinta sin flags manuales (OnPush friendly). */
+  private readonly cambios = toSignal(this.stock.valueChanges, {
+    initialValue: this.stock.value,
+  });
+
+  /** La DATA que devuelve el validador: `{ stockMinimo: { min } }` o `null`. */
+  protected readonly errores = computed(() => {
+    this.cambios(); // dependencia reactiva: recalcula en cada tipeo
+    return this.stock.errors;
+  });
+
+  // ─── Demo 2: el servicio en vivo ───────────────────────────────────────
+  protected readonly probando = signal(false);
+  protected readonly productos = signal<Producto[] | null>(null);
+  protected readonly error = signal<string | null>(null);
+
+  /** Llama a `listar()` UNA vez: el guard de `probando()` bloquea el doble click. */
+  protected probarListar(): void {
+    if (this.probando()) {
+      return;
+    }
+
+    this.probando.set(true);
+    this.productos.set(null);
+    this.error.set(null);
+
+    this.api
+      .listar()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (lista) => {
+          this.productos.set(lista);
+          this.probando.set(false);
+        },
+        error: (err: Error) => {
+          // El catchError del servicio entrega un Error con mensaje amigable:
+          // esto que se pinta acá es el comportamiento programado.
+          this.error.set(err.message);
+          this.probando.set(false);
+        },
+      });
+  }
 }
