@@ -1,0 +1,56 @@
+<main class="contenedor">
+  <h1>Intranet — Empleados (solución)</h1>
+  <p class="bajada">
+    Los filtros viven en la URL: aplicá filtros y mirá cómo <code>?q=&amp;area=</code> aparece
+    en la barra de direcciones. Copiá ese link a otra pestaña: los filtros reaparecen.
+  </p>
+
+  <section class="filtros" aria-label="Filtros del listado">
+    <label class="campo">
+      Buscar por nombre
+      <input
+        #busqueda
+        type="search"
+        [value]="texto()"
+        (input)="cambiarTexto(busqueda.value)"
+        placeholder="Ej: Ana"
+      />
+    </label>
+
+    <label class="campo">
+      Área
+      <select #selectorArea [value]="areaFiltro()" (change)="cambiarArea(selectorArea.value)">
+        <option value="">Todas</option>
+        @for (area of areas; track area) {
+          <option [value]="area">{{ area }}</option>
+        }
+      </select>
+    </label>
+
+    <button type="button" class="primario" (click)="aplicarFiltros()">Aplicar filtros</button>
+    <button type="button" class="secundario" (click)="limpiarFiltros()">Limpiar</button>
+  </section>
+
+  <p class="contador">{{ filtrados().length }} de {{ empleados.length }} empleados</p>
+
+  <ul class="tarjetas">
+    @for (empleado of filtrados(); track empleado.id) {
+      <li>
+        <article class="tarjeta">
+          <h2>{{ empleado.nombre }}</h2>
+          <p class="meta">{{ empleado.area }} · {{ empleado.seniority }}</p>
+          <!-- queryParamsHandling="preserve": los filtros viajan al detalle,
+               y el botón "volver" del detalle los reusa (Paso 3). -->
+          <a
+            [routerLink]="['/extras/07/solucion/detalle', empleado.id]"
+            queryParamsHandling="preserve"
+          >
+            Ver ficha →
+          </a>
+        </article>
+      </li>
+    } @empty {
+      <li class="vacio">Sin resultados para esos filtros.</li>
+    }
+  </ul>
+</main>

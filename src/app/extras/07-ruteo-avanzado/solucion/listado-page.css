@@ -1,0 +1,141 @@
+.contenedor {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.bajada {
+  color: var(--texto-suave);
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 1rem;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  box-shadow: var(--sombra-tarjeta);
+  padding: 1rem;
+  margin: 1.5rem 0;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+}
+
+input,
+select {
+  border: 1px solid var(--entrada-borde);
+  background: var(--entrada-fondo);
+  color: var(--texto);
+  border-radius: 8px;
+  padding: 0.45rem 0.7rem;
+  font: inherit;
+}
+
+input:focus-visible,
+select:focus-visible {
+  outline: none;
+  border-color: var(--acento);
+  box-shadow: 0 0 0 3px var(--resplandor);
+}
+
+button {
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.primario {
+  border: 1px solid var(--acento);
+  background: var(--acento-suave);
+  color: var(--acento);
+}
+
+.primario:hover {
+  background: var(--acento);
+  color: var(--acento-contraste);
+}
+
+.secundario {
+  border: 1px solid var(--borde);
+  background: var(--superficie);
+  color: var(--texto-suave);
+}
+
+.secundario:hover {
+  border-color: var(--texto-suave);
+}
+
+.primario:focus-visible,
+.secundario:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 2px;
+}
+
+.contador {
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+}
+
+.tarjetas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.tarjeta {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  box-shadow: var(--sombra-tarjeta);
+  padding: 1rem;
+  height: 100%;
+}
+
+.tarjeta h2 {
+  margin: 0 0 0.25rem;
+  font-size: 1.05rem;
+}
+
+.meta {
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+  margin: 0 0 0.75rem;
+}
+
+.tarjeta a {
+  color: var(--acento);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.tarjeta a:hover {
+  text-decoration: underline;
+}
+
+.tarjeta a:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 2px;
+}
+
+.vacio {
+  color: var(--texto-suave);
+  background: var(--superficie);
+  border: 1px dashed var(--borde);
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+}

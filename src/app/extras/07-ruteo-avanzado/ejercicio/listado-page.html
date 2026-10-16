@@ -1,0 +1,54 @@
+<main class="contenedor">
+  <h1>Intranet — Empleados</h1>
+  <p class="bajada">
+    Listado → detalle por ID, filtros en la URL, 404, <code>routerLinkActive</code>,
+    <code>canMatch</code> y rutas hijas. Todo ruteo, sin HTTP.
+  </p>
+
+  <section class="filtros" aria-label="Filtros del listado">
+    <label class="campo">
+      Buscar por nombre
+      <input
+        #busqueda
+        type="search"
+        [value]="texto()"
+        (input)="cambiarTexto(busqueda.value)"
+        placeholder="Ej: Ana"
+      />
+    </label>
+
+    <label class="campo">
+      Área
+      <select #selectorArea [value]="areaFiltro()" (change)="cambiarArea(selectorArea.value)">
+        <option value="">Todas</option>
+        @for (area of areas; track area) {
+          <option [value]="area">{{ area }}</option>
+        }
+      </select>
+    </label>
+
+    <button type="button" class="primario" (click)="aplicarFiltros()">Aplicar filtros</button>
+    <button type="button" class="secundario" (click)="limpiarFiltros()">Limpiar</button>
+  </section>
+
+  <p class="contador">{{ filtrados().length }} de {{ empleados.length }} empleados</p>
+
+  <ul class="tarjetas">
+    @for (empleado of filtrados(); track empleado.id) {
+      <li>
+        <article class="tarjeta">
+          <h2>{{ empleado.nombre }}</h2>
+          <p class="meta">{{ empleado.area }} · {{ empleado.seniority }}</p>
+          <!-- El parámetro de ruta va en el array del routerLink; con
+               queryParamsHandling="preserve" los filtros (?q=&area=) viajan
+               al detalle y sobreviven para el botón "volver". -->
+          <a [routerLink]="['/extras/07/detalle', empleado.id]" queryParamsHandling="preserve">
+            Ver ficha →
+          </a>
+        </article>
+      </li>
+    } @empty {
+      <li class="vacio">Sin resultados para esos filtros.</li>
+    }
+  </ul>
+</main>
