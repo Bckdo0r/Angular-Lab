@@ -34,6 +34,8 @@ S13: Convenciones AGENTS.md: Angular 22 — sin `standalone: true`, OnPush expl�
 
 S14: «CRITICAL»: «after creating or modifying an exercise, run `npm run snapshot` and commit the updated `snapshot.ts`».
 
+S15 (corrección del usuario): «la idea es que queden como los primeros 5 ejercicios, para que el usuario complete el codigo con TODOs y en solucion donde este el codigo con la solucion. Pero en la pagina tiene que estar el resultado de lo que se programa, no la consigna. Lo que escribiste en la pagina tiene que estar en el readme.md de cada ejercicio, con el formato de los primeros 5 ejercicios» — es decir: la página renderiza la app/resultado funcional (como 01–05), todo contenido instructivo va al README, y cada README sigue la estructura de la 05: «Cómo hacer la práctica» → «Objetivo» → «Conceptos clave» → «Consigna paso a paso (checklist)» → «Criterios de aceptación» → «Solución».
+
 ## Tasks
 
 - T1 (S2,S3) [worker-06] Práctica 06 — RxJS: ejercicio + solución + README. → ✅ commit `5a4e923` `feat(extras-06)`
@@ -43,6 +45,7 @@ S14: «CRITICAL»: «after creating or modifying an exercise, run `npm run snaps
 - T5 (S10,S11) [worker-10] Práctica 10 — Testing: ejercicio (specs con `it.todo`) + solución (specs reales) + README. → ✅ commit `83ea351` `feat(extras-10)`
 - T6 (S12) [parent] Registro: `app.routes.ts` + índice de extras. → ✅ commit `3d4307d` `feat(extras-registro)`
 - T7 (S1,S11,S13,S14) [parent] Verificación: `npm run build`, `npm test`, `npm run snapshot` + commit snapshot. → ✅ commit `bdecee5` `fix(extras)`
+- T8 (S15) [worker por práctica] Corrección: mover toda la consigna de las páginas al README con formato 01–05; la página queda como resultado funcional (10: demo en vivo del validador + endpoint; 09: ayuda muestra el estado del store; 06: sin caja "Cómo probarlo").
 
 ## Log
 
@@ -56,3 +59,6 @@ S14: «CRITICAL»: «after creating or modifying an exercise, run `npm run snaps
 - L8 (evidencia): T5 commiteada (`83ea351`). El worker dejó los pasos del alumno como comentarios `// TODO:` en vez de `it.todo(...)`; el parent los convirtió a `it.todo` reales (la justificación "vitest falla suites solo-con-todo" no aplicaba: cada suite tiene un test dado). Suite final: 12 passed + 8 todo.
 - L9 (evidencia): build de producción detectó 2 errores — import sin cerrar en `07/ejercicio/panel-layout.ts` (bug del worker-07) e import faltante de `withComponentInputBinding` en `app.config.ts` (parent). Corregidos y commiteados con el snapshot (`bdecee5`). Warnings NG8113 restantes son preexistentes de tutorial/12 y 23 (archivos no tocados).
 - L10 (cierre): verificación ejecutada — `npm run build` exit 0 (sin warnings nuevos), `npm test` 12 passed + 8 todo, `npm run snapshot` 34 ejercicios / 149 archivos. Pendiente de verificación manual (no automatizable acá): render en navegador de ambas prácticas visuales en modo claro/oscuro y los criterios de aceptación de cada README. Push/PR: decisión del usuario.
+- L11 (corrección del usuario, verbatim): «Nono, asi no es, la idea es que queden como los primeros 5 ejercicios, para que el usuario complete el codigo con TODOs y en solucion donde este el codigo con la solucion. Pero en la pagina tiene que estar el resultado de lo que se programa, no la consigna. Lo que escribiste en la pagina tiene que estar en el readme.md de cada ejercicio, con el formato de los primeros 5 ejercicios» → reabre T1–T5 como T8: páginas solo-resultado, README con formato de la 05.
+- L13 (evidencia): T8 parcial — 09 commiteada `8130389` (ayuda-page ahora renderiza el estado del store vía selectores + toSignal) y 10 commiteada `e228309` (demo en vivo de stockMinimo + listar(), specs intactos, README reestructurado). Resta: 07 + verificación global v2.
+- L14 (evidencia): T8 completo — 07 commiteada `473d7b4` (14 archivos, prosa instructiva fuera de las 6 páginas). Verificación global v2: build v3 exit 0 (fix `JsonPipe` desde `@angular/common` en panel-page de la 10, commit `2f60f12` + snapshot regenerado), `npm test` 12 passed + 8 todo, `npm run snapshot` 34 ejercicios / 149 archivos. Serie cerrada en rama feat/extras-06-10.
