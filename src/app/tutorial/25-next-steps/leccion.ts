@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { IconoSvg } from '../../compartido/icono-svg';
 
 /**
  * LECCIÓN 25 — Próximos pasos (solo lectura)
@@ -9,30 +10,21 @@ import { RouterLink } from '@angular/router';
  */
 @Component({
   selector: 'leccion-25',
+  imports: [RouterLink, IconoSvg],
   template: `
     <main class="contenedor">
-      <h1>¿Listo para explorar más de Angular? 🎉</h1>
+      <h1><icono-svg nombre="cohete" [tamano]="28" /> ¿Listo para explorar más de Angular?</h1>
       <p class="burbuja">
-        ¡Lo lograste! Completaste el tutorial Learn Angular y aprendiste lo
-        esencial para construir aplicaciones.
+        ¡Lo lograste! Completaste el tutorial Learn Angular y aprendiste lo esencial para construir
+        aplicaciones.
       </p>
 
       <div class="tarjetas">
-        <a
-          class="tarjeta"
-          href="https://v20.angular.dev/roadmap"
-          target="_blank"
-          rel="noopener"
-        >
+        <a class="tarjeta" href="https://v20.angular.dev/roadmap" target="_blank" rel="noopener">
           <h3>Hoja de ruta de Angular</h3>
           <p>Leé el roadmap open source de Angular: proyectos actuales, futuros y completados.</p>
         </a>
-        <a
-          class="tarjeta"
-          href="https://v20.angular.dev/playground"
-          target="_blank"
-          rel="noopener"
-        >
+        <a class="tarjeta" href="https://v20.angular.dev/playground" target="_blank" rel="noopener">
           <h3>Zona de juegos</h3>
           <p>¡Jugá con Angular directamente en tu navegador!</p>
         </a>
@@ -52,7 +44,9 @@ import { RouterLink } from '@angular/router';
           rel="noopener"
         >
           <h3>Angular de la A a la Z</h3>
-          <p>Tutorial completo de Envato para principiantes: repasa Angular entero en un solo video.</p>
+          <p>
+            Tutorial completo de Envato para principiantes: repasa Angular entero en un solo video.
+          </p>
         </a>
         <a
           class="tarjeta"
@@ -73,10 +67,11 @@ import { RouterLink } from '@angular/router';
           <p>Artículo de Hackernoon: construí una app de gestión de empleados paso a paso.</p>
         </a>
         <a class="tarjeta" routerLink="/extras">
-          <h3>Prácticas avanzadas 🧪</h3>
+          <h3><icono-svg nombre="frasco" [tamano]="16" /> Prácticas avanzadas</h3>
           <p>
-            El aprendizaje sigue acá: escenarios de trabajo real para seguir practicando lo
-            visto. ¡Y más, con nuevas actividades en camino!
+            El aprendizaje sigue acá: escenarios de trabajo real para seguir practicando lo visto.
+            Los temas de los videos de esta página también se abordan en estas prácticas, con la
+            misma profundidad. ¡Y más, con nuevas actividades en camino!
           </p>
         </a>
       </div>
@@ -84,7 +79,6 @@ import { RouterLink } from '@angular/router';
       <a class="volver" routerLink="/tutorial">← Volver al índice del tutorial</a>
     </main>
   `,
-  imports: [RouterLink],
   styles: `
     .contenedor {
       max-width: 860px;
@@ -94,6 +88,14 @@ import { RouterLink } from '@angular/router';
     }
     h1 {
       margin: 0 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    /* Ícono de la tarjeta de prácticas, alineado con el título */
+    .tarjeta h3 icono-svg,
+    h1 icono-svg {
+      color: var(--acento);
     }
     .burbuja {
       background: var(--acento-suave);
@@ -116,7 +118,9 @@ import { RouterLink } from '@angular/router';
       color: inherit;
       background: var(--superficie);
       box-shadow: var(--sombra-tarjeta);
-      transition: border-color 0.2s ease, transform 0.18s ease;
+      transition:
+        border-color 0.2s ease,
+        transform 0.18s ease;
     }
     .tarjeta:hover {
       border-color: var(--acento);
