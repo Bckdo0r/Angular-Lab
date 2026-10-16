@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { rutasPractica04 } from './extras/04-auth-jwt-guards-interceptors/rutas';
+import { rutasPractica09 } from './extras/09-ngrx-store/rutas';
+import { rutasPractica07 } from './extras/07-ruteo-avanzado/rutas';
 
 export const routes: Routes = [
   // ─── Página de inicio: acceso a Tutorial y Prácticas ─────────
@@ -524,4 +526,59 @@ export const routes: Routes = [
       ),
     title: 'Solución 05 — CRUD Interactivo con Modales',
   },
+
+  // ─── Práctica 06 — RxJS y asincronía ─────────────────────────
+  {
+    path: 'extras/06',
+    loadComponent: () =>
+      import('./extras/06-rxjs-y-asincronia/ejercicio/buscador-page').then((m) => m.BuscadorPage),
+    title: 'Práctica 06 — RxJS y asincronía',
+  },
+  {
+    path: 'extras/06/solucion',
+    loadComponent: () =>
+      import('./extras/06-rxjs-y-asincronia/solucion/buscador-page').then(
+        (m) => m.BuscadorPageSolucion,
+      ),
+    title: 'Solución 06 — RxJS y asincronía',
+  },
+
+  // ─── Práctica 08 — Angular Material: diálogo, tabla y feedback ─
+  {
+    path: 'extras/08',
+    loadComponent: () =>
+      import('./extras/08-angular-material/ejercicio/abm-page').then((m) => m.AbmPage),
+    title: 'Práctica 08 — Angular Material',
+  },
+  {
+    path: 'extras/08/solucion',
+    loadComponent: () =>
+      import('./extras/08-angular-material/solucion/abm-page').then((m) => m.AbmPageSolucion),
+    title: 'Solución 08 — Angular Material',
+  },
+
+  // ─── Práctica 09 — Estado global con NgRx ─────────────────────
+  // El store se provee a nivel de ruta (ver extras/09-ngrx-store/rutas.ts).
+  ...rutasPractica09,
+
+  // ─── Práctica 10 — Testing de HTTP y componentes ─────────────
+  {
+    path: 'extras/10',
+    loadComponent: () =>
+      import('./extras/10-testing-http-componentes/ejercicio/panel-page').then((m) => m.PanelPage),
+    title: 'Práctica 10 — Testing de HTTP y componentes',
+  },
+  {
+    path: 'extras/10/solucion',
+    loadComponent: () =>
+      import('./extras/10-testing-http-componentes/solucion/panel-page').then(
+        (m) => m.PanelPageSolucion,
+      ),
+    title: 'Solución 10 — Testing de HTTP y componentes',
+  },
+
+  // ─── Práctica 07 — Ruteo avanzado SPA ────────────────────────
+  // ÚLTIMO spread a propósito: la 07 define la ruta comodín '**' (404) y el
+  // orden de las rutas importa — la comodín debe ir después de todo lo demás.
+  ...rutasPractica07,
 ];

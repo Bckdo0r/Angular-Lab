@@ -26,7 +26,11 @@
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              // Tema precompilado de Angular Material (Práctica 08). El modo claro/oscuro
+              // de la app sigue manejado por tokens en styles.css; Material aporta el
+              // look-and-feel de sus componentes.
+              "@angular/material/prebuilt-themes/azure-blue.css"
             ]
           },
           "configurations": {
