@@ -1,0 +1,66 @@
+<section class="panel">
+  <header class="encabezado">
+    <p class="etiqueta">Práctica 10 · Testing</p>
+    <h1>Testing de HTTP y componentes</h1>
+    <p class="objetivo">
+      Testear un componente con llamadas HTTP y un validador, <strong>sin red real</strong> y sin
+      renderizar toda la app.
+    </p>
+  </header>
+
+  <article class="tarjeta">
+    <h2>La idea de esta práctica</h2>
+    <p>
+      Acá el código de producción <strong>ya está completo</strong> (el servicio
+      <code>ProductosApiService</code> y el validador <code>stockMinimo</code>). Tu trabajo es el
+      que más se hace en un equipo real: <strong>escribir los tests</strong> que prueban su
+      comportamiento. El <code>HttpTestingController</code> intercepta todas las llamadas de
+      <code>HttpClient</code>: no hay backend, la respuesta la fabricás vos con
+      <code>flush()</code> o <code>error()</code>.
+    </p>
+    <p>
+      Los <code>it.todo</code> del ejercicio no rompen el suite: la suite queda
+      <strong>verde</strong> con los TODO sin resolver y se va poniendo a medida que los reemplazás
+      por tests reales. (Detalle vitest: una suite sin <em>ningún</em> test real falla, así que cada
+      spec trae un test "dado" del Paso 1 que la mantiene verde.)
+    </p>
+  </article>
+
+  <article class="tarjeta">
+    <h2>Archivos que completás</h2>
+    @for (spec of specs; track spec.ruta) {
+      <div class="spec">
+        <code>{{ spec.ruta }}</code>
+        <span>{{ spec.pasos }}</span>
+      </div>
+    }
+  </article>
+
+  <article class="tarjeta">
+    <h2>Ya está resuelto (no se toca)</h2>
+    <ul>
+      @for (item of yaResuelto; track item) {
+        <li>{{ item }}</li>
+      }
+    </ul>
+  </article>
+
+  <article class="tarjeta">
+    <h2>Cómo correr los tests</h2>
+    <p>
+      <code>npm test</code> — el runner del proyecto es
+      <strong>vitest</strong> (<code>&#64;angular/build:unit-test</code>), no karma. Corre TODA la
+      suite: los specs de esta práctica viven en <code>ejercicio/*.spec.ts</code> (los que
+      completás) y en <code>solucion/*.spec.ts</code> (la referencia para comparar).
+    </p>
+  </article>
+
+  <article class="tarjeta">
+    <h2>Conceptos y profundidad</h2>
+    <ul>
+      @for (concepto of conceptos; track concepto) {
+        <li>{{ concepto }}</li>
+      }
+    </ul>
+  </article>
+</section>

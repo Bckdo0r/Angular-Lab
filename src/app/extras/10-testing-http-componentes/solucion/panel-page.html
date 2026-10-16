@@ -1,0 +1,47 @@
+<section class="panel">
+  <header class="encabezado">
+    <p class="etiqueta">Práctica 10 · Solución</p>
+    <h1>Testing de HTTP y componentes — solución</h1>
+    <p class="objetivo">
+      Los specs resueltos son la <strong>referencia</strong> para comparar con tu versión en
+      <code>ejercicio/</code>. Intentá primero con los <code>it.todo</code>.
+    </p>
+  </header>
+
+  <article class="tarjeta">
+    <h2>Specs resueltos</h2>
+    @for (spec of specs; track spec.ruta) {
+      <div class="spec">
+        <code>{{ spec.ruta }}</code>
+        <span>{{ spec.contenido }}</span>
+      </div>
+    }
+  </article>
+
+  <article class="tarjeta">
+    <h2>Criterios de aceptación</h2>
+    <ul>
+      @for (criterio of criterios; track criterio) {
+        <li>{{ criterio }}</li>
+      }
+    </ul>
+  </article>
+
+  <article class="tarjeta">
+    <h2>Decisiones didácticas</h2>
+    <ul>
+      @for (clave of claves; track clave) {
+        <li>{{ clave }}</li>
+      }
+    </ul>
+  </article>
+
+  <article class="tarjeta">
+    <h2>Para correrlos</h2>
+    <p>
+      <code>npm test</code> — runner <strong>vitest</strong>
+      (<code>&#64;angular/build:unit-test</code>). La suite incluye los specs del ejercicio
+      (<code>it.todo</code>, no fallan) y los de esta solución (verdes y completos).
+    </p>
+  </article>
+</section>

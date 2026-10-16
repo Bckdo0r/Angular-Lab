@@ -1,0 +1,76 @@
+/* Práctica 10 — página de entrada (solo tokens de styles.css, nada hardcodeado). */
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.encabezado {
+  text-align: center;
+}
+
+.etiqueta {
+  color: var(--acento-fuerte);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.85rem;
+}
+
+.objetivo {
+  color: var(--texto-suave);
+  max-width: 60ch;
+  margin: 0 auto;
+}
+
+.tarjeta {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--sombra-tarjeta);
+}
+
+.tarjeta h2 {
+  margin-top: 0;
+  font-size: 1.1rem;
+  color: var(--texto);
+}
+
+.tarjeta code {
+  background: var(--acento-suave);
+  color: var(--acento-fuerte);
+  padding: 0.1em 0.4em;
+  border-radius: 6px;
+  font-size: 0.9em;
+}
+
+.spec {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--borde);
+}
+
+.spec:last-child {
+  border-bottom: none;
+}
+
+.spec span {
+  color: var(--texto-suave);
+  font-size: 0.95rem;
+}
+
+.tarjeta ul {
+  margin: 0;
+  padding-left: 1.25rem;
+  color: var(--texto-suave);
+}
+
+.tarjeta li {
+  margin-bottom: 0.35rem;
+}
