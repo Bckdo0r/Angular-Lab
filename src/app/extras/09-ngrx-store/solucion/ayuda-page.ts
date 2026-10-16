@@ -1,81 +1,72 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
+import { Store } from '@ngrx/store';
+
+import { CapaVisor } from '../visor.store';
+import { visorFeatureSolucion as visorFeature } from './visor.store';
 
 /**
  * SOLUCIÓN — PÁGINA DE AYUDA (versión resuelta de `../ejercicio/ayuda-page.ts`).
  *
- * Igual que la del ejercicio: texto estático, sin estado. Sirve para verificar
- * que el store de la solución (proveído en `../rutas.ts` a nivel de ruta con
- * `provideState(visorFeatureSolucion)`) sobrevive a la navegación interna de
- * `/extras/09/solucion`.
+ * Igual que la del ejercicio: un panel que muestra EN VIVO el estado actual
+ * del store (capas con su visibilidad, filtro activo y capa seleccionada),
+ * leído con los selectors del feature de la solución (proveído en
+ * `../rutas.ts` a nivel de ruta con `provideState(visorFeatureSolucion)`).
+ * Sirve para verificar que ese store sobrevive a la navegación interna de
+ * `/extras/09/solucion`: navegá acá, volvé al visor, y el filtro sigue ahí.
  */
 @Component({
   selector: 'ayuda-page-solucion',
   imports: [RouterLink],
   template: `
     <main class="contenedor">
-      <h1>¿Cómo funciona este store?</h1>
+      <h1>Estado del store</h1>
 
       <p class="bajada">
-        Esta pantalla no tiene estado propio: es solo texto. Sirve para probar
-        que el store de la solución sobrevive a la navegación interna.
+        Vista en vivo del estado NgRx del visor, leída con los selectors del feature
+        (<code>selectCapas</code>, <code>selectFiltro</code>, <code>selectSeleccionadaId</code>).
       </p>
 
       <section class="tarjeta">
-        <h2>El circuito completo</h2>
-        <ol>
-          <li>
-            <strong>El usuario hace algo</strong> (tilda una capa, tipea un
-            filtro) y el componente <em>emite una intención</em>:
-            <code>store.dispatch(VisorActions.alternarCapa(&#123; id &#125;))</code>.
-          </li>
-          <li>
-            <strong>El reducer</strong> (una función pura) recibe el estado y la
-            acción y devuelve un estado NUEVO, sin mutar el anterior. Mirá la
-            trampa del <code>push()</code> comentada en
-            <code>solucion/visor.store.ts</code>: por qué mutar rompe la
-            memoización y el time-travel.
-          </li>
-          <li>
-            <strong>Los selectores memoizados</strong> recalculan solo lo que
-            depende de lo que cambió (<code>selectCapasFiltradas</code>,
-            <code>selectCapasVisibles</code>).
-          </li>
-          <li>
-            <strong>El componente lee</strong> con
-            <code>store.select(selector)</code> → <code>toSignal()</code> y la
-            plantilla se actualiza sola.
-          </li>
-        </ol>
+        <h2>Filtro activo</h2>
+        @if (filtro()) {
+          <code class="valor">{{ filtro() }}</code>
+        } @else {
+          <span class="vacio">Sin filtro aplicado.</span>
+        }
       </section>
 
       <section class="tarjeta">
-        <h2>¿Por qué acá el filtro no se pierde?</h2>
-        <p>
-          El store se provee a nivel de <strong>ruta</strong>
-          (<code>provideStore</code> + <code>provideState</code> en
-          <code>rutas.ts</code>): mientras navegues entre rutas hijas de
-          <code>/extras/09/solucion</code>, el inyector de la ruta padre sigue
-          vivo y el estado también. Salí de la práctica y el estado vuelve a
-          cero: el alcance de la ruta es el alcance del estado.
-        </p>
+        <h2>Capa seleccionada</h2>
+        @if (seleccionada(); as capa) {
+          <p class="linea">
+            <span class="nombre">{{ capa.nombre }}</span>
+            <code class="valor">id {{ capa.id }}</code>
+          </p>
+        } @else {
+          <span class="vacio">Ninguna capa seleccionada.</span>
+        }
       </section>
 
       <section class="tarjeta">
-        <h2>¿Y los effects? (solo teoría)</h2>
-        <p>
-          Los <strong>effects</strong> de <code>&#64;ngrx/effects</code> manejan
-          los efectos secundarios (HTTP, timers): escuchan acciones y disparan
-          otras. <strong>No están instalados a propósito</strong>: devOSSE no
-          los usa (no figuran en su <code>package.json</code>). En esta práctica
-          son lectura: si hubieran que cargar las capas de un servidor, un
-          effect escucharía <code>[Visor] Cargar Capas</code>, llamaría al
-          servicio y despacharía <code>[Visor] Capas Cargadas</code> — el
-          reducer seguiría siendo el único que toca el estado.
-        </p>
+        <h2>Capas ({{ capas().length }})</h2>
+        <ul class="capas">
+          @for (capa of capas(); track capa.id) {
+            <li [class.activa]="capa.id === seleccionadaId()">
+              <span class="nombre">{{ capa.nombre }}</span>
+              <span class="estado">{{ capa.visible ? 'visible' : 'oculta' }}</span>
+              @if (capa.id === seleccionadaId()) {
+                <span class="marca">✓ seleccionada</span>
+              }
+            </li>
+          } @empty {
+            <li class="vacio">El store no tiene capas.</li>
+          }
+        </ul>
       </section>
 
-      <p><a routerLink="/extras/09/solucion">← Volver al visor (mirá el filtro: sigue ahí)</a></p>
+      <p><a routerLink="/extras/09/solucion">← Volver al visor</a></p>
     </main>
   `,
   styles: `
@@ -109,7 +100,54 @@ import { RouterLink } from '@angular/router';
       font-size: 1rem;
     }
 
-    code {
+    .capas {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .capas li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.4rem 0.5rem;
+      border-radius: 8px;
+    }
+
+    .capas li.activa {
+      background: var(--acento-suave);
+    }
+
+    .linea {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .nombre {
+      font-weight: 600;
+      flex: 1;
+    }
+
+    .estado {
+      color: var(--texto-suave);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+    }
+
+    .marca {
+      color: var(--acento);
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .vacio {
+      color: var(--texto-suave);
+      font-style: italic;
+    }
+
+    code.valor {
       background: var(--acento-suave);
       color: var(--acento);
       border-radius: 4px;
@@ -128,4 +166,25 @@ import { RouterLink } from '@angular/router';
     }
   `,
 })
-export class AyudaPageSolucion {}
+export class AyudaPageSolucion {
+  protected readonly store = inject(Store);
+
+  /** Estado actual del store, leído por los selectors del feature. */
+  protected readonly capas = toSignal(this.store.select(visorFeature.selectCapas), {
+    initialValue: [] as CapaVisor[],
+  });
+
+  protected readonly filtro = toSignal(this.store.select(visorFeature.selectFiltro), {
+    initialValue: '',
+  });
+
+  protected readonly seleccionadaId = toSignal(
+    this.store.select(visorFeature.selectSeleccionadaId),
+    { initialValue: null as number | null },
+  );
+
+  /** Derivado de lectura: el reducer guarda el ID, el objeto se resuelve acá. */
+  protected readonly seleccionada = computed(
+    () => this.capas().find((capa) => capa.id === this.seleccionadaId()) ?? null,
+  );
+}

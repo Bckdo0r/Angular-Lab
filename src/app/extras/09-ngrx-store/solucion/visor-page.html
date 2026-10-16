@@ -1,10 +1,8 @@
 <main class="contenedor">
   <h1>Visor de capas <span class="tag">NgRx — solución</span></h1>
   <p class="bajada">
-    Versión resuelta: el componente lee con <code>select</code> +
-    <code>toSignal</code> y solo emite intenciones con <code>dispatch</code>.
-    Navegá a la <a routerLink="ayuda">página de ayuda</a> y volvé: el filtro
-    sigue ahí (el store vive en la ruta, no en el componente).
+    Visor de capas con estado global NgRx: capas, filtro y selección viven en el store. El estado
+    actual, en la <a routerLink="ayuda">página de ayuda</a>.
   </p>
 
   <div class="toolbar">
@@ -19,20 +17,13 @@
   </div>
 
   <section class="panel">
-    <h2>
-      Capas del mapa: {{ capasFiltradas().length }} de
-      {{ capasVisibles().length }} visibles
-    </h2>
+    <h2>Capas del mapa: {{ capasFiltradas().length }} de {{ capasVisibles().length }} visibles</h2>
 
     <ul class="capas">
       @for (capa of capasFiltradas(); track capa.id) {
         <li [class.activa]="capa.id === seleccionadaId()">
           <label class="capa">
-            <input
-              type="checkbox"
-              [checked]="capa.visible"
-              (change)="alternarCapa(capa.id)"
-            />
+            <input type="checkbox" [checked]="capa.visible" (change)="alternarCapa(capa.id)" />
             <span class="nombre">{{ capa.nombre }}</span>
             <span class="estado">{{ capa.visible ? 'visible' : 'oculta' }}</span>
           </label>
@@ -45,11 +36,4 @@
       }
     </ul>
   </section>
-
-  <p class="pista">
-    💡 En Redux DevTools (pestaña <strong>Redux</strong>) vas a ver la secuencia
-    exacta: <code>[Visor] Set Filtro</code>, <code>[Visor] Alternar Capa</code>,
-    <code>[Visor] Seleccionar Capa</code>... Clic en cualquier acción = viajar en
-    el tiempo a ese estado. Probá el "Restablecer" y mirá cómo vuelve todo.
-  </p>
 </main>
