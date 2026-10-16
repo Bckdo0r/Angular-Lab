@@ -31,7 +31,9 @@ h1 {
   background: var(--entrada-fondo);
   color: var(--texto);
   font: inherit;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .filtro:focus {
@@ -49,7 +51,9 @@ button {
   font: inherit;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
 }
 
 button:hover:not(:disabled) {
@@ -103,6 +107,16 @@ th {
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.03em;
+  border-bottom: 2px solid var(--borde);
+}
+
+/* Columna numérica (#): alineada a la derecha como convención de tablas */
+th:first-child,
+td:first-child {
+  text-align: right;
+  width: 2.5rem;
+  color: var(--texto-suave);
+  font-variant-numeric: tabular-nums;
 }
 
 tbody tr {

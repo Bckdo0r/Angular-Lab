@@ -51,9 +51,17 @@ import { AuthService } from './auth.service';
       color: var(--acento);
       text-decoration: none;
       font-weight: 600;
+      padding: 0.25rem 0.75rem;
+      border-radius: 8px;
+      transition: background-color 0.15s ease;
     }
     a:hover {
-      text-decoration: underline;
+      background: var(--acento-suave);
+      text-decoration: none;
+    }
+    a:focus-visible {
+      outline: 2px solid var(--acento);
+      outline-offset: 2px;
     }
     .sesion {
       display: flex;
@@ -72,11 +80,17 @@ import { AuthService } from './auth.service';
       padding: 0.3rem 0.7rem;
       font: inherit;
       cursor: pointer;
-      transition: background-color 0.15s ease, border-color 0.15s ease;
+      transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease;
     }
     button:hover {
       background: var(--error-fondo);
       border-color: var(--error);
+    }
+    button:focus-visible {
+      outline: 2px solid var(--acento);
+      outline-offset: 2px;
     }
   `,
 })

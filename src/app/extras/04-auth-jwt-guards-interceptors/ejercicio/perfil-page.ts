@@ -17,11 +17,13 @@ import { AuthService } from './auth.service';
           <dt>Nombre</dt>
           <dd>{{ usuario.nombre }}</dd>
           <dt>Rol</dt>
-          <dd><strong>{{ usuario.rol }}</strong></dd>
+          <dd>
+            <strong>{{ usuario.rol }}</strong>
+          </dd>
         </dl>
         <p class="nota">
-          Estos datos NO vinieron de una petición: salieron del payload del JWT,
-          decodificados con <code>atob</code> por el AuthService.
+          Estos datos NO vinieron de una petición: salieron del payload del JWT, decodificados con
+          <code>atob</code> por el AuthService.
         </p>
       } @else {
         <p class="alerta">No hay sesión abierta (¿cómo llegaste acá sin que el guard te corte?).</p>
@@ -29,6 +31,14 @@ import { AuthService } from './auth.service';
     </section>
   `,
   styles: `
+    /* Tarjeta contenedora de la página, sobre el fondo general */
+    section {
+      background: var(--superficie);
+      border: 1px solid var(--borde);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      box-shadow: var(--sombra-tarjeta);
+    }
     dl {
       display: grid;
       grid-template-columns: auto 1fr;

@@ -48,6 +48,14 @@ interface PanelResponse {
     </section>
   `,
   styles: `
+    /* Tarjeta contenedora de la página, sobre el fondo general */
+    section {
+      background: var(--superficie);
+      border: 1px solid var(--borde);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      box-shadow: var(--sombra-tarjeta);
+    }
     .bajada {
       color: var(--texto-suave);
     }
@@ -61,10 +69,16 @@ interface PanelResponse {
       font-weight: 600;
       cursor: pointer;
       margin-bottom: 1rem;
-      transition: background-color 0.15s ease, border-color 0.15s ease;
+      transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease;
     }
     button:hover {
       background: var(--acento-suave);
+    }
+    button:focus-visible {
+      outline: 2px solid var(--acento);
+      outline-offset: 2px;
     }
     .alerta {
       border: 1px solid var(--error-borde);
