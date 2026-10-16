@@ -3,13 +3,8 @@ import { RouterLink } from '@angular/router';
 import { EMPLEADOS } from '../empleados-mock';
 
 /**
- * EQUIPO — ruta hija "libre" del panel (Paso 8).
- *
- * Ya está completa: es la contracara de 'admin'. Vive dentro del sub-layout
- * (se pinta en el <router-outlet /> de PanelLayout) y NO tiene guard: la
- * ruta existe para cualquier rol. Fijate que los links al detalle son
- * ABSOLUTOS ('/extras/07/detalle/...') aunque el componente esté anidado:
- * el routerLink de acá no depende de en qué nivel de la jerarquía estés.
+ * EQUIPO — ruta hija "libre" del panel (Paso 8): sin guard, se pinta en el
+ * <router-outlet /> del PanelLayout. Los links al detalle son absolutos.
  */
 @Component({
   selector: 'equipo-page',
@@ -17,12 +12,12 @@ import { EMPLEADOS } from '../empleados-mock';
   template: `
     <section>
       <h2>Equipo</h2>
-      <p class="bajada">
-        Ruta hija de <code>extras/07/panel</code>, sin guard: existe para cualquier rol.
-      </p>
+      <p class="bajada">Personas del equipo, con acceso directo a su ficha.</p>
 
       <table>
-        <caption class="visually-hidden">Listado de empleados del panel de equipo</caption>
+        <caption class="visually-hidden">
+          Listado de empleados del panel de equipo
+        </caption>
         <thead>
           <tr>
             <th scope="col">Nombre</th>

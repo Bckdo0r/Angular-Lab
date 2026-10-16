@@ -3,20 +3,8 @@ import { Router, RouterLink } from '@angular/router';
 import { AREAS, EMPLEADOS } from '../empleados-mock';
 
 /**
- * LISTADO — filtros que viven en la URL (query params).
- *
- * La mecánica completa (Paso 4):
- * - Escribir: cada vez que se "aplican" los filtros, Router.navigate los
- *   manda a la URL como query params (?q=ana&area=QA). Así el listado
- *   filtrado se puede COMPARTIR POR LINK.
- * - Leer: al iniciar el componente, los filtros se restauran desde los
- *   query params (que llegan bindeados como inputs por la configuración
- *   global withComponentInputBinding de app.config.ts).
- *
- * Mientras el Paso 4 esté sin resolver, el filtrado funciona igual (las
- * signals locales filtran en vivo), pero la URL no se entera: recargar o
- * compartir el link pierde los filtros. Ese es exactamente el problema
- * laboral que resuelve el paso.
+ * LISTADO — filtros que viven en la URL (query params). La mecánica completa
+ * (escribir / leer / restaurar, Paso 4) está explicada en el README.
  */
 @Component({
   selector: 'listado-page',

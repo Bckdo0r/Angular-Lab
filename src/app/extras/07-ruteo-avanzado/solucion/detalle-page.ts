@@ -22,7 +22,7 @@ import { buscarEmpleado } from '../empleados-mock';
     <main class="contenedor">
       @if (empleado(); as e) {
         <p class="id-linea">
-          El ID llegó por <code>input()</code>, no por subscribe: <strong>#{{ e.id }}</strong>
+          Legajo <strong>#{{ e.id }}</strong>
         </p>
         <h1>{{ e.nombre }}</h1>
         <p class="meta">{{ e.area }} · {{ e.seniority }}</p>
@@ -47,16 +47,13 @@ import { buscarEmpleado } from '../empleados-mock';
               <li>{{ linea }}</li>
             }
           </ul>
-          <p class="pista">
-            Recargá la página: la pestaña se mantiene porque vive en la URL
-            (<code>?tab={{ tabActual() }}</code>).
-          </p>
         </section>
       } @else {
         <div class="vacio" role="alert">
           <h1>Empleado inexistente</h1>
           <p>
-            No hay nadie con ID <strong>{{ id() }}</strong>. Probá con un ID del 1 al 6.
+            No hay nadie con ID <strong>{{ id() }}</strong
+            >.
           </p>
         </div>
       }
@@ -73,8 +70,7 @@ import { buscarEmpleado } from '../empleados-mock';
       padding: 2rem 1rem;
     }
     .id-linea,
-    .meta,
-    .pista {
+    .meta {
       color: var(--texto-suave);
     }
     h1 {
@@ -94,7 +90,10 @@ import { buscarEmpleado } from '../empleados-mock';
       font: inherit;
       font-weight: 600;
       cursor: pointer;
-      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+      transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease;
     }
     .tabs button:hover {
       border-color: var(--acento);
@@ -119,10 +118,6 @@ import { buscarEmpleado } from '../empleados-mock';
     .contenido-tab h3 {
       margin-top: 0;
       text-transform: capitalize;
-    }
-    .pista {
-      font-size: 0.85rem;
-      margin-bottom: 0;
     }
     .vacio {
       border: 1px solid var(--error-borde);
@@ -183,7 +178,11 @@ export class DetallePageSolucion {
     }
     switch (this.tabActual()) {
       case 'proyectos':
-        return ['Rediseño del portal interno', 'Migración del legado (fase 2)', 'Hackathon trimestral'];
+        return [
+          'Rediseño del portal interno',
+          'Migración del legado (fase 2)',
+          'Hackathon trimestral',
+        ];
       case 'auditoria':
         return [
           '2026-02-03 09:12 — Inicio de sesión desde oficina',
@@ -194,7 +193,6 @@ export class DetallePageSolucion {
         return [
           `Ficha resumen de ${empleado.nombre}.`,
           `Área: ${empleado.area} · Seniority: ${empleado.seniority}.`,
-          'Usá las pestañas de arriba: cada una es un query param ?tab=.',
         ];
     }
   });

@@ -1,9 +1,6 @@
 <main class="contenedor">
   <h1>Intranet — Empleados (solución)</h1>
-  <p class="bajada">
-    Los filtros viven en la URL: aplicá filtros y mirá cómo <code>?q=&amp;area=</code> aparece
-    en la barra de direcciones. Copiá ese link a otra pestaña: los filtros reaparecen.
-  </p>
+  <p class="bajada">Directorio de empleados con búsqueda por nombre y filtro por área.</p>
 
   <section class="filtros" aria-label="Filtros del listado">
     <label class="campo">
@@ -39,8 +36,6 @@
         <article class="tarjeta">
           <h2>{{ empleado.nombre }}</h2>
           <p class="meta">{{ empleado.area }} · {{ empleado.seniority }}</p>
-          <!-- queryParamsHandling="preserve": los filtros viajan al detalle,
-               y el botón "volver" del detalle los reusa (Paso 3). -->
           <a
             [routerLink]="['/extras/07/solucion/detalle', empleado.id]"
             queryParamsHandling="preserve"

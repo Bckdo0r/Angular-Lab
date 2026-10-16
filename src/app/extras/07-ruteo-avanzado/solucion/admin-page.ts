@@ -1,5 +1,4 @@
 import { Component, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { fijarRol, rolSimulado } from './rol.guard';
 
 /**
@@ -18,17 +17,17 @@ import { fijarRol, rolSimulado } from './rol.guard';
  */
 @Component({
   selector: 'admin-page-solucion',
-  imports: [RouterLink],
+  imports: [],
   template: `
     <section>
       <h2>Panel admin (solución)</h2>
       <p class="bajada">
-        Ruta hija protegida con <code>canMatch: [soloAdminCanMatchSolucion]</code> en
-        <code>../rutas.ts</code>. Rol actual: <strong>{{ rolActual() }}</strong>.
+        Sección administrativa del panel interno. Rol actual: <strong>{{ rolActual() }}</strong
+        >.
       </p>
 
       <div class="rol-caja">
-        <p>Cambiá el rol y probá de nuevo la navegación a "Admin":</p>
+        <p>Rol simulado:</p>
         <button type="button" [disabled]="rolActual() === 'admin'" (click)="cambiarRol('admin')">
           Ser admin
         </button>
@@ -39,21 +38,6 @@ import { fijarRol, rolSimulado } from './rol.guard';
         >
           Ser visitante
         </button>
-      </div>
-
-      <div class="explicacion">
-        <h3>Qué acabas de ver</h3>
-        <p>
-          Con rol "visitante": al tocar "Admin" la navegación cae al 404 y en
-          DevTools → Network <strong>no baja ningún chunk</strong> de esta página —
-          canMatch ni siquiera pidió el bundle.
-        </p>
-        <p>
-          Con rol "admin": la ruta existe, el chunk baja bajo demanda (lazy) y este
-          panel se muestra. El guard corrió antes del matching: podés verlo con un
-          breakpoint en <code>solucion/rol.guard.ts</code>.
-        </p>
-        <p><a routerLink="/extras/07/solucion/panel">← Volver al panel</a></p>
       </div>
     </section>
   `,
@@ -98,23 +82,6 @@ import { fijarRol, rolSimulado } from './rol.guard';
       cursor: not-allowed;
     }
     button:focus-visible {
-      outline: 2px solid var(--acento);
-      outline-offset: 2px;
-    }
-    .explicacion {
-      border-left: 3px solid var(--acento);
-      background: var(--acento-suave);
-      border-radius: 0 10px 10px 0;
-      padding: 0.9rem 1rem;
-    }
-    .explicacion h3 {
-      margin-top: 0;
-    }
-    .explicacion a {
-      color: var(--acento);
-      font-weight: 600;
-    }
-    .explicacion a:focus-visible {
       outline: 2px solid var(--acento);
       outline-offset: 2px;
     }

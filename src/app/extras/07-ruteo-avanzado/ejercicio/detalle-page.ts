@@ -3,15 +3,8 @@ import { Router } from '@angular/router';
 import { buscarEmpleado } from '../empleados-mock';
 
 /**
- * DETALLE — el parámetro de ruta ':id' llega como INPUT (Paso 2) y las
- * pestañas viven en un query param ?tab= (Paso 4c).
- *
- * withComponentInputBinding() está activado GLOBALMENTE en app.config.ts
- * (provideRouter(routes, withComponentInputBinding())): por eso acá no hay
- * ActivatedRoute, ni constructor con subscripciones — la URL es el estado y
- * Angular la bindea a los inputs. Entrar directo a
- * /extras/07/detalle/9999 muestra esta misma vista (con el mensaje de
- * empleado inexistente) sin romper nada.
+ * DETALLE — el parámetro de ruta ':id' llega como input (Paso 2) y las
+ * pestañas viven en un query param ?tab= (Paso 4c). Mecánica en el README.
  */
 @Component({
   selector: 'detalle-page',
@@ -20,7 +13,7 @@ import { buscarEmpleado } from '../empleados-mock';
     <main class="contenedor">
       @if (empleado(); as e) {
         <p class="id-linea">
-          El ID llegó por <code>input()</code>, no por subscribe: <strong>#{{ e.id }}</strong>
+          Legajo <strong>#{{ e.id }}</strong>
         </p>
         <h1>{{ e.nombre }}</h1>
         <p class="meta">{{ e.area }} · {{ e.seniority }}</p>
@@ -40,15 +33,16 @@ import { buscarEmpleado } from '../empleados-mock';
 
         <section class="contenido-tab">
           <p>
-            Contenido de la pestaña <strong>{{ tabActiva() }}</strong>.
-            Recargá la página con ?tab=auditoria en la URL: ¿se mantiene la pestaña?
+            Contenido de la pestaña <strong>{{ tabActiva() }}</strong
+            >.
           </p>
         </section>
       } @else {
         <div class="vacio" role="alert">
           <h1>Empleado inexistente</h1>
           <p>
-            No hay nadie con ID <strong>{{ id() }}</strong>. Probá con un ID del 1 al 6.
+            No hay nadie con ID <strong>{{ id() }}</strong
+            >.
           </p>
         </div>
       }
@@ -85,7 +79,10 @@ import { buscarEmpleado } from '../empleados-mock';
       font: inherit;
       font-weight: 600;
       cursor: pointer;
-      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+      transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease;
     }
     .tabs button:hover {
       border-color: var(--acento);
@@ -138,11 +135,8 @@ export class DetallePage {
   private readonly router = inject(Router);
 
   /**
-   * Paso 2 — el ':id' de la ruta /extras/07/detalle/:id llega como input
-   * (string, porque TODO parámetro de URL es texto) gracias a la
-   * configuración global withComponentInputBinding de app.config.ts.
-   * Notá que no hay constructor con ActivatedRoute ni subscripciones: si la
-   * URL cambia a otro ID (navegando a otro detalle), el input se actualiza.
+   * El ':id' de la ruta llega como input (string, porque todo parámetro de
+   * URL es texto) gracias a withComponentInputBinding de app.config.ts.
    */
   // TODO: [Paso 2] - Ya está declarado acá abajo: leé el comentario y andá a
   //   /extras/07/detalle/9999 para ver que la vista se muestra igual (con el

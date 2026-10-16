@@ -16,11 +16,7 @@ import { RouterLink } from '@angular/router';
     <main class="contenedor">
       <p class="codigo" aria-hidden="true">404</p>
       <h1>Página no encontrada (solución)</h1>
-      <p class="bajada">
-        La ruta comodín <code>**</code> tiene que ser la <strong>última</strong> del array:
-        Angular usa la primera coincidencia, así que si estuviera primera atraparía
-        todas las URLs de la aplicación (el paso 5 del README te hace razonar esto).
-      </p>
+      <p class="bajada">La dirección que pediste no existe en esta aplicación.</p>
       <a routerLink="/extras/07/solucion" class="volver">← Volver al listado</a>
     </main>
   `,

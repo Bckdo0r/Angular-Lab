@@ -2,14 +2,8 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 /**
- * PÁGINA 404 — la ruta comodín '**' (Paso 5).
- *
- * El '**' de rutas.ts es la ÚLTIMA entrada del array: coincide con cualquier
- * path que no coincidió antes. Como app.routes.ts hace el spread de esta práctica
- * AL FINAL, el comodín no tapa las rutas de otras prácticas.
- *
- * Esta página ya está completa: tu trabajo del Paso 5 es razonar y experimentar
- * qué pasaría si '**' estuviera primera (pista: TODA la app caería acá).
+ * PÁGINA 404 — la ruta comodín '**' (Paso 5). Por qué va última: en el
+ * README y en rutas.ts.
  */
 @Component({
   selector: 'no-encontrado-page',
@@ -18,16 +12,7 @@ import { RouterLink } from '@angular/router';
     <main class="contenedor">
       <p class="codigo" aria-hidden="true">404</p>
       <h1>Página no encontrada</h1>
-      <p class="bajada">
-        Esta pantalla la muestra la ruta comodín <code>**</code>, que tiene que ser la
-        <strong>última</strong> del archivo de rutas: si estuviera primera, atraparía todas las URLs
-        de la aplicación.
-      </p>
-      <p class="bajada">
-        ¿Venis de «Admin» con rol visitante? Es el <code>canMatch</code> del Paso 7 en acción: la
-        ruta se removió del árbol y la navegación cayó acá. Cambiá tu rol en el
-        <a routerLink="/extras/07/panel">panel</a>.
-      </p>
+      <p class="bajada">La dirección que pediste no existe en esta aplicación.</p>
       <a routerLink="/extras/07" class="volver">← Volver al listado</a>
     </main>
   `,

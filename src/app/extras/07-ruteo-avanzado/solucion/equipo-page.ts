@@ -13,13 +13,12 @@ import { EMPLEADOS } from '../empleados-mock';
   template: `
     <section>
       <h2>Equipo (solución)</h2>
-      <p class="bajada">
-        Ruta hija de <code>extras/07/solucion/panel</code>, sin guard: existe para
-        cualquier rol.
-      </p>
+      <p class="bajada">Personas del equipo, con acceso directo a su ficha.</p>
 
       <table>
-        <caption class="visually-hidden">Listado de empleados del panel de equipo</caption>
+        <caption class="visually-hidden">
+          Listado de empleados del panel de equipo
+        </caption>
         <thead>
           <tr>
             <th scope="col">Nombre</th>

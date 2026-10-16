@@ -22,11 +22,7 @@ import { fijarRol, rolSimulado } from './rol.guard';
 
       <p class="rol-linea">
         Rol simulado: <strong>{{ rolActual() }}</strong>
-        <button
-          type="button"
-          [disabled]="rolActual() === 'admin'"
-          (click)="cambiarRol('admin')"
-        >
+        <button type="button" [disabled]="rolActual() === 'admin'" (click)="cambiarRol('admin')">
           Ser admin
         </button>
         <button
@@ -38,8 +34,8 @@ import { fijarRol, rolSimulado } from './rol.guard';
         </button>
       </p>
       <p class="bajada">
-        El rol vive en <code>localStorage</code> (clave <code>practica07-rol</code>), la misma
-        clave que el ejercicio: es un simulacro para probar el <code>canMatch</code>.
+        El rol simulado se guarda en este navegador (localStorage), con la misma clave que el
+        ejercicio.
       </p>
 
       <nav aria-label="Secciones del panel">
@@ -50,11 +46,7 @@ import { fijarRol, rolSimulado } from './rol.guard';
         >
           Equipo
         </a>
-        <a
-          routerLink="admin"
-          routerLinkActive="activo"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
+        <a routerLink="admin" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">
           Admin
         </a>
       </nav>

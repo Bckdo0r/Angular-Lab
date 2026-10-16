@@ -3,16 +3,9 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { fijarRol, rolSimulado } from './rol.guard';
 
 /**
- * SUB-LAYOUT del panel — Paso 8 (rutas hijas escritas por vos).
- *
- * Este componente es la "caja" de las rutas hijas definidas en ../rutas.ts
- * bajo extras/07/panel: lo que hay acá se ve SIEMPRE y cada hija (equipo,
- * admin) se pinta en el <router-outlet />. Entrar a /extras/07/panel a pelo
- * redirige a 'equipo' (redirect '' en rutas.ts).
- *
- * El rol simulado (toggle de localStorage) también vive acá para que nunca
- * te quedes "afuera": si canMatch te manda al 404, volvés a este panel y
- * cambiás el rol sin tocar DevTools.
+ * SUB-LAYOUT del panel (Paso 8, rutas hijas): lo que hay acá se ve SIEMPRE y
+ * cada hija (equipo, admin) se pinta en el <router-outlet />. El rol simulado
+ * (toggle de localStorage) vive acá para poder cambiarlo desde la UI.
  */
 @Component({
   selector: 'panel-layout',
@@ -34,10 +27,7 @@ import { fijarRol, rolSimulado } from './rol.guard';
           Ser visitante
         </button>
       </p>
-      <p class="bajada">
-        El rol vive en <code>localStorage</code> (clave <code>practica07-rol</code>): es un
-        simulacro para probar el <code>canMatch</code> del Paso 7.
-      </p>
+      <p class="bajada">El rol simulado se guarda en este navegador (localStorage).</p>
 
       <nav aria-label="Secciones del panel">
         <!-- TODO: [Paso 6] - Menú semántico con estado activo:

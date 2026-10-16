@@ -1,8 +1,7 @@
 <main class="contenedor">
   <h1>Intranet — Empleados</h1>
   <p class="bajada">
-    Listado → detalle por ID, filtros en la URL, 404, <code>routerLinkActive</code>,
-    <code>canMatch</code> y rutas hijas. Todo ruteo, sin HTTP.
+    Directorio de empleados de la intranet, con búsqueda por nombre y filtro por área.
   </p>
 
   <section class="filtros" aria-label="Filtros del listado">
@@ -39,9 +38,6 @@
         <article class="tarjeta">
           <h2>{{ empleado.nombre }}</h2>
           <p class="meta">{{ empleado.area }} · {{ empleado.seniority }}</p>
-          <!-- El parámetro de ruta va en el array del routerLink; con
-               queryParamsHandling="preserve" los filtros (?q=&area=) viajan
-               al detalle y sobreviven para el botón "volver". -->
           <a [routerLink]="['/extras/07/detalle', empleado.id]" queryParamsHandling="preserve">
             Ver ficha →
           </a>
