@@ -45,9 +45,11 @@ const LECCIONES: Leccion[] = [
       <h1>Tutorial de Angular</h1>
       <p class="bajada">
         Basado en el tutorial oficial
-        <a href="https://v20.angular.dev/tutorials/learn-angular" target="_blank" rel="noopener">Learn Angular</a>.
-        Cada lección tiene su carpeta en <code>src/app/tutorial/</code> con un <code>README.md</code>, el código del
-        ejercicio (con <code>TODO</code>s para completar) y la solución.
+        <a href="https://v20.angular.dev/tutorials/learn-angular" target="_blank" rel="noopener"
+          >Learn Angular</a
+        >. Cada lección tiene su carpeta en <code>src/app/tutorial/</code> con un
+        <code>README.md</code>, el código del ejercicio (con <code>TODO</code>s para completar) y la
+        solución.
       </p>
 
       <div class="que-es">
@@ -58,14 +60,15 @@ const LECCIONES: Leccion[] = [
         </p>
         <p>
           Antes de arrancar con la ejercitación conviene tener las bases de
-          <strong>HTML, CSS y JavaScript</strong> (o TypeScript) y <strong>Node.js 20 o
-          superior</strong> instalado en tu máquina.
+          <strong>HTML, CSS y JavaScript</strong> (o TypeScript) y
+          <strong>Node.js 20 o superior</strong> instalado en tu máquina.
         </p>
       </div>
 
       <div class="acciones-globales">
         <reinicio-boton
           [claves]="restauracion.clavesDeSeccion('tutorial')"
+          etiqueta="Reiniciar todo"
           descripcion="Vas a borrar los cambios que hiciste en TODAS las lecciones del tutorial y volver al estado original."
         />
       </div>
@@ -74,17 +77,24 @@ const LECCIONES: Leccion[] = [
         @for (leccion of lecciones; track leccion.numero) {
           <li>
             @if (leccion.soloLectura) {
-              <span class="titulo">{{ leccion.numero }} — {{ leccion.titulo }}</span>
-              <a routerLink="/tutorial/{{ leccion.numero }}">Ver</a>
+              <div class="tarjeta">
+                <span class="titulo">{{ leccion.numero }} — {{ leccion.titulo }}</span>
+                <a class="accion" routerLink="/tutorial/{{ leccion.numero }}">Ver</a>
+              </div>
             } @else {
-              <a class="titulo" routerLink="/tutorial/{{ leccion.numero }}">
-                {{ leccion.numero }} — {{ leccion.titulo }}
-              </a>
-              <span class="links">
-                <a [routerLink]="['/tutorial', leccion.numero]">ejercicio</a>
-                <a [routerLink]="['/tutorial', leccion.numero, 'solucion']">solución</a>
-                <reinicio-boton compacto [claves]="['tutorial/' + leccion.numero]" />
-              </span>
+              <div class="tarjeta">
+                <a class="titulo" routerLink="/tutorial/{{ leccion.numero }}">
+                  {{ leccion.numero }} — {{ leccion.titulo }}
+                </a>
+                <span class="links">
+                  <a class="accion" [routerLink]="['/tutorial', leccion.numero]">ejercicio</a>
+                  <a class="accion" [routerLink]="['/tutorial', leccion.numero, 'solucion']"
+                    >solución</a
+                  >
+                </span>
+              </div>
+              <!-- El reset compacto queda FUERA del recuadro del ejercicio -->
+              <reinicio-boton compacto [claves]="['tutorial/' + leccion.numero]" />
             }
           </li>
         }
@@ -105,6 +115,23 @@ const LECCIONES: Leccion[] = [
     .bajada {
       color: var(--texto-suave);
       line-height: 1.5;
+    }
+
+    /* El link externo usa el acento del tema en vez del azul default del navegador */
+    .bajada a {
+      color: var(--acento);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .bajada a:hover {
+      text-decoration: underline;
+    }
+
+    .bajada a:focus-visible {
+      outline: 2px solid var(--acento);
+      outline-offset: 2px;
+      border-radius: 3px;
     }
     /* Mensaje de introducción: qué es Angular y qué se necesita */
     .que-es {
@@ -136,16 +163,26 @@ const LECCIONES: Leccion[] = [
     }
     .lista li {
       display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    /* Recuadro del ejercicio: el reset compacto vive fuera de él */
+    .tarjeta {
+      flex: 1;
+      min-width: 0;
+      display: flex;
       justify-content: space-between;
-      align-items: baseline;
+      align-items: center;
       gap: 1rem;
       padding: 0.6rem 0.85rem;
       border: 1px solid var(--borde);
       border-radius: 10px;
       background: var(--superficie);
-      transition: border-color 0.15s ease, background-color 0.15s ease;
+      transition:
+        border-color 0.15s ease,
+        background-color 0.15s ease;
     }
-    .lista li:hover {
+    .tarjeta:hover {
       border-color: var(--acento);
     }
     .titulo {
@@ -156,10 +193,34 @@ const LECCIONES: Leccion[] = [
     a.titulo:hover {
       color: var(--acento);
     }
-    .links a {
-      margin-left: 0.75rem;
-      font-size: 0.85rem;
+    .links {
+      display: inline-flex;
+      gap: 0.4rem;
+    }
+    /* Acciones ejercicio/solución/Ver como botones píldora, no texto subrayado */
+    .accion {
+      padding: 0.28rem 0.75rem;
+      border: 1px solid color-mix(in srgb, var(--acento) 30%, transparent);
+      border-radius: 999px;
+      background: var(--acento-suave);
       color: var(--acento);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+      transition:
+        background-color 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
+    }
+    .accion:hover {
+      background: var(--acento);
+      border-color: var(--acento);
+      color: var(--acento-contraste);
+    }
+    .accion:focus-visible {
+      outline: 2px solid var(--acento);
+      outline-offset: 2px;
     }
     /* Botón de reinicio general de la sección */
     .acciones-globales {

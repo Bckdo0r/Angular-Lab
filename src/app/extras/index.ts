@@ -51,14 +51,15 @@ const PRACTICAS: Practica[] = [
       <h1>Prácticas avanzadas</h1>
       <p class="bajada">
         Módulos de práctica con temáticas de entorno laboral que el tutorial básico no cubre a
-        fondo. Cada práctica vive en <code>src/app/extras/</code> con un <code>README.md</code>
-        (la guía de la lección), el <strong>ejercicio</strong> con la lógica incompleta marcada
-        con <code>TODO</code>s y la <strong>solución</strong> comentada para comparar.
+        fondo. Cada práctica vive en <code>src/app/extras/</code> con un <code>README.md</code> (la
+        guía de la lección), el <strong>ejercicio</strong> con la lógica incompleta marcada con
+        <code>TODO</code>s y la <strong>solución</strong> comentada para comparar.
       </p>
 
       <div class="acciones-globales">
         <reinicio-boton
           [claves]="restauracion.clavesDeSeccion('extras')"
+          etiqueta="Reiniciar todo"
           descripcion="Vas a borrar los cambios que hiciste en TODAS las prácticas y volver al estado original."
         />
       </div>
@@ -66,18 +67,25 @@ const PRACTICAS: Practica[] = [
       <ol class="lista">
         @for (practica of practicas; track practica.numero) {
           <li>
-            <div class="info">
-              <span class="titulo">{{ practica.numero }} — {{ practica.titulo }}</span>
-              <span class="foco">{{ practica.foco }}</span>
+            <div class="tarjeta">
+              <div class="info">
+                <span class="titulo">{{ practica.numero }} — {{ practica.titulo }}</span>
+                <span class="foco">{{ practica.foco }}</span>
+              </div>
+              @if (practica.disponible) {
+                <span class="links">
+                  <a class="accion" [routerLink]="['/extras', practica.numero]">ejercicio</a>
+                  <a class="accion" [routerLink]="['/extras', practica.numero, 'solucion']"
+                    >solución</a
+                  >
+                </span>
+              } @else {
+                <span class="badge">próximamente</span>
+              }
             </div>
             @if (practica.disponible) {
-              <span class="links">
-                <a [routerLink]="['/extras', practica.numero]">ejercicio</a>
-                <a [routerLink]="['/extras', practica.numero, 'solucion']">solución</a>
-                <reinicio-boton compacto [claves]="['extras/' + practica.numero]" />
-              </span>
-            } @else {
-              <span class="badge">próximamente</span>
+              <!-- El reset compacto queda FUERA del recuadro de la práctica -->
+              <reinicio-boton compacto [claves]="['extras/' + practica.numero]" />
             }
           </li>
         }
@@ -106,6 +114,14 @@ const PRACTICAS: Practica[] = [
     }
     .lista li {
       display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    /* Recuadro de la práctica: el reset compacto vive fuera de él */
+    .tarjeta {
+      flex: 1;
+      min-width: 0;
+      display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 1rem;
@@ -115,7 +131,7 @@ const PRACTICAS: Practica[] = [
       background: var(--superficie);
       transition: border-color 0.15s ease;
     }
-    .lista li:hover {
+    .tarjeta:hover {
       border-color: var(--acento);
     }
     .info {
@@ -132,11 +148,34 @@ const PRACTICAS: Practica[] = [
       font-size: 0.85rem;
       line-height: 1.4;
     }
-    .links a {
-      margin-left: 0.75rem;
-      font-size: 0.85rem;
+    .links {
+      display: inline-flex;
+      gap: 0.4rem;
+    }
+    /* Acciones ejercicio/solución como botones píldora, no texto subrayado */
+    .accion {
+      padding: 0.28rem 0.75rem;
+      border: 1px solid color-mix(in srgb, var(--acento) 30%, transparent);
+      border-radius: 999px;
+      background: var(--acento-suave);
       color: var(--acento);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
       white-space: nowrap;
+      transition:
+        background-color 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
+    }
+    .accion:hover {
+      background: var(--acento);
+      border-color: var(--acento);
+      color: var(--acento-contraste);
+    }
+    .accion:focus-visible {
+      outline: 2px solid var(--acento);
+      outline-offset: 2px;
     }
     .badge {
       font-size: 0.75rem;

@@ -1,5 +1,6 @@
 import { booleanAttribute, Component, computed, inject, input, signal } from '@angular/core';
 import { ResultadoRestauracion, RestauracionService } from './restauracion.service';
+import { IconoSvg } from '../compartido/icono-svg';
 
 /**
  * BOTÓN DE REINICIO — restaura el código original de un ejercicio (o de una
@@ -7,13 +8,14 @@ import { ResultadoRestauracion, RestauracionService } from './restauracion.servi
  *
  * Reutilizable en los índices del tutorial y de las prácticas:
  *  - Botón normal: reinicio general de la sección.
- *  - Botón compacto (un 🔄): reinicio de un solo ejercicio en cada fila.
+ *  - Botón compacto (solo el ícono de reinicio): reinicio de un solo ejercicio en cada fila.
  *
  * Antes de restaurar muestra un modal de confirmación propio (estilizado con
  * los tokens del tema) para que el usuario no borre su trabajo sin querer.
  */
 @Component({
   selector: 'reinicio-boton',
+  imports: [IconoSvg],
   template: `
     @if (cantidadArchivos() > 0) {
       @if (restauracion.soportado) {
@@ -24,9 +26,9 @@ import { ResultadoRestauracion, RestauracionService } from './restauracion.servi
           [disabled]="restaurando()"
           (click)="abrir()"
         >
-          <span aria-hidden="true">🔄</span>
+          <icono-svg nombre="refrescar" [tamano]="14" />
           @if (!compacto()) {
-            <span>Reiniciar</span>
+            <span>{{ etiqueta() }}</span>
           }
         </button>
       } @else if (compacto()) {
@@ -34,11 +36,12 @@ import { ResultadoRestauracion, RestauracionService } from './restauracion.servi
           class="sin-soporte compacto"
           title="Reinicio no disponible en este navegador: usá Chrome, Edge u Opera"
         >
-          🚫
+          <icono-svg nombre="prohibido" [tamano]="15" />
         </span>
       } @else {
         <span class="sin-soporte">
-          🚫 Reinicio no disponible en este navegador (usá Chrome, Edge u Opera)
+          <icono-svg nombre="prohibido" [tamano]="15" /> Reinicio no disponible en este navegador
+          (usá Chrome, Edge u Opera)
         </span>
       }
 
@@ -56,14 +59,15 @@ import { ResultadoRestauracion, RestauracionService } from './restauracion.servi
             <p>{{ textoDescripcion() }}</p>
             <p class="detalle">
               Se van a sobrescribir <strong>{{ cantidadArchivos() }} archivos</strong> con su
-              versión inicial (los <code>TODO</code>s vuelven a estar sin resolver). El
-              servidor de desarrollo recompila solo al guardar.
+              versión inicial (los <code>TODO</code>s vuelven a estar sin resolver). El servidor de
+              desarrollo recompila solo al guardar.
             </p>
 
             @switch (resultado()?.estado) {
               @case ('exito') {
                 <p class="aviso exito" role="status">
-                  ✅ Listo: se restauraron {{ archivosRestaurados() }} archivos.
+                  <icono-svg nombre="exito" [tamano]="15" /> Listo: se restauraron
+                  {{ archivosRestaurados() }} archivos.
                 </p>
               }
               @case ('cancelado') {
@@ -75,7 +79,9 @@ import { ResultadoRestauracion, RestauracionService } from './restauracion.servi
                 </p>
               }
               @case ('error') {
-                <p class="aviso error" role="alert">❌ {{ mensajeError() }}</p>
+                <p class="aviso error" role="alert">
+                  <icono-svg nombre="error" [tamano]="15" /> {{ mensajeError() }}
+                </p>
               }
             }
 
@@ -123,7 +129,10 @@ import { ResultadoRestauracion, RestauracionService } from './restauracion.servi
       font-weight: 600;
       cursor: pointer;
       white-space: nowrap;
-      transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+      transition:
+        border-color 0.15s ease,
+        color 0.15s ease,
+        background-color 0.15s ease;
     }
 
     .disparador.compacto {
@@ -237,7 +246,9 @@ import { ResultadoRestauracion, RestauracionService } from './restauracion.servi
       font: inherit;
       font-weight: 600;
       cursor: pointer;
-      transition: background-color 0.15s ease, border-color 0.15s ease;
+      transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease;
     }
 
     .acciones button:focus-visible {
@@ -283,11 +294,14 @@ export class ReinicioBoton {
   /** Claves de ejercicio a restaurar, p. ej. ['tutorial/01'] o ['extras/02']. */
   readonly claves = input.required<string[]>();
 
-  /** `true` para la versión mini (un 🔄) usada en las filas de los índices. */
+  /** `true` para la versión mini (solo el ícono de reinicio) usada en las filas de los índices. */
   readonly compacto = input(false, { transform: booleanAttribute });
 
   /** Texto principal del modal; por defecto describe un solo ejercicio. */
   readonly descripcion = input<string | null>(null);
+
+  /** Texto del botón: "Reiniciar" por defecto; los índices usan "Reiniciar todo". */
+  readonly etiqueta = input('Reiniciar');
 
   /** Modal abierto, restauración en curso y resultado para la plantilla. */
   protected readonly abierto = signal(false);
@@ -295,8 +309,8 @@ export class ReinicioBoton {
   protected readonly resultado = signal<ResultadoRestauracion | null>(null);
 
   /** Cantidad de archivos únicos que se van a sobrescribir. */
-  protected readonly cantidadArchivos = computed(() =>
-    this.restauracion.rutasARestaurar(this.claves()).length,
+  protected readonly cantidadArchivos = computed(
+    () => this.restauracion.rutasARestaurar(this.claves()).length,
   );
 
   /** Texto del modal: el general describe la sección, el simple el ejercicio. */
