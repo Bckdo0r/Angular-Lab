@@ -1,0 +1,32 @@
+/*
+ * TEMA DE ANGULAR MATERIAL (Práctica 08) — vía oficial de v20+ con `mat.theme`.
+ *
+ * El tema precompilado de tokens (azure-blue.css) no alcanza: los componentes
+ * quedan `mat-unthemed` (blanco sobre blanco). `mat.theme()` genera los tokens
+ * del sistema Y conecta los estilos de los componentes Material.
+ *
+ * La paleta azure se elige para armonizar con el sitio; los componentes
+ * Material viven solo dentro de la práctica 08 (rutas /extras/08).
+ */
+@use '@angular/material' as mat;
+
+html {
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}
+
+/* El fondo de las vistas Material sigue el token del sistema de Material,
+   sin pisar el tema claro/oscuro del resto del sitio. */
+body:has(abm-page),
+body:has(abm-page-solucion) {
+  background-color: var(--mat-sys-background);
+  color: var(--mat-sys-on-background);
+}
