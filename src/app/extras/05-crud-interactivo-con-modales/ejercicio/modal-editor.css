@@ -1,0 +1,109 @@
+/* ─── Modal editor de empleado ──────────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 0.55);
+  display: grid;
+  place-items: center;
+  z-index: 10;
+}
+
+.tarjeta {
+  background: var(--superficie);
+  color: var(--texto);
+  border: 1px solid var(--borde);
+  border-radius: 14px;
+  padding: 1.5rem;
+  width: min(480px, calc(100vw - 2rem));
+  box-shadow: var(--sombra-tarjeta);
+}
+
+h2 {
+  margin: 0 0 1rem;
+}
+
+form {
+  display: grid;
+  gap: 0.9rem;
+}
+
+label {
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+  color: var(--texto-suave);
+}
+
+input,
+select {
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--entrada-borde);
+  border-radius: 8px;
+  background: var(--entrada-fondo);
+  color: var(--texto);
+  font: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--acento);
+  box-shadow: 0 0 0 3px var(--resplandor);
+}
+
+input.ng-invalid.ng-touched,
+input.ng-invalid.ng-dirty {
+  border-color: var(--error);
+}
+
+.fila {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 0.75rem;
+}
+
+.error {
+  color: var(--error);
+  font-size: 0.8rem;
+}
+
+.acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+button {
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--entrada-borde);
+  background: var(--superficie);
+  color: var(--texto);
+  border-radius: 8px;
+  font: inherit;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+button:hover {
+  border-color: var(--acento);
+  color: var(--acento);
+}
+
+button.primario {
+  background: var(--acento);
+  border-color: var(--acento);
+  color: var(--acento-contraste);
+}
+
+button.primario:hover {
+  background: var(--acento-fuerte);
+  border-color: var(--acento-fuerte);
+  color: var(--acento-contraste);
+}
+
+button:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 2px;
+}

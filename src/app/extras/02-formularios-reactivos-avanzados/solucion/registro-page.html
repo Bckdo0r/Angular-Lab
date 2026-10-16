@@ -1,0 +1,94 @@
+<div class="layout">
+  <form class="panel" [formGroup]="registroForm" (ngSubmit)="handleSubmit()" novalidate>
+    <h2>Alta de empleado</h2>
+    <p class="ayuda">
+      Formulario reactivo con validadores personalizados. Los errores usan los estados
+      <code>touched</code>/<code>dirty</code>: no aparecen hasta que tocás el campo (o
+      enviás el formulario).
+    </p>
+
+    <label>
+      Nombre completo
+      <input
+        type="text"
+        formControlName="nombre"
+        [class.invalido]="mostrarErrores('nombre')"
+      />
+    </label>
+    @if (mostrarErrores('nombre')) {
+      <ul class="errores">
+        @if (registroForm.controls.nombre.hasError('required')) {
+          <li>El nombre es obligatorio.</li>
+        }
+        @if (registroForm.controls.nombre.hasError('minlength')) {
+          <li>Necesita al menos 3 caracteres.</li>
+        }
+      </ul>
+    }
+
+    <label>
+      Email corporativo
+      <input
+        type="email"
+        formControlName="email"
+        [class.invalido]="mostrarErrores('email')"
+      />
+    </label>
+    @if (mostrarErrores('email')) {
+      <ul class="errores">
+        @if (registroForm.controls.email.hasError('required')) {
+          <li>El email es obligatorio.</li>
+        }
+        @if (registroForm.controls.email.hasError('email')) {
+          <li>El formato del email no es válido.</li>
+        }
+        @if (registroForm.controls.email.hasError('dominioProhibido')) {
+          <li>
+            No se aceptan cuentas del dominio
+            “{{ registroForm.controls.email.getError('dominioProhibido').dominio }}”.
+          </li>
+        }
+      </ul>
+    }
+    <p class="ayuda">Dominios bloqueados: {{ dominiosProhibidos.join(', ') }}</p>
+
+    <label>
+      Contraseña
+      <input
+        type="password"
+        formControlName="password"
+        [class.invalido]="mostrarErrores('password')"
+      />
+    </label>
+    @if (mostrarErrores('password')) {
+      <ul class="errores">
+        @if (registroForm.controls.password.hasError('required')) {
+          <li>La contraseña es obligatoria.</li>
+        }
+        @if (registroForm.controls.password.hasError('minlength')) {
+          <li>Necesita al menos 8 caracteres.</li>
+        }
+        @if (registroForm.controls.password.hasError('sinEspacios')) {
+          <li>No puede contener espacios.</li>
+        }
+      </ul>
+    }
+
+    <div class="acciones">
+      <button type="submit" class="primario">Crear cuenta</button>
+      <button type="button" class="secundario" (click)="registroForm.reset()">Limpiar</button>
+    </div>
+
+    <p class="estados">
+      dirty: {{ registroForm.dirty }} · touched: {{ registroForm.touched }} · invalid:
+      {{ registroForm.invalid }}
+    </p>
+  </form>
+
+  @if (registroOk()) {
+    <div class="panel exito">
+      <h3>✅ ¡Cuenta creada!</h3>
+      <p>Bienvenido/a, <strong>{{ nombreRegistrado() }}</strong>.</p>
+    </div>
+  }
+</div>

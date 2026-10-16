@@ -1,0 +1,101 @@
+/* Barra de navegación principal (estilo angular.dev) */
+.barra {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.6rem 1.5rem;
+  border-bottom: 1px solid var(--borde);
+  background: color-mix(in srgb, var(--fondo) 82%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Marca / logo a la izquierda */
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  text-decoration: none;
+  color: var(--texto);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+}
+
+.marca img {
+  border-radius: 6px;
+}
+
+.marca-texto em {
+  font-style: normal;
+  color: var(--acento);
+}
+
+/* Enlaces de navegación, pegados a la derecha junto al botón de tema */
+.nav {
+  display: flex;
+  gap: 0.25rem;
+  margin-left: auto;
+}
+
+.nav a {
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--texto-suave);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.nav a:hover {
+  color: var(--texto);
+  background: var(--acento-suave);
+}
+
+.nav a.activa {
+  color: var(--acento);
+  background: var(--acento-suave);
+}
+
+/* Botón de alternancia de tema */
+.tema {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.42rem 0.85rem;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  background: var(--superficie);
+  color: var(--texto);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.tema:hover {
+  border-color: var(--acento);
+  color: var(--acento);
+}
+
+.tema:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 2px;
+}
+
+/* En pantallas angostas el texto del botón se oculta y queda solo el ícono */
+@media (max-width: 560px) {
+  .tema-texto {
+    display: none;
+  }
+
+  .barra {
+    gap: 0.75rem;
+    padding: 0.6rem 1rem;
+  }
+}

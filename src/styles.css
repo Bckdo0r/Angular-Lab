@@ -1,0 +1,70 @@
+/* ─────────────────────────────────────────────────────────────────
+   Design tokens de la aplicación (tema claro por defecto).
+   El tema oscuro se activa con la clase `oscuro` sobre <html>,
+   gestionada por TemaService (src/app/tema.service.ts).
+   ───────────────────────────────────────────────────────────────── */
+:root {
+  --fondo: #fcfcfd;
+  --superficie: #ffffff;
+  --texto: #1b1b22;
+  --texto-suave: #5d5d6e;
+  --borde: #e4e3ec;
+  --acento: #6b21c8;
+  --acento-fuerte: #5b1ab0;
+  --acento-suave: #f3effc;
+  --acento-contraste: #ffffff;
+  --sombra-tarjeta: 0 1px 2px rgb(27 27 34 / 0.06), 0 10px 30px rgb(27 27 34 / 0.08);
+  --resplandor: rgb(107 33 200 / 0.14);
+  /* Estados semánticos (errores de formularios, alertas, éxito) */
+  --error: #c0392b;
+  --error-fuerte: #7f1d1d;
+  --error-fondo: #fdf3f2;
+  --error-borde: #fca5a5;
+  --exito-fondo: #f0faf3;
+  --exito-borde: #b7e1c1;
+  /* Campos de formulario (inputs y selects) */
+  --entrada-borde: #ccc;
+  --entrada-fondo: #ffffff;
+}
+
+html.oscuro {
+  --fondo: #121216;
+  --superficie: #1c1c23;
+  --texto: #f1f0f6;
+  --texto-suave: #a5a3b6;
+  --borde: #2c2b37;
+  --acento: #b187f5;
+  --acento-fuerte: #c8a4ff;
+  --acento-suave: #292238;
+  --acento-contraste: #17141f;
+  --sombra-tarjeta: 0 1px 2px rgb(0 0 0 / 0.4), 0 10px 30px rgb(0 0 0 / 0.45);
+  --resplandor: rgb(177 135 245 / 0.16);
+  /* Estados semánticos: tonos más suaves y saturados para fondo oscuro */
+  --error: #f28b7d;
+  --error-fuerte: #f7b3a9;
+  --error-fondo: #2b1713;
+  --error-borde: #6f2c22;
+  --exito-fondo: #14251a;
+  --exito-borde: #2d5c3d;
+  /* Campos de formulario */
+  --entrada-borde: #3a3948;
+  --entrada-fondo: #232331;
+}
+
+/* ─── Estilos base globales ─────────────────────────────────────── */
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background: var(--fondo);
+  color: var(--texto);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+code {
+  font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+  background: var(--acento-suave);
+  color: var(--acento);
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+}

@@ -1,0 +1,64 @@
+/* El <tr> vive dentro del host (producto-fila): lo volvemos transparente
+   con `display: contents` para que la fila participe directo de la grilla
+   de la tabla y respete las columnas fijas (simetría garantizada). */
+:host {
+  display: contents;
+}
+
+td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--borde);
+  vertical-align: middle;
+}
+
+/* Precio: alineado a la derecha y con dígitos tabulares para que
+   todas las filas queden perfectamente alineadas entre sí. */
+td.precio {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--texto-suave);
+}
+
+/* Resaltado sutil de la fila al pasar el mouse */
+:host(:hover) td {
+  background: var(--acento-suave);
+}
+
+/* ─── Acciones de compra/eliminación ────────────────────────────── */
+.acciones {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+button.primario {
+  border: 1px solid var(--acento);
+  background: var(--acento);
+  color: var(--acento-contraste);
+  border-radius: 6px;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+button.primario:hover {
+  background: var(--acento-fuerte);
+  border-color: var(--acento-fuerte);
+}
+
+button.peligro {
+  border: 1px solid color-mix(in srgb, var(--error) 45%, transparent);
+  background: var(--error-fondo);
+  color: var(--error);
+  border-radius: 6px;
+  padding: 0.3rem 0.55rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+button.peligro:hover {
+  border-color: var(--error);
+}

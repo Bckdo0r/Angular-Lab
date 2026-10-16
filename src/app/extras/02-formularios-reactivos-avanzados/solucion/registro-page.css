@@ -1,0 +1,128 @@
+/* ─── Página de registro: formulario reactivo avanzado ──────────── */
+.layout {
+  display: grid;
+  gap: 1rem;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.panel {
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  background: var(--superficie);
+  box-shadow: var(--sombra-tarjeta);
+}
+
+.panel h2,
+.panel h3 {
+  margin-top: 0;
+}
+
+.ayuda {
+  color: var(--texto-suave);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+label {
+  display: grid;
+  gap: 0.3rem;
+  margin-top: 0.9rem;
+  font-weight: 500;
+}
+
+input {
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--entrada-borde);
+  border-radius: 8px;
+  background: var(--entrada-fondo);
+  color: var(--texto);
+  font: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--acento);
+  box-shadow: 0 0 0 3px var(--resplandor);
+}
+
+input.invalido {
+  border-color: var(--error);
+  background: var(--error-fondo);
+}
+
+input.invalido:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--error) 22%, transparent);
+}
+
+.errores {
+  color: var(--error);
+  font-size: 0.85rem;
+  margin: 0.3rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.acciones {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 1.2rem;
+}
+
+button.primario {
+  border: 1px solid var(--acento);
+  background: var(--acento);
+  color: var(--acento-contraste);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+button.primario:hover:not(:disabled) {
+  background: var(--acento-fuerte);
+  border-color: var(--acento-fuerte);
+}
+
+button.primario:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+button.primario:focus-visible,
+button.secundario:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 2px;
+}
+
+button.secundario {
+  border: 1px solid var(--entrada-borde);
+  background: var(--superficie);
+  color: var(--texto);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+button.secundario:hover {
+  border-color: var(--acento);
+  color: var(--acento);
+}
+
+.estados {
+  color: var(--texto-suave);
+  font-size: 0.78rem;
+  margin-top: 0.9rem;
+  font-family: monospace;
+}
+
+.exito {
+  border-color: var(--exito-borde);
+  background: var(--exito-fondo);
+}

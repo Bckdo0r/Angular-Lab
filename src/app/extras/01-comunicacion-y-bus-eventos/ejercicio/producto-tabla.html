@@ -1,0 +1,18 @@
+<table>
+  <thead>
+    <tr>
+      <th>Producto</th>
+      <th>Precio</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (item of productos(); track item.id) {
+      <producto-fila [producto]="item" />
+    } @empty {
+      <tr>
+        <td colspan="3" class="vacio">Catálogo vacío 🕳️</td>
+      </tr>
+    }
+  </tbody>
+</table>

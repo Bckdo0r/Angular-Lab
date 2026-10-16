@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Pruebas Practicas — Aprendiendo Angular haciendo</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script>
+    // Aplica el tema guardado (o el del sistema) ANTES de que cargue la app,
+    // para evitar un destello de fondo con el color incorrecto.
+    (function () {
+      try {
+        var guardado = localStorage.getItem('pruebas-practica.tema');
+        var oscuro =
+          guardado === 'oscuro' ||
+          (!guardado && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.classList.toggle('oscuro', oscuro);
+        document.documentElement.style.colorScheme = oscuro ? 'dark' : 'light';
+      } catch (e) {
+        /* localStorage no disponible: se usa el tema claro por defecto. */
+      }
+    })();
+  </script>
+</head>
+<body>
+  <app-root></app-root>
+</body>
+</html>

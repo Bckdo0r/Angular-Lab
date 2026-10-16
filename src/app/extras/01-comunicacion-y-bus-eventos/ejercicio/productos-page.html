@@ -1,0 +1,44 @@
+<div class="layout">
+  <section class="panel">
+    <h2>Catálogo</h2>
+    <p class="ayuda">
+      Las filas son el componente <strong>nieto</strong> (<code>producto-fila</code>). Al
+      eliminar o agregar, el nieto avisa a este <strong>abuelo</strong> a través del
+      <code>NotificacionesBus</code> sin pasar por <code>producto-tabla</code> (hijo).
+    </p>
+
+    <producto-tabla [productos]="productos()" />
+
+    <p class="total">
+      Valor del catálogo:
+      <strong>{{ total() | currency: 'ARS' : 'symbol' : '1.0-0' }}</strong>
+    </p>
+  </section>
+
+  <aside class="columna">
+    <section class="panel">
+      <h2>Carrito: {{ carrito() }} unidades</h2>
+      <p class="ayuda">
+        Enlace bidireccional personalizado con <code>[(cantidad)]</code> (el abuelo también
+        puede usar el selector directamente):
+      </p>
+      <div class="carrito-demo">
+        <selector-cantidad [(cantidad)]="cantidadCarrito" />
+        <span class="valor-elegido">{{ cantidadCarrito() }} elegidas</span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Notificaciones del bus</h2>
+      @if (notificaciones().length === 0) {
+        <p class="ayuda">Sin eventos todavía. Tocá los botones de la tabla 👆</p>
+      } @else {
+        <ul class="notificaciones">
+          @for (mensaje of notificaciones(); track $index) {
+            <li>{{ mensaje }}</li>
+          }
+        </ul>
+      }
+    </section>
+  </aside>
+</div>

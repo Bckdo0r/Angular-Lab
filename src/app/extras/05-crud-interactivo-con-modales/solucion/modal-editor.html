@@ -1,0 +1,59 @@
+<div class="overlay" (click)="cerrar.emit()">
+  <div class="tarjeta" (click)="$event.stopPropagation()">
+    <h2>{{ empleado() ? 'Editar empleado' : 'Nuevo empleado' }}</h2>
+
+    <form [formGroup]="form" (ngSubmit)="confirmar()">
+      <label>
+        Nombre
+        <input formControlName="nombre" placeholder="Ana Pérez" />
+        @if (mostrarErrores('nombre')) {
+          <span class="error">
+            @if (form.controls.nombre.hasError('required')) {
+              El nombre es obligatorio.
+            } @else if (form.controls.nombre.hasError('minlength')) {
+              Necesita al menos 3 caracteres.
+            }
+          </span>
+        }
+      </label>
+
+      <label>
+        Email
+        <input formControlName="email" placeholder="ana@empresa.com.ar" />
+        @if (mostrarErrores('email')) {
+          <span class="error">
+            @if (form.controls.email.hasError('required')) {
+              El email es obligatorio.
+            } @else if (form.controls.email.hasError('email')) {
+              El formato del email no es válido.
+            }
+          </span>
+        }
+      </label>
+
+      <div class="fila">
+        <label>
+          Área
+          <select formControlName="area">
+            <option value="IT">IT</option>
+            <option value="RRHH">RRHH</option>
+            <option value="Ventas">Ventas</option>
+          </select>
+        </label>
+
+        <label>
+          Seniority
+          <input formControlName="seniority" placeholder="Senior / Semi Senior / Junior" />
+          @if (mostrarErrores('seniority')) {
+            <span class="error">El seniority es obligatorio.</span>
+          }
+        </label>
+      </div>
+
+      <div class="acciones">
+        <button type="button" (click)="cerrar.emit()">Cancelar</button>
+        <button type="submit" class="primario">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>

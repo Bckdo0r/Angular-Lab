@@ -1,0 +1,30 @@
+/* ─── Selector de cantidad (- / valor / +) ──────────────────────── */
+.selector {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--entrada-borde);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--entrada-fondo);
+}
+
+.selector button {
+  border: none;
+  background: var(--acento-suave);
+  color: var(--acento);
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0.35rem 0.65rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.selector button:hover {
+  background: color-mix(in srgb, var(--acento) 18%, transparent);
+}
+
+.valor {
+  min-width: 2rem;
+  text-align: center;
+  font-weight: 600;
+}

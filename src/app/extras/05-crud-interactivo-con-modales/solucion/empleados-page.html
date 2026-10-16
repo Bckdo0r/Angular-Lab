@@ -1,0 +1,72 @@
+<main class="contenedor">
+  <h1>Empleados</h1>
+  <p class="bajada">
+    Práctica 05 — CRUD interactivo: filtro en vivo, paginación, modal de alta/edición
+    y confirmación de borrado inline (sin <code>confirm()</code>).
+  </p>
+
+  <div class="toolbar">
+    <input
+      class="filtro"
+      type="search"
+      placeholder="Filtrar por nombre, email o área..."
+      [value]="filtro()"
+      (input)="alTipearFiltro($event)"
+    />
+    <button class="primario" (click)="abrirNuevo()">+ Nuevo empleado</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Área</th>
+        <th>Seniority</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (empleado of paginados(); track empleado.id) {
+        <tr>
+          <td>{{ empleado.id }}</td>
+          <td>{{ empleado.nombre }}</td>
+          <td>{{ empleado.email }}</td>
+          <td><span class="badge">{{ empleado.area }}</span></td>
+          <td>{{ empleado.seniority }}</td>
+          <td class="acciones">
+            @if (eliminandoId() === empleado.id) {
+              <span class="confirmacion">
+                ¿Borrar a {{ empleado.nombre }}?
+                <button class="peligro" (click)="confirmarEliminacion()">Sí</button>
+                <button (click)="cancelarEliminacion()">No</button>
+              </span>
+            } @else {
+              <button (click)="abrirEdicion(empleado)">Editar</button>
+              <button class="peligro" (click)="pedirConfirmacion(empleado.id)">Borrar</button>
+            }
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="6" class="vacio">Ningún empleado coincide con el filtro.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="paginador">
+    <button [disabled]="pagina() <= 1" (click)="cambiarPagina(-1)">‹</button>
+    <span>Página {{ pagina() }} de {{ totalPaginas() }}</span>
+    <button [disabled]="pagina() >= totalPaginas()" (click)="cambiarPagina(1)">›</button>
+  </div>
+
+  @if (modalAbierto()) {
+    <modal-editor-solucion
+      [empleado]="seleccionado()"
+      (cerrar)="cerrarModal()"
+      (guardar)="guardarCambios($event)"
+    />
+  }
+</main>

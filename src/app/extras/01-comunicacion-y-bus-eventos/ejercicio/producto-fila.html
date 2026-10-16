@@ -1,0 +1,11 @@
+<tr>
+  <td>{{ producto().nombre }}</td>
+  <td class="precio">{{ producto().precio | currency: 'ARS' : 'symbol' : '1.0-0' }}</td>
+  <td class="acciones">
+    <selector-cantidad [(cantidad)]="cantidad" />
+    <button type="button" class="primario" (click)="agregar()">➕ Agregar</button>
+    <button type="button" class="peligro" (click)="eliminar()" aria-label="Eliminar producto">
+      🗑️
+    </button>
+  </td>
+</tr>

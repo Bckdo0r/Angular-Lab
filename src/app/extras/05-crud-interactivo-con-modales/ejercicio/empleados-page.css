@@ -1,0 +1,151 @@
+/* ─── Página CRUD de empleados ──────────────────────────────────── */
+.contenedor {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+h1 {
+  margin: 0 0 0.5rem;
+}
+
+.bajada {
+  color: var(--texto-suave);
+  line-height: 1.5;
+}
+
+.toolbar {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1.25rem 0;
+}
+
+.filtro {
+  flex: 1;
+  max-width: 340px;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--entrada-borde);
+  border-radius: 8px;
+  background: var(--entrada-fondo);
+  color: var(--texto);
+  font: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.filtro:focus {
+  outline: none;
+  border-color: var(--acento);
+  box-shadow: 0 0 0 3px var(--resplandor);
+}
+
+button {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--acento);
+  background: var(--superficie);
+  color: var(--acento);
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+button:hover:not(:disabled) {
+  background: var(--acento-suave);
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+button.primario {
+  background: var(--acento);
+  color: var(--acento-contraste);
+}
+
+button.primario:hover:not(:disabled) {
+  background: var(--acento-fuerte);
+  border-color: var(--acento-fuerte);
+}
+
+button.peligro {
+  border-color: color-mix(in srgb, var(--error) 55%, transparent);
+  color: var(--error);
+}
+
+button.peligro:hover:not(:disabled) {
+  background: var(--error-fondo);
+  border-color: var(--error);
+}
+
+button:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 2px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid var(--borde);
+}
+
+th {
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+tbody tr:hover {
+  background: var(--acento-suave);
+}
+
+.badge {
+  background: var(--acento-suave);
+  color: var(--acento);
+  border-radius: 999px;
+  padding: 0.1rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.acciones {
+  white-space: nowrap;
+}
+
+.acciones button {
+  margin-left: 0.4rem;
+}
+
+.confirmacion {
+  color: var(--error);
+  font-size: 0.9rem;
+}
+
+.vacio {
+  text-align: center;
+  color: var(--texto-suave);
+  font-style: italic;
+}
+
+.paginador {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  color: var(--texto-suave);
+}

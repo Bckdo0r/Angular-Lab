@@ -1,0 +1,51 @@
+<main class="contenedor">
+  <h1>Equipo de trabajo</h1>
+  <p class="bajada">
+    Práctica 03 — HttpClient con <code>HttpHeaders</code>, <code>HttpParams</code> y manejo de
+    errores con <code>catchError</code>. Los botones de abajo disparan peticiones al backend
+    falso (fijate en la pestaña Network que NADIE sale a internet).
+  </p>
+
+  <div class="acciones">
+    <button (click)="cargar()">Cargar equipo</button>
+    <button (click)="cargar('IT')">Solo IT</button>
+    <button (click)="cargar('RRHH')">Solo RRHH</button>
+    <button class="peligro" (click)="verEmpleadoInexistente()">Legajo 999 (404)</button>
+    <button class="peligro" (click)="generarReporte()">Reporte (500)</button>
+  </div>
+
+  @if (cargando()) {
+    <p class="cargando">⏳ Cargando...</p>
+  }
+
+  @if (mensajeError()) {
+    <div class="alerta" role="alert">
+      <strong>Ups:</strong> {{ mensajeError() }}
+    </div>
+  }
+
+  <table>
+    <thead>
+      <tr>
+        <th>Legajo</th>
+        <th>Nombre</th>
+        <th>Área</th>
+        <th>Seniority</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (empleado of empleados(); track empleado.id) {
+        <tr>
+          <td>{{ empleado.id }}</td>
+          <td>{{ empleado.nombre }}</td>
+          <td><span class="badge">{{ empleado.area }}</span></td>
+          <td>{{ empleado.seniority }}</td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="4" class="vacio">Todavía no hay empleados para mostrar.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</main>

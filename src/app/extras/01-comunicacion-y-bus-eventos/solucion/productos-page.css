@@ -1,0 +1,56 @@
+/* ─── Página de productos: layout de dos columnas ───────────────── */
+.layout {
+  display: grid;
+  gap: 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+@media (min-width: 720px) {
+  .layout {
+    grid-template-columns: 2fr 1fr;
+    align-items: start;
+  }
+}
+
+.panel {
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  background: var(--superficie);
+  box-shadow: var(--sombra-tarjeta);
+  margin-bottom: 1rem;
+}
+
+.panel h2 {
+  margin-top: 0;
+}
+
+.ayuda {
+  color: var(--texto-suave);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.total {
+  margin-top: 0.75rem;
+}
+
+.carrito-demo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.valor-elegido {
+  color: var(--acento);
+  font-weight: 600;
+}
+
+.notificaciones {
+  margin: 0;
+  padding-left: 1.25rem;
+  line-height: 1.7;
+  font-size: 0.9rem;
+}

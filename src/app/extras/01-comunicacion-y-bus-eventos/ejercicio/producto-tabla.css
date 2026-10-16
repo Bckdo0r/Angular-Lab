@@ -1,0 +1,41 @@
+/* ─── Tabla de productos: grilla simétrica ──────────────────────── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  /* Anchos de columna fijos: todas las filas comparten la misma grilla */
+  table-layout: fixed;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--borde);
+}
+
+th {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--texto-suave);
+}
+
+/* Proporciones: producto 38% · precio 22% · acciones 40% */
+th:nth-child(1) {
+  width: 38%;
+}
+
+th:nth-child(2) {
+  width: 22%;
+  text-align: right;
+}
+
+th:nth-child(3) {
+  width: 40%;
+}
+
+.vacio {
+  text-align: center;
+  color: var(--texto-suave);
+  padding: 1.5rem;
+}

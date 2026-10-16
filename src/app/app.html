@@ -1,0 +1,34 @@
+<!-- Barra superior: navegación principal con selector de tema -->
+<header class="barra">
+  <a routerLink="/" class="marca">
+    <img src="tut-logo.svg" alt="" width="28" height="28" />
+    <span class="marca-texto">Pruebas <em>Practicas</em></span>
+  </a>
+
+  <nav class="nav" aria-label="Navegación principal">
+    <a routerLink="/tutorial" routerLinkActive="activa">📚 Tutorial</a>
+    <a routerLink="/extras" routerLinkActive="activa">🧪 Prácticas</a>
+  </nav>
+
+  <!-- Reinicio del ejercicio visible (solo en páginas de ejercicio).
+       Con @defer el snapshot de restauración se carga en un chunk aparte. -->
+  @if (claveEjercicio(); as clave) {
+    @defer {
+      <reinicio-boton [claves]="[clave]" />
+    }
+  }
+
+  <button
+    type="button"
+    class="tema"
+    (click)="tema.alternar()"
+    [attr.aria-pressed]="tema.oscuro()"
+    [title]="tema.oscuro() ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'"
+  >
+    <span aria-hidden="true">{{ tema.oscuro() ? '☀️' : '🌙' }}</span>
+    <span class="tema-texto">{{ tema.oscuro() ? 'Claro' : 'Oscuro' }}</span>
+  </button>
+</header>
+
+<!-- Acá se renderiza cada lección según la ruta -->
+<router-outlet />
