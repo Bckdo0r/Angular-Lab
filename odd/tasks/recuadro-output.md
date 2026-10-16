@@ -42,3 +42,9 @@ cubre) → verificación funcional: build + diff de paths antes/después.
   enmarcadas; salvo índices y solo-lectura).
 - L1b: decisión del orquestador: lección 13 ejercicio sin recuadro (didáctica del
   `children` intacta); se comenta la excepción en la ruta.
+- L2: implementación completa y verificada. Commits: `4b0234c` (SalidaDemo +
+  app.routes.ts) y `b86fc83` (rutas 04/07/09 + snapshot + este doc).
+  Frontera de slice de esta feature: 2 commits (~800 líneas de rutas reescritas,
+  en su mayoría re-indentación mecánica del árbol de rutas). El branch acumula
+  trabajo de features anteriores desde origin/main; la entrega (push/PR) queda
+  como decisión del usuario.
