@@ -1,0 +1,93 @@
+<section class="contenedor">
+  <h1>ABM de insumos — Angular Material (solución)</h1>
+  <p class="bajada">
+    ABM de insumos del depósito: tabla paginada con columna subtotal, alta/edición con diálogo y
+    borrado con confirmación y snackbar.
+  </p>
+
+  <div class="toolbar">
+    <button matButton="filled" (click)="abrirNuevo()">
+      <mat-icon>add</mat-icon>
+      Nuevo insumo
+    </button>
+  </div>
+
+  <div class="tarjeta">
+    <!--
+      MatTable completa: cada columna es un ng-container con matColumnDef y el
+      array `columnas` define el orden. Mirá la columna "subtotal": una
+      columna calculada es solo otro matColumnDef cuya celda muestra el dato
+      derivado de la fila.
+    -->
+    <table mat-table [dataSource]="paginados()" class="tabla">
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+        <td mat-cell *matCellDef="let insumo">{{ insumo.nombre }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="categoria">
+        <th mat-header-cell *matHeaderCellDef>Categoría</th>
+        <td mat-cell *matCellDef="let insumo">
+          <span class="badge">{{ insumo.categoria }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="stock">
+        <th mat-header-cell *matHeaderCellDef class="num">Stock</th>
+        <td mat-cell *matCellDef="let insumo" class="num">{{ insumo.stock }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="precio">
+        <th mat-header-cell *matHeaderCellDef class="num">Precio</th>
+        <td mat-cell *matCellDef="let insumo" class="num">
+          {{ insumo.precio | currency: 'ARS' : 'symbol' : '1.0-2' : 'es-AR' }}
+        </td>
+      </ng-container>
+
+      <!-- [Paso 3] Columna calculada: stock × precio de cada fila. -->
+      <ng-container matColumnDef="subtotal">
+        <th mat-header-cell *matHeaderCellDef class="num">Subtotal</th>
+        <td mat-cell *matCellDef="let insumo" class="num">
+          {{ insumo.stock * insumo.precio | currency: 'ARS' : 'symbol' : '1.0-2' : 'es-AR' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let insumo" class="acciones">
+          <button matIconButton aria-label="Editar insumo" (click)="abrirEdicion(insumo)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            matIconButton
+            class="peligro"
+            aria-label="Eliminar insumo"
+            (click)="pedirEliminar(insumo)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+      <tr mat-row *matRowDef="let fila; columns: columnas"></tr>
+
+      <tr class="fila-vacia" *matNoDataRow>
+        <td [attr.colspan]="columnas.length">No hay insumos en esta página.</td>
+      </tr>
+    </table>
+
+    <!--
+      [Paso 4] El evento (page) llega acá con un PageEvent; el handler copia
+      pageIndex y pageSize a las signals y la tabla se mueve sola.
+    -->
+    <mat-paginator
+      [length]="totalInsumos()"
+      [pageIndex]="pagina()"
+      [pageSize]="porPagina()"
+      [pageSizeOptions]="opcionesPorPagina"
+      (page)="alCambiarPagina($event)"
+      aria-label="Paginación de insumos"
+    />
+  </div>
+</section>

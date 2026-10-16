@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CurrencyPipe } from '@angular/common';
+import { formatoPrecio } from './formato-precio';
 import { NotificacionesBus } from './notificaciones-bus';
 import { Producto } from './producto';
 import { ProductoTablaSolucion } from './producto-tabla';
@@ -15,7 +15,7 @@ import { SelectorCantidadSolucion } from './selector-cantidad';
  */
 @Component({
   selector: 'productos-page-solucion',
-  imports: [ProductoTablaSolucion, SelectorCantidadSolucion, CurrencyPipe],
+  imports: [ProductoTablaSolucion, SelectorCantidadSolucion],
   templateUrl: './productos-page.html',
   styleUrl: './productos-page.css',
 })
@@ -37,6 +37,9 @@ export class ProductosPageSolucion {
     this.productos().reduce((suma, p) => suma + p.precio, 0),
   );
 
+  /** Total con formato argentino: "ARS 305.000" (símbolo separado). */
+  protected readonly totalFormateado = computed(() => formatoPrecio(this.total()));
+
   protected readonly notificaciones = signal<string[]>([]);
 
   constructor() {
@@ -44,27 +47,25 @@ export class ProductosPageSolucion {
     // takeUntilDestroyed() se desuscribe cuando este componente se destruye
     // (evita memory leaks). Debe llamarse dentro de un contexto de inyección,
     // como este constructor.
-    this.bus.eventos$
-      .pipe(takeUntilDestroyed())
-      .subscribe((evento) => {
-        // Gracias a la unión discriminada, dentro de cada `case` TypeScript
-        // sabe exactamente qué propiedades tiene `evento`.
-        switch (evento.tipo) {
-          case 'agregado': {
-            this.carrito.update((unidades) => unidades + evento.cantidad);
-            this.notificaciones.update((lista) =>
-              [`✅ Agregaste ${evento.cantidad} × ${evento.nombre}`, ...lista].slice(0, 5),
-            );
-            break;
-          }
-          case 'eliminado': {
-            this.productos.update((lista) => lista.filter((p) => p.id !== evento.id));
-            this.notificaciones.update((lista) =>
-              [`🗑 Eliminaste "${evento.nombre}"`, ...lista].slice(0, 5),
-            );
-            break;
-          }
+    this.bus.eventos$.pipe(takeUntilDestroyed()).subscribe((evento) => {
+      // Gracias a la unión discriminada, dentro de cada `case` TypeScript
+      // sabe exactamente qué propiedades tiene `evento`.
+      switch (evento.tipo) {
+        case 'agregado': {
+          this.carrito.update((unidades) => unidades + evento.cantidad);
+          this.notificaciones.update((lista) =>
+            [`✅ Agregaste ${evento.cantidad} × ${evento.nombre}`, ...lista].slice(0, 5),
+          );
+          break;
         }
-      });
+        case 'eliminado': {
+          this.productos.update((lista) => lista.filter((p) => p.id !== evento.id));
+          this.notificaciones.update((lista) =>
+            [`🗑 Eliminaste "${evento.nombre}"`, ...lista].slice(0, 5),
+          );
+          break;
+        }
+      }
+    });
   }
 }

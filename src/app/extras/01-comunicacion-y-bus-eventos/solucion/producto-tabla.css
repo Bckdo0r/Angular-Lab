@@ -18,11 +18,13 @@ th {
   text-transform: uppercase;
   letter-spacing: 0.03em;
   color: var(--texto-suave);
+  border-bottom: 2px solid var(--borde);
 }
 
-/* Proporciones: producto 38% · precio 22% · acciones 40% */
+/* Proporciones: producto 32% · precio 22% · acciones 46% (holgada para
+   que los botones de la fila no se apilen ni se corten). */
 th:nth-child(1) {
-  width: 38%;
+  width: 32%;
 }
 
 th:nth-child(2) {
@@ -31,7 +33,7 @@ th:nth-child(2) {
 }
 
 th:nth-child(3) {
-  width: 40%;
+  width: 46%;
 }
 
 .vacio {

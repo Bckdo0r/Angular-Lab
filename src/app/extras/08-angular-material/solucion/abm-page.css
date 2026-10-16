@@ -1,0 +1,119 @@
+/* ─── Página ABM de insumos (Angular Material) — solución ───────── */
+.contenedor {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+h1 {
+  margin: 0 0 0.5rem;
+}
+
+.bajada {
+  color: var(--texto-suave);
+  line-height: 1.5;
+}
+
+.bajada code {
+  background: var(--acento-suave);
+  color: var(--acento);
+  border-radius: 6px;
+  padding: 0.05rem 0.35rem;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 1.25rem 0;
+}
+
+/* La "tarjeta" envuelve tabla + paginador, como un surface de Material. */
+.tarjeta {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  box-shadow: var(--sombra-tarjeta);
+  overflow: hidden;
+}
+
+table.tabla {
+  width: 100%;
+  /* Fondo transparente: el blanco del tema Material tapaba la tarjeta en
+     modo oscuro (los tokens M3 son claros); así se ve var(--superficie). */
+  background: transparent;
+  /* Texto con el token del sitio: la tabla adapta a claro/oscuro sola. */
+  color: var(--texto);
+}
+
+/* Encabezados al estilo del resto del sitio (tokens, no colores fijos). */
+th.mat-mdc-header-cell {
+  color: var(--texto-suave);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-bottom: 1px solid var(--borde);
+}
+
+/* Separación de filas limpia + color de texto con token del sitio:
+   MDC fija su propio color claro en las celdas y en oscuro se pierden. */
+td.mat-mdc-cell {
+  color: var(--texto);
+  border-bottom: 1px solid var(--borde);
+}
+
+/* Columnas numéricas: alineadas a la derecha y con dígitos tabulares para
+   que los precios queden en columna. */
+.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Hover de fila con el acento suave del sistema (light y dark). */
+.mat-mdc-row:hover {
+  background: var(--acento-suave);
+}
+
+.badge {
+  background: var(--acento-suave);
+  color: var(--acento);
+  border-radius: 999px;
+  padding: 0.1rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.acciones {
+  white-space: nowrap;
+  text-align: right;
+}
+
+/* Botón-icono de borrado: rojo del sistema, sin hardcoded colors. */
+.mat-mdc-icon-button.peligro {
+  color: var(--error);
+}
+
+.fila-vacia td {
+  text-align: center;
+  padding: 1.25rem;
+  color: var(--texto-suave);
+  font-style: italic;
+}
+
+/* Paginador: se le bajan los tokens M3 (que son claros) a los del sitio,
+   así en modo oscuro no queda una franja negra con texto invisible. */
+mat-paginator {
+  border-top: 1px solid var(--borde);
+  --mat-paginator-container-background-color: transparent;
+  --mat-paginator-container-text-color: var(--texto-suave);
+  --mat-paginator-enabled-icon-color: var(--texto-suave);
+  --mat-paginator-disabled-icon-color: var(--texto-suave);
+}
+
+/* El valor del select "Items per page" lo pinta el form-field interno de
+   Material con tokens claros: se fuerza el token del sitio (::ng-deep acá
+   queda acotado al paginador de esta página). */
+mat-paginator ::ng-deep .mat-mdc-paginator-page-size-value,
+mat-paginator ::ng-deep .mat-mdc-select-min-line {
+  color: var(--texto-suave);
+}

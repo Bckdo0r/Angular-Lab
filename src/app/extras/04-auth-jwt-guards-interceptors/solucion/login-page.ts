@@ -29,6 +29,14 @@ import { Credenciales, AuthServiceSolucion } from './auth.service';
     </section>
   `,
   styles: `
+    /* Tarjeta contenedora de la página, sobre el fondo general */
+    section {
+      background: var(--superficie);
+      border: 1px solid var(--borde);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      box-shadow: var(--sombra-tarjeta);
+    }
     .campos {
       display: flex;
       flex-wrap: wrap;
@@ -42,6 +50,14 @@ import { Credenciales, AuthServiceSolucion } from './auth.service';
       background: var(--entrada-fondo);
       color: var(--texto);
       font: inherit;
+      transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+    }
+    input:focus {
+      outline: none;
+      border-color: var(--acento);
+      box-shadow: 0 0 0 3px var(--resplandor);
     }
     button {
       padding: 0.45rem 0.9rem;
@@ -52,7 +68,9 @@ import { Credenciales, AuthServiceSolucion } from './auth.service';
       font: inherit;
       font-weight: 600;
       cursor: pointer;
-      transition: background-color 0.15s ease, border-color 0.15s ease;
+      transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease;
     }
     button:hover {
       background: var(--acento-fuerte);

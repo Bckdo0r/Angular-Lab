@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CurrencyPipe } from '@angular/common';
+import { formatoPrecio } from './formato-precio';
 import { NotificacionesBus } from './notificaciones-bus';
 import { Producto } from './producto';
 import { ProductoTabla } from './producto-tabla';
@@ -17,7 +17,7 @@ import { SelectorCantidad } from './selector-cantidad';
  */
 @Component({
   selector: 'productos-page',
-  imports: [ProductoTabla, SelectorCantidad, CurrencyPipe],
+  imports: [ProductoTabla, SelectorCantidad],
   templateUrl: './productos-page.html',
   styleUrl: './productos-page.css',
 })
@@ -43,26 +43,27 @@ export class ProductosPage {
     this.productos().reduce((suma, p) => suma + p.precio, 0),
   );
 
+  /** Total con formato argentino: "ARS 305.000" (símbolo separado). */
+  protected readonly totalFormateado = computed(() => formatoPrecio(this.total()));
+
   /** Últimos eventos recibidos (los más nuevos primero). */
   protected readonly notificaciones = signal<string[]>([]);
 
   constructor() {
-    this.bus.eventos$
-      .pipe(takeUntilDestroyed())
-      .subscribe((evento) => {
-        // TODO: [Paso 5] - Manejá los dos tipos de evento con un switch:
-        //
-        //  - case 'agregado': sumá `evento.cantidad` al signal `carrito`
-        //    (con .update()) y agregá una notificación tipo:
-        //    `✅ Agregaste ${evento.cantidad} × ${evento.nombre}`.
-        //
-        //  - case 'eliminado': sacá el producto del signal `productos`
-        //    (filter por id, con .update()) y agregá una notificación tipo:
-        //    `🗑 Eliminaste "${evento.nombre}"`.
-        //
-        //  Tip para las notificaciones: poné el mensaje nuevo PRIMERO en el
-        //  array y quedate solo con las últimas 5:
-        //    this.notificaciones.update((lista) => [mensaje, ...lista].slice(0, 5));
-      });
+    this.bus.eventos$.pipe(takeUntilDestroyed()).subscribe((evento) => {
+      // TODO: [Paso 5] - Manejá los dos tipos de evento con un switch:
+      //
+      //  - case 'agregado': sumá `evento.cantidad` al signal `carrito`
+      //    (con .update()) y agregá una notificación tipo:
+      //    `✅ Agregaste ${evento.cantidad} × ${evento.nombre}`.
+      //
+      //  - case 'eliminado': sacá el producto del signal `productos`
+      //    (filter por id, con .update()) y agregá una notificación tipo:
+      //    `🗑 Eliminaste "${evento.nombre}"`.
+      //
+      //  Tip para las notificaciones: poné el mensaje nuevo PRIMERO en el
+      //  array y quedate solo con las últimas 5:
+      //    this.notificaciones.update((lista) => [mensaje, ...lista].slice(0, 5));
+    });
   }
 }

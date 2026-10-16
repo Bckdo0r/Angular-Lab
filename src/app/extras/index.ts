@@ -41,6 +41,36 @@ const PRACTICAS: Practica[] = [
     foco: 'Tabla con paginación y filtrado local, confirmación de borrado y edición con un modal que precarga el formulario con setValue()/patchValue().',
     disponible: true,
   },
+  {
+    numero: '06',
+    titulo: 'RxJS y Asincronía Reactiva',
+    foco: 'Buscador con Subject + debounceTime/distinctUntilChanged + switchMap para cancelar respuestas viejas, takeUntilDestroyed() contra fugas y estados (cargando/vacio/error) como signals.',
+    disponible: true,
+  },
+  {
+    numero: '07',
+    titulo: 'Ruteo Avanzado SPA',
+    foco: 'Parámetros :id con input() y withComponentInputBinding, query params para compartir filtros por link, 404 con ruta comodín, routerLinkActive, canMatch y rutas hijas.',
+    disponible: true,
+  },
+  {
+    numero: '08',
+    titulo: 'Angular Material: Diálogo, Tabla y Feedback',
+    foco: 'Refactor de CRUD a la forma oficina: MatTable + MatPaginator, alta/edición en MatDialog con MAT_DIALOG_DATA y feedback con MatSnackBar con acción deshacer.',
+    disponible: true,
+  },
+  {
+    numero: '09',
+    titulo: 'Estado Global con NgRx',
+    foco: 'Acciones como única fuente de mutación, reducer puro e inmutable, createFeature con selectors memoizados y el puente store.select() → toSignal() para la plantilla.',
+    disponible: true,
+  },
+  {
+    numero: '10',
+    titulo: 'Testing de HTTP y Componentes',
+    foco: 'TestBed + provideHttpClientTesting, HttpTestingController (expectOne/flush/error/verify), stub de servicios y tests puros de un ValidatorFn: probar la regla, no el texto.',
+    disponible: true,
+  },
 ];
 
 @Component({

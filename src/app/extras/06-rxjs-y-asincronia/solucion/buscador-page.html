@@ -1,0 +1,53 @@
+<main class="contenedor">
+  <h1>Buscador de empleados</h1>
+  <p class="bajada">
+    Buscador de empleados que consulta la lista mientras tipeás: con estados de carga, error y
+    resultados vacíos.
+  </p>
+
+  <input
+    class="filtro"
+    type="search"
+    placeholder="Buscar por nombre..."
+    (input)="alTipear($event)"
+  />
+
+  <div aria-live="polite">
+    @if (cargando()) {
+      <p class="estado cargando">Buscando…</p>
+    }
+    @if (error(); as mensaje) {
+      <p class="estado error">{{ mensaje }}</p>
+    }
+    @if (vacio()) {
+      <p class="estado vacio">Ningún empleado coincide con la búsqueda.</p>
+    }
+  </div>
+
+  @if (resultado(); as empleados) {
+    @if (empleados.length) {
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Área</th>
+            <th>Seniority</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (empleado of empleados; track empleado.id) {
+            <tr>
+              <td>{{ empleado.id }}</td>
+              <td>{{ empleado.nombre }}</td>
+              <td>
+                <span class="badge">{{ empleado.area }}</span>
+              </td>
+              <td>{{ empleado.seniority }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  }
+</main>

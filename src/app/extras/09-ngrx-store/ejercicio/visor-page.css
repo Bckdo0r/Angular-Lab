@@ -1,0 +1,188 @@
+/* ─── Visor de capas (NgRx) ─────────────────────────────────────── */
+.contenedor {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+h1 {
+  margin: 0 0 0.5rem;
+}
+
+.tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: var(--acento-suave);
+  color: var(--acento);
+  border-radius: 6px;
+  padding: 0.15rem 0.5rem;
+  vertical-align: middle;
+}
+
+.bajada {
+  color: var(--texto-suave);
+  line-height: 1.6;
+}
+
+.bajada a {
+  color: var(--acento);
+  font-weight: 600;
+}
+
+.toolbar {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1.25rem 0;
+}
+
+.filtro {
+  flex: 1;
+  max-width: 340px;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--entrada-borde);
+  border-radius: 8px;
+  background: var(--entrada-fondo);
+  color: var(--texto);
+  font: inherit;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.filtro:focus {
+  outline: none;
+  border-color: var(--acento);
+  box-shadow: 0 0 0 3px var(--resplandor);
+}
+
+button {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--acento);
+  background: var(--superficie);
+  color: var(--acento);
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+button:hover {
+  background: var(--acento-suave);
+}
+
+button:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 2px;
+}
+
+button.primario {
+  background: var(--acento);
+  color: var(--acento-contraste);
+}
+
+button.primario:hover {
+  background: var(--acento-fuerte);
+  border-color: var(--acento-fuerte);
+}
+
+.panel {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  box-shadow: var(--sombra-tarjeta);
+  padding: 1rem 1.25rem;
+}
+
+.panel h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+}
+
+.capas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.capas li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid var(--borde);
+  border-radius: 8px;
+  transition: background-color 0.15s ease;
+}
+
+.capas li:last-child {
+  border-bottom: none;
+}
+
+.capas li:hover {
+  background: var(--acento-suave);
+}
+
+.capas li.activa {
+  /* Sombra interna en vez de `border`: resalta la fila seleccionada sin
+     sumar 2px de alto (el `border` completo hacía "saltar" el listado). */
+  box-shadow: inset 0 0 0 1px var(--acento);
+  background: var(--acento-suave);
+}
+
+/* Capa oculta: la fila se ve atenuada (el nombre pierde peso, el checkbox
+   conserva su `accent-color`) — el estado "oculta" se LEE, no hay que adivinar. */
+.capas li.oculta .nombre {
+  color: var(--texto-suave);
+  font-weight: 500;
+}
+
+.capa {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+}
+
+.capa input[type='checkbox'] {
+  width: 1.05rem;
+  height: 1.05rem;
+  accent-color: var(--acento);
+  cursor: pointer;
+}
+
+.capa input[type='checkbox']:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 2px;
+}
+
+.nombre {
+  font-weight: 600;
+}
+
+.estado {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--texto-suave);
+}
+
+.vacio {
+  justify-content: center;
+  color: var(--texto-suave);
+  font-style: italic;
+}
+
+.pista {
+  margin-top: 1.25rem;
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}

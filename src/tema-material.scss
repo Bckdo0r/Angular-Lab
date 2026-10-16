@@ -1,0 +1,49 @@
+/*
+ * TEMA DE ANGULAR MATERIAL (Práctica 08) — vía oficial de v20+ con `mat.theme`.
+ *
+ * El tema precompilado de tokens (azure-blue.css) no alcanza: los componentes
+ * quedan `mat-unthemed` (blanco sobre blanco). `mat.theme()` genera los tokens
+ * del sistema Y conecta los estilos de los componentes Material.
+ *
+ * La paleta azure se elige para armonizar con el sitio; los componentes
+ * Material viven solo dentro de la práctica 08 (rutas /extras/08).
+ */
+@use '@angular/material' as mat;
+
+html {
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}
+
+/* El fondo de las vistas Material sigue el token del sistema de Material,
+   sin pisar el tema claro/oscuro del resto del sitio. */
+body:has(abm-page),
+body:has(abm-page-solucion) {
+  background-color: var(--mat-sys-background);
+  color: var(--mat-sys-on-background);
+}
+
+/*
+ * Snackbar coherente con el tema global del sitio.
+ *
+ * Por defecto Material pinta el snackbar con "colores inversos"
+ * (inverse-surface): la barra queda CLARA en modo oscuro y oscura en modo
+ * claro, lo que se leía como un pedazo de otra temática. Los estilos del
+ * componente usan esos tokens directamente y ganan por especificidad, así
+ * que los redefinimos dentro del contenedor: todo su subárbol los hereda
+ * y la barra sigue el tema del sitio.
+ */
+.mat-mdc-snack-bar-container {
+  --mat-sys-inverse-surface: var(--superficie);
+  --mat-sys-inverse-on-surface: var(--texto);
+  --mat-sys-inverse-primary: var(--acento);
+  --mat-snackbar-container-shape: 8px;
+}

@@ -113,6 +113,7 @@ button.secundario {
 button.secundario:hover {
   border-color: var(--acento);
   color: var(--acento);
+  background: var(--acento-suave);
 }
 
 .estados {

@@ -1,0 +1,19 @@
+/* ─── Diálogo editor de insumos — solución ──────────────────────── */
+mat-dialog-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 320px;
+  /* Respiro entre el título del diálogo y el primer campo. */
+  padding-top: 0.25rem;
+}
+
+/* La fila Stock/Precio comparte grilla para que ambos campos midan igual. */
+.fila {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  /* Sin estirar: si el error de Precio necesita dos líneas, el campo crece
+     sin que la altura compartida del grid lo recorte. */
+  align-items: start;
+}

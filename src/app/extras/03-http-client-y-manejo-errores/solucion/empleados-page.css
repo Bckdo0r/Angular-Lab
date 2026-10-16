@@ -30,7 +30,10 @@ button {
   font: inherit;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
 }
 
 button:hover:not(.peligro) {
@@ -59,6 +62,7 @@ button:focus-visible {
 
 .alerta {
   border: 1px solid var(--error-borde);
+  border-left: 4px solid var(--error);
   background: var(--error-fondo);
   color: var(--error);
   border-radius: 10px;
@@ -71,11 +75,27 @@ table {
   border-collapse: collapse;
 }
 
+/* La tabla vive en una tarjeta blanda para que no flote suelta sobre
+   el fondo de la página (consistente con los paneles de la práctica 01). */
+.tabla-panel {
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  background: var(--superficie);
+  box-shadow: var(--sombra-tarjeta);
+  padding: 0.5rem 1.25rem;
+  overflow: hidden;
+}
+
 th,
 td {
   text-align: left;
-  padding: 0.55rem 0.75rem;
+  padding: 0.75rem;
   border-bottom: 1px solid var(--borde);
+}
+
+/* Legajos y textos alineados entre filas: dígitos tabulares. */
+td {
+  font-variant-numeric: tabular-nums;
 }
 
 th {
@@ -83,6 +103,7 @@ th {
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.03em;
+  border-bottom: 2px solid var(--borde);
 }
 
 tbody tr {
@@ -91,6 +112,11 @@ tbody tr {
 
 tbody tr:hover {
   background: var(--acento-suave);
+}
+
+/* Sin borde colgante bajo la última fila (queda dentro de la tarjeta). */
+tbody tr:last-child td {
+  border-bottom: none;
 }
 
 .badge {

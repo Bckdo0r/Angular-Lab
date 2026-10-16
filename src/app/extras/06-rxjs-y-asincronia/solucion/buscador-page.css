@@ -1,0 +1,119 @@
+/* ─── Buscador de empleados (Práctica 06 — solución) ────────────── */
+/* Mismos estilos que el ejercicio: compará pantallas, no CSS.       */
+.contenedor {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+h1 {
+  margin: 0 0 0.5rem;
+}
+
+.bajada {
+  color: var(--texto-suave);
+  line-height: 1.5;
+}
+
+.filtro {
+  width: 100%;
+  max-width: 380px;
+  display: block;
+  margin: 1.25rem 0;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--entrada-borde);
+  border-radius: 8px;
+  background: var(--entrada-fondo);
+  color: var(--texto);
+  font: inherit;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.filtro:focus,
+.filtro:focus-visible {
+  outline: none;
+  border-color: var(--acento);
+  box-shadow: 0 0 0 3px var(--resplandor);
+}
+
+/* ─── Estados derivados de la búsqueda (cargando / error / vacío) ── */
+.estado {
+  width: fit-content;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  background: var(--superficie);
+  margin: 0 0 1rem;
+}
+
+.estado.cargando {
+  color: var(--acento);
+  background: var(--acento-suave);
+  border-color: transparent;
+}
+
+.estado.vacio {
+  color: var(--texto-suave);
+  font-style: italic;
+}
+
+.estado.error {
+  color: var(--error);
+  background: var(--error-fondo);
+  border-color: var(--error-borde);
+}
+
+/* ─── Tabla de resultados ────────────────────────────────────────── */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  box-shadow: var(--sombra-tarjeta);
+  overflow: hidden;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid var(--borde);
+}
+
+/* Columna numérica (legajo) alineada a la derecha. */
+th:first-child,
+td:first-child {
+  text-align: right;
+}
+
+th {
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+tbody tr:hover {
+  background: var(--acento-suave);
+}
+
+.badge {
+  background: var(--acento-suave);
+  color: var(--acento);
+  border-radius: 999px;
+  padding: 0.1rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}

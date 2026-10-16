@@ -23,6 +23,11 @@
   background: color-mix(in srgb, var(--acento) 18%, transparent);
 }
 
+.selector button:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 2px;
+}
+
 .valor {
   min-width: 2rem;
   text-align: center;

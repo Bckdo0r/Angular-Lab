@@ -1,0 +1,39 @@
+<main class="contenedor">
+  <h1>Visor de capas <span class="tag">NgRx</span></h1>
+  <p class="bajada">
+    Visor de capas con estado global NgRx: capas, filtro y selección viven en el store. El estado
+    actual, en la <a routerLink="ayuda">página de ayuda</a>.
+  </p>
+
+  <div class="toolbar">
+    <input
+      class="filtro"
+      type="search"
+      placeholder="Filtrar capas por nombre..."
+      [value]="filtro()"
+      (input)="alTipearFiltro($event)"
+    />
+    <button type="button" class="primario" (click)="restablecer()">Restablecer</button>
+  </div>
+
+  <section class="panel">
+    <h2>Capas del mapa ({{ capasFiltradas().length }})</h2>
+
+    <ul class="capas">
+      @for (capa of capasFiltradas(); track capa.id) {
+        <li [class.activa]="capa.id === seleccionadaId()" [class.oculta]="!capa.visible">
+          <label class="capa">
+            <input type="checkbox" [checked]="capa.visible" (change)="alternarCapa(capa.id)" />
+            <span class="nombre">{{ capa.nombre }}</span>
+            <span class="estado">{{ capa.visible ? 'visible' : 'oculta' }}</span>
+          </label>
+          <button type="button" (click)="seleccionarCapa(capa.id)">
+            {{ capa.id === seleccionadaId() ? '✓ seleccionada' : 'seleccionar' }}
+          </button>
+        </li>
+      } @empty {
+        <li class="vacio">Ninguna capa coincide con el filtro.</li>
+      }
+    </ul>
+  </section>
+</main>
