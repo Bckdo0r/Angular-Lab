@@ -1,4 +1,4 @@
-# Pruebas Practicas — Aprendiendo Angular haciendo
+# Angular Lab — Aprendiendo Angular haciendo
 
 Proyecto de práctica de Angular basado en el [tutorial oficial Learn Angular](https://v20.angular.dev/tutorials/learn-angular) y un set de prácticas avanzadas con temáticas de entorno laboral. Todo el código vive en este proyecto: cada ejercicio tiene sus `TODO`s para completar y una carpeta `solucion/` para comparar.
 
@@ -31,7 +31,7 @@ Cada índice tiene botones 🔄 para restaurar el **código original** de un eje
 
 1. Tocá el botón 🔄 del ejercicio (o el botón general de la sección).
 2. Confirmá en el modal.
-3. El navegador te va a pedir **elegir la carpeta del proyecto**: seleccioná la raíz (`PruebasPractica`). Solo se pide una vez por sesión.
+3. El navegador te va a pedir **elegir la carpeta del proyecto**: seleccioná la raíz (`Angular-Lab`). Solo se pide una vez por sesión.
 4. Los archivos vuelven a su estado original y el servidor de desarrollo recompila solo.
 
 > Si tu navegador no soporta escribir archivos (Firefox, Safari), los botones aparecen deshabilitados: en ese caso usá la alternativa por terminal de abajo.

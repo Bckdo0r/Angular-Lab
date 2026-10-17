@@ -106,18 +106,14 @@ export class RestauracionService {
   /** Pide (una vez por sesión) la carpeta raíz del proyecto al usuario. */
   private carpetaRaiz(): Promise<CarpetaHandle> {
     this.raiz ??= (window as unknown as VentanaConPicker).showDirectoryPicker({
-      id: 'pruebas-practica',
+      id: 'angular-lab',
       mode: 'readwrite',
     });
     return this.raiz;
   }
 
   /** Crea (si hace falta) las carpetas intermedias y sobrescribe el archivo. */
-  private async escribir(
-    raiz: CarpetaHandle,
-    ruta: string,
-    contenido: string,
-  ): Promise<void> {
+  private async escribir(raiz: CarpetaHandle, ruta: string, contenido: string): Promise<void> {
     const partes = ruta.split('/');
     const nombre = partes.pop();
     if (!nombre) {

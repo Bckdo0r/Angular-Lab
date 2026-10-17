@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "PruebasAngular": {
+    "AngularLab": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -61,10 +61,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "PruebasAngular:build:production"
+              "buildTarget": "AngularLab:build:production"
             },
             "development": {
-              "buildTarget": "PruebasAngular:build:development"
+              "buildTarget": "AngularLab:build:development"
             }
           },
           "defaultConfiguration": "development"

@@ -4,7 +4,7 @@ import { Injectable, computed, signal } from '@angular/core';
 export type Tema = 'claro' | 'oscuro';
 
 /** Clave usada para persistir la preferencia de tema en localStorage. */
-const CLAVE_TEMA = 'pruebas-practica.tema';
+const CLAVE_TEMA = 'angular-lab.tema';
 
 /** Clase CSS que se aplica sobre <html> cuando el tema es oscuro. */
 const CLASE_OSCURO = 'oscuro';
