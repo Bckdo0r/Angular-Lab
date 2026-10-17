@@ -34,14 +34,16 @@ import { IconoSvg } from '../compartido/icono-svg';
       } @else if (compacto()) {
         <span
           class="sin-soporte compacto"
-          title="Reinicio no disponible en este navegador: usá Chrome, Edge u Opera"
+          title="Reinicio no disponible en este navegador. Alternativa en la terminal: {{
+            comandoRestore()
+          }}"
         >
           <icono-svg nombre="prohibido" [tamano]="15" />
         </span>
       } @else {
         <span class="sin-soporte">
-          <icono-svg nombre="prohibido" [tamano]="15" /> Reinicio no disponible en este navegador
-          (usá Chrome, Edge u Opera)
+          <icono-svg nombre="prohibido" [tamano]="15" /> Reinicio no disponible en este navegador.
+          Alternativa en la terminal: <code>{{ comandoRestore() }}</code>
         </span>
       }
 
@@ -75,7 +77,8 @@ import { IconoSvg } from '../compartido/icono-svg';
               }
               @case ('no-soportado') {
                 <p class="aviso error" role="alert">
-                  Tu navegador no soporta escribir archivos. Usá Chrome, Edge u Opera.
+                  Tu navegador no soporta escribir archivos. Alternativa en la terminal:
+                  <code>{{ comandoRestore() }}</code>
                 </p>
               }
               @case ('error') {
@@ -311,6 +314,11 @@ export class ReinicioBoton {
   /** Cantidad de archivos únicos que se van a sobrescribir. */
   protected readonly cantidadArchivos = computed(
     () => this.restauracion.rutasARestaurar(this.claves()).length,
+  );
+
+  /** Comando CLI equivalente (fallback para Firefox/Safari sin File System Access API). */
+  protected readonly comandoRestore = computed(
+    () => `npm run restore -- ${this.claves().join(' ')}`,
   );
 
   /** Texto del modal: el general describe la sección, el simple el ejercicio. */

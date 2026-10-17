@@ -34,7 +34,17 @@ Cada índice tiene botones 🔄 para restaurar el **código original** de un eje
 3. El navegador te va a pedir **elegir la carpeta del proyecto**: seleccioná la raíz (`PruebasPractica`). Solo se pide una vez por sesión.
 4. Los archivos vuelven a su estado original y el servidor de desarrollo recompila solo.
 
-> Si tu navegador no soporta escribir archivos (Firefox, Safari), los botones aparecen deshabilitados.
+> Si tu navegador no soporta escribir archivos (Firefox, Safari), los botones aparecen deshabilitados: en ese caso usá la alternativa por terminal de abajo.
+
+### Alternativa por terminal (funciona en cualquier navegador)
+
+```bash
+npm run restore -- extras/01   # un ejercicio
+npm run restore -- extras       # toda la sección
+npm run restore -- todo         # todo el proyecto
+```
+
+Agregá `--dry-run` para ver qué archivos tocaría sin escribir, o `--force` para saltear la confirmación. Con `npm run restore -- --list` ves todas las claves disponibles.
 
 ## Para quien mantiene el proyecto
 
@@ -50,9 +60,10 @@ Después de regenerarlo, verificá que la app compile (`npm run build`) y commit
 
 ## Comandos útiles
 
-| Comando | Qué hace |
-|---|---|
-| `npm start` | Servidor de desarrollo en `http://localhost:4200` |
-| `npm run build` | Build de producción en `dist/` |
-| `npm test` | Tests unitarios con Vitest |
-| `npm run snapshot` | Regenera el snapshot de restauración de ejercicios |
+| Comando                      | Qué hace                                                                                                 |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `npm start`                  | Servidor de desarrollo en `http://localhost:4200`                                                        |
+| `npm run build`              | Build de producción en `dist/`                                                                           |
+| `npm test`                   | Tests unitarios con Vitest                                                                               |
+| `npm run snapshot`           | Regenera el snapshot de restauración de ejercicios                                                       |
+| `npm run restore -- <clave>` | Restaura ejercicios a su estado original (alternativa a los botones 🔄, funciona en cualquier navegador) |
