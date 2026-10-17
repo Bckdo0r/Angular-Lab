@@ -31,7 +31,7 @@ export const routes: Routes = [
     path: '',
     pathMatch: 'full',
     loadComponent: () => import('./home/home').then((m) => m.Home),
-    title: 'Pruebas Practicas — Aprendiendo Angular haciendo',
+    title: 'Angular Lab — Aprendiendo Angular haciendo',
   },
 
   {

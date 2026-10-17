@@ -82,9 +82,7 @@ import { IconoSvg } from '../compartido/icono-svg';
             <div class="cuerpo">
               <h3>Descargá el repositorio</h3>
               <p>Cloná el proyecto en tu máquina con Git:</p>
-              <codigo-copiable
-                comando="git clone https://github.com/Bckdo0r/Practica-Angular.git"
-              />
+              <codigo-copiable comando="git clone https://github.com/Bckdo0r/Angular-Lab.git" />
               <p>
                 …o descargalo como ZIP desde GitHub (botón <strong>Code → Download ZIP</strong>).
               </p>
