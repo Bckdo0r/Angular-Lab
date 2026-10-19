@@ -1,12 +1,12 @@
 /**
- * RESTAURACIÓN DE EJERCICIOS POR TERMINAL (fallback sin navegador)
+ * RESTAURACIÓN DE EJERCICIOS DESDE LA TERMINAL
  *
  * Restaura los archivos de un ejercicio a su estado ORIGINAL usando el
  * snapshot generado por `npm run snapshot` (`src/app/restauracion/snapshot.ts`).
  *
- * Es el fallback para navegadores sin File System Access API (Firefox, Safari),
- * donde el botón 🔄 de la app no puede escribir sobre el disco. Quien clonó el
- * repo siempre puede correr esto en la terminal, sin importar el navegador.
+ * Los botones de la app copian el comando adecuado para este script. Así la
+ * restauración funciona en cualquier navegador sin darle acceso al disco a la
+ * página web.
  *
  * Uso:
  *   npm run restore -- extras/01            (un ejercicio)

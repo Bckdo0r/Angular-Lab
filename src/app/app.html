@@ -16,11 +16,10 @@
     >
   </nav>
 
-  <!-- Reinicio del ejercicio visible (solo en páginas de ejercicio).
-       Con @defer el snapshot de restauración se carga en un chunk aparte. -->
+  <!-- Copia el comando de restauración del ejercicio visible. -->
   @if (claveEjercicio(); as clave) {
     @defer {
-      <reinicio-boton [claves]="[clave]" />
+      <reinicio-boton [claves]="[clave]" etiqueta="Copiar comando" />
     }
   }
 

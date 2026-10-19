@@ -149,3 +149,144 @@ code {
   border-radius: 4px;
   font-size: 0.9em;
 }
+
+/* Acento rosa para las prácticas avanzadas, mezclado con los tokens del tema. */
+.tema-extras {
+  --acento: color-mix(in srgb, var(--deco-rosa) 58%, var(--texto));
+  --acento-fuerte: color-mix(in srgb, var(--deco-rosa) 45%, var(--texto));
+  --acento-suave: color-mix(in srgb, var(--deco-rosa) 13%, var(--superficie));
+  --resplandor: color-mix(in srgb, var(--deco-rosa) 20%, transparent);
+}
+
+.inicio .tarjeta-extras,
+.tarjeta-practicas.tema-extras {
+  border-color: color-mix(in srgb, var(--deco-rosa) 45%, var(--borde));
+  background: color-mix(in srgb, var(--deco-rosa) 5%, var(--superficie));
+}
+
+.inicio .tarjeta-extras:hover,
+.tarjeta-practicas.tema-extras:hover {
+  border-color: var(--acento);
+}
+
+/* Chip de versión del encabezado principal. */
+.inicio .chip {
+  display: inline-flex;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid color-mix(in srgb, var(--borde) 70%, var(--acento));
+  border-radius: 8px;
+  background: var(--superficie);
+  box-shadow: var(--sombra-tarjeta);
+  font-size: 0.84rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.inicio .chip-text {
+  background-image: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--deco-rosa) 55%, var(--texto)),
+    var(--acento)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Cinta animada de tecnologías de la página principal. */
+.inicio .tecnologias {
+  position: relative;
+  margin-top: 4rem;
+}
+
+.inicio .tecnologias-cabecera {
+  margin-bottom: 1rem;
+}
+
+.inicio .tecnologias h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1.45rem;
+  letter-spacing: -0.02em;
+}
+
+.inicio .tecnologias-cabecera p {
+  margin: 0;
+  color: var(--texto-suave);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.inicio .marquee:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 3px;
+}
+
+.inicio .marquee {
+  overflow: hidden;
+  padding: 0.35rem 0;
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    currentColor 5%,
+    currentColor 95%,
+    transparent
+  );
+}
+
+.inicio .marquee-pista {
+  display: flex;
+  width: 200%;
+  animation: desplazamiento-marquee 38s linear infinite;
+}
+
+.inicio .marquee:focus-visible {
+  border-radius: 8px;
+}
+
+.inicio .marquee-grupo {
+  display: flex;
+  flex: 0 0 50%;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: 0;
+  padding: 0 0.35rem;
+  box-sizing: border-box;
+  list-style: none;
+}
+
+.inicio .tecnologia {
+  display: grid;
+  place-items: center;
+}
+
+.inicio .logo-tecnologia {
+  width: 2.7rem;
+  height: 2.7rem;
+  object-fit: contain;
+  filter: brightness(0);
+}
+
+html.oscuro .inicio .logo-tecnologia {
+  filter: brightness(0) invert(1);
+}
+
+@keyframes desplazamiento-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .inicio .marquee {
+    overflow-x: auto;
+    mask-image: none;
+  }
+
+  .inicio .marquee-pista {
+    animation: none;
+  }
+
+  .inicio .marquee-grupo[aria-hidden='true'] {
+    display: none;
+  }
+}

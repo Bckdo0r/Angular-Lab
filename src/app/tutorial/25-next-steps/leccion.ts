@@ -66,8 +66,8 @@ import { IconoSvg } from '../../compartido/icono-svg';
           <h3>CRUD con Angular y Material UI</h3>
           <p>Artículo de Hackernoon: construí una app de gestión de empleados paso a paso.</p>
         </a>
-        <a class="tarjeta" routerLink="/extras">
-          <h3><icono-svg nombre="frasco" [tamano]="16" /> Prácticas avanzadas</h3>
+        <a class="tarjeta tarjeta-practicas tema-extras" routerLink="/extras">
+          <h3><icono-svg nombre="frasco" [tamano]="16" /> Prácticas Avanzadas</h3>
           <p>
             El aprendizaje sigue acá: escenarios de trabajo real para seguir practicando lo visto.
             Los temas de los videos de esta página también se abordan en estas prácticas, con la
@@ -121,6 +121,9 @@ import { IconoSvg } from '../../compartido/icono-svg';
       transition:
         border-color 0.2s ease,
         transform 0.18s ease;
+    }
+    .tarjeta-practicas {
+      grid-column: 1 / -1;
     }
     .tarjeta:hover {
       border-color: var(--acento);

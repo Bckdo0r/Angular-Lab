@@ -1,6 +1,6 @@
+import { NgOptimizedImage } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CodigoCopiable } from '../compartido/codigo-copiable';
 import { IconoSvg } from '../compartido/icono-svg';
 
 /**
@@ -9,12 +9,20 @@ import { IconoSvg } from '../compartido/icono-svg';
  */
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, IconoSvg, CodigoCopiable],
+  imports: [RouterLink, IconoSvg, NgOptimizedImage],
   template: `
     <main class="inicio">
       <section class="hero">
-        <span class="chip">Angular v22 · práctica guiada</span>
-        <h1>Tu laboratorio de <span class="degradado">Angular</span> local</h1>
+        <span class="chip">
+          <span class="chip-text">Angular v22 · práctica guiada</span>
+        </span>
+        <h1>
+          Tu laboratorio de
+          <a class="degradado" href="https://angular.dev/" target="_blank" rel="noopener">
+            Angular
+          </a>
+          local
+        </h1>
         <p class="autor">
           Creada por
           <a href="https://github.com/Bckdo0r" target="_blank" rel="noopener noopener">
@@ -58,9 +66,9 @@ import { IconoSvg } from '../compartido/icono-svg';
           <span class="cta">Empezar el tutorial →</span>
         </a>
 
-        <a class="tarjeta" routerLink="/extras">
+        <a class="tarjeta tarjeta-extras tema-extras" routerLink="/extras">
           <span class="icono" aria-hidden="true"><icono-svg nombre="frasco" [tamano]="30" /></span>
-          <h2>Prácticas avanzadas</h2>
+          <h2>Prácticas Avanzadas</h2>
           <p>
             Escenarios de trabajo real: bus de eventos con RxJS, formularios reactivos avanzados,
             HttpClient con manejo de errores, auth con JWT y guards, y un CRUD interactivo con
@@ -70,21 +78,97 @@ import { IconoSvg } from '../compartido/icono-svg';
         </a>
       </section>
 
+      <section class="tecnologias" aria-labelledby="titulo-tecnologias">
+        <div class="tecnologias-cabecera">
+          <div>
+            <h2 id="titulo-tecnologias">Tecnologías que vas a trabajar</h2>
+            <p>Herramientas y conceptos presentes en las lecciones y prácticas del proyecto.</p>
+          </div>
+        </div>
+
+        <div
+          class="marquee"
+          role="region"
+          aria-label="Lista animada de tecnologías del proyecto"
+          tabindex="0"
+        >
+          <div class="marquee-pista">
+            <ul class="marquee-grupo" aria-label="Logos de tecnologías estudiadas">
+              @for (tecnologia of tecnologias; track tecnologia.id) {
+                <li class="tecnologia">
+                  <img
+                    class="logo-tecnologia"
+                    [ngSrc]="'/tecnologias/' + tecnologia.id + '.svg'"
+                    [alt]="tecnologia.nombre"
+                    width="40"
+                    height="40"
+                  />
+                </li>
+              }
+            </ul>
+            <ul class="marquee-grupo" aria-hidden="true">
+              @for (tecnologia of tecnologias; track tecnologia.id) {
+                <li class="tecnologia">
+                  <img
+                    class="logo-tecnologia"
+                    [ngSrc]="'/tecnologias/' + tecnologia.id + '.svg'"
+                    alt=""
+                    width="40"
+                    height="40"
+                  />
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
+      </section>
+
       <section class="como" aria-labelledby="titulo-como">
         <h2 id="titulo-como">¿Cómo practicar?</h2>
         <p class="como-bajada">
-          Esta página es la guía, pero la práctica se hace en tu máquina. Seguí estos cuatro pasos:
+          Si ya clonaste el proyecto, seguí estos pasos para mantenerlo actualizado y empezar a
+          practicar.
         </p>
 
         <ol class="pasos">
           <li class="paso">
+            <span class="numero" aria-hidden="true">0</span>
+            <div class="cuerpo">
+              <h3>Revisá actualizaciones y cuidá tu progreso</h3>
+              <p>
+                Desde una terminal en la raíz del proyecto —la carpeta que contiene
+                <code>package.json</code>— ejecutá <code>git status</code>. Si tenés cambios locales
+                que querés conservar, guardalos con un commit o una copia de seguridad antes de
+                actualizar.
+              </p>
+              <p>
+                Para reducir conflictos en futuras actualizaciones, modificá solo los archivos de
+                trabajo que indica el README de cada ejercicio, incluidos los archivos compartidos
+                que la consigna pida cambiar. Si tu trabajo y la actualización cambian el mismo
+                archivo, Git puede pedirte resolver un conflicto. Luego ejecutá
+                <code>git pull</code>; si no hay novedades, Git te avisará que el repositorio ya está
+                actualizado. Si la actualización modifica <code>package.json</code> o
+                <code>package-lock.json</code>, detené el servidor, ejecutá <code>npm install</code> y
+                volvé a iniciarlo con <code>npm start</code>.
+              </p>
+            </div>
+          </li>
+
+          <li class="paso">
             <span class="numero" aria-hidden="true">1</span>
             <div class="cuerpo">
-              <h3>Descargá el repositorio</h3>
-              <p>Cloná el proyecto en tu máquina con Git:</p>
-              <codigo-copiable comando="git clone https://github.com/Bckdo0r/Angular-Lab.git" />
+              <h3>Elegí por dónde empezar</h3>
               <p>
-                …o descargalo como ZIP desde GitHub (botón <strong>Code → Download ZIP</strong>).
+                <strong>Si estás empezando con Angular:</strong> te recomendamos seguir el tutorial
+                en orden. Vas a aprender las bases paso a paso: componentes, plantillas, eventos,
+                formularios, servicios y navegación.
+                <a class="enlace-recorrido" routerLink="/tutorial">Empezá por el tutorial →</a>
+              </p>
+              <p>
+                <strong>Si ya tenés conocimientos de Angular:</strong> podés ir directo a las
+                prácticas avanzadas, con ejercicios sobre temas aplicados como RxJS, HttpClient,
+                autenticación, Angular Material y NgRx.
+                <a class="enlace-recorrido" routerLink="/extras">Ir a las prácticas →</a>
               </p>
             </div>
           </li>
@@ -92,16 +176,11 @@ import { IconoSvg } from '../compartido/icono-svg';
           <li class="paso">
             <span class="numero" aria-hidden="true">2</span>
             <div class="cuerpo">
-              <h3>Instalá las dependencias</h3>
+              <h3>Elegí un ejercicio y revisá su salida</h3>
               <p>
-                Necesitás tener <strong>Node.js</strong> instalado (versión 20 o superior, que ya
-                incluye npm). Podés verificarlo con <code>node -v</code>. Luego, dentro de la
-                carpeta del proyecto, ejecutá:
-              </p>
-              <codigo-copiable comando="npm install" />
-              <p>
-                <strong>No hace falta instalar Angular CLI globalmente:</strong> el proyecto ya lo
-                trae como dependencia y <code>npm start</code> lo usa directamente.
+                En las páginas de Tutorial y Prácticas tenés la lista de ejercicios y sus enlaces a
+                la salida (el ejercicio) y a la solución. Abrí un ejercicio para ver en el navegador
+                el resultado que vas a modificar; la solución te sirve para comparar.
               </p>
             </div>
           </li>
@@ -109,22 +188,13 @@ import { IconoSvg } from '../compartido/icono-svg';
           <li class="paso">
             <span class="numero" aria-hidden="true">3</span>
             <div class="cuerpo">
-              <h3>Levantá la página</h3>
-              <p>Desde la consola, en la carpeta del proyecto, iniciá el servidor de desarrollo:</p>
-              <codigo-copiable comando="npm start" />
-              <p>Cuando termine, abrí <code>http://localhost:4200</code> en tu navegador.</p>
-            </div>
-          </li>
-
-          <li class="paso">
-            <span class="numero" aria-hidden="true">4</span>
-            <div class="cuerpo">
-              <h3>Completá los ejercicios</h3>
+              <h3>Editá el código desde tu editor</h3>
               <p>
-                Abrí el proyecto con tu editor de código favorito (VS Code, WebStorm, etc.), elegí
-                una lección o práctica del menú y buscá los <code>TODO</code>: ahí es donde escribís
-                tu código. Al terminar, compará tu versión con la <strong>solución</strong> que
-                acompaña a cada ejercicio.
+                La salida no se modifica desde la página: abrí la carpeta del proyecto con tu editor
+                de código favorito (por ejemplo, VS Code o WebStorm) y editá ahí los archivos del
+                ejercicio. Cada página incluye una guía y señala los comentarios <code>TODO</code>
+                que tenés que completar. Guardá los cambios para que el servidor actualice la salida
+                en el navegador.
               </p>
             </div>
           </li>
@@ -169,18 +239,6 @@ import { IconoSvg } from '../compartido/icono-svg';
       margin-bottom: 4rem;
     }
 
-    .chip {
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--acento);
-      background: var(--acento-suave);
-      border: 1px solid color-mix(in srgb, var(--acento) 25%, transparent);
-      padding: 0.3rem 0.85rem;
-      border-radius: 999px;
-    }
-
     h1 {
       margin: 0;
       max-width: 22ch;
@@ -196,6 +254,13 @@ import { IconoSvg } from '../compartido/icono-svg';
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+      text-decoration: none;
+    }
+
+    .degradado:focus-visible {
+      border-radius: 3px;
+      outline: 2px solid var(--acento);
+      outline-offset: 3px;
     }
 
     .bajada {
@@ -381,6 +446,11 @@ import { IconoSvg } from '../compartido/icono-svg';
       letter-spacing: -0.01em;
     }
 
+    .enlace-recorrido {
+      color: var(--acento);
+      font-weight: 600;
+    }
+
     .cuerpo p {
       margin: 0;
       color: var(--texto-suave);
@@ -430,4 +500,14 @@ import { IconoSvg } from '../compartido/icono-svg';
     }
   `,
 })
-export class Home {}
+export class Home {
+  protected readonly tecnologias = [
+    { id: 'angular', nombre: 'Angular' },
+    { id: 'typescript', nombre: 'TypeScript' },
+    { id: 'rxjs', nombre: 'RxJS' },
+    { id: 'materialdesign', nombre: 'Material Design (Angular Material)' },
+    { id: 'ngrx', nombre: 'NgRx' },
+    { id: 'vitest', nombre: 'Vitest' },
+  ];
+
+}

@@ -22,6 +22,10 @@ import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'leccion-13',
   template: `
+    <section class="descripcion-ejercicio" aria-labelledby="titulo-descripcion-ejercicio">
+      <h2 id="titulo-descripcion-ejercicio">¿Qué practicás acá?</h2>
+      <p>Definí rutas hijas para navegar entre las páginas Home y User usando el Angular Router.</p>
+    </section>
     <nav>
       <a href="/tutorial/13/home">Home</a>
       |
@@ -30,5 +34,29 @@ import { RouterOutlet } from '@angular/router';
     <router-outlet />
   `,
   imports: [RouterOutlet],
+  styles: `
+    .descripcion-ejercicio {
+      margin: 0 0 1rem;
+      padding: 0.7rem 0.9rem;
+      border: 1px solid color-mix(in srgb, var(--deco-rosa) 28%, var(--borde));
+      border-inline-start: 3px solid
+        color-mix(in srgb, var(--deco-rosa) 55%, var(--acento));
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--deco-rosa) 12%, var(--acento-suave));
+    }
+
+    .descripcion-ejercicio h2 {
+      margin: 0 0 0.35rem;
+      color: var(--acento);
+      font-size: 0.98rem;
+    }
+
+    .descripcion-ejercicio p {
+      margin: 0;
+      color: var(--texto-suave);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+  `,
 })
 export class Leccion13 {}

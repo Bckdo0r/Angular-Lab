@@ -12,6 +12,9 @@ import { IconoSvg } from './compartido/icono-svg';
   imports: [RouterOutlet, RouterLink, RouterLinkActive, ReinicioBoton, IconoSvg, NgOptimizedImage],
   templateUrl: './app.html',
   styleUrl: './app.css',
+  host: {
+    '[class.tema-extras]': 'enPracticas()',
+  },
 })
 export class App {
   /** Servicio de tema (claro/oscuro) inyectado para la plantilla. */
@@ -30,6 +33,12 @@ export class App {
     ),
     { initialValue: this.router.url },
   );
+
+  /** Activa el acento rosa en toda la interfaz mientras se navega por Prácticas. */
+  protected readonly enPracticas = computed(() => {
+    const url = this.url().split(/[?#]/, 1)[0];
+    return url === '/extras' || url.startsWith('/extras/');
+  });
 
   /**
    * Clave del ejercicio visible en pantalla (`tutorial/10`, `extras/01`, …)

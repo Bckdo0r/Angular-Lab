@@ -65,11 +65,36 @@ const LECCIONES: Leccion[] = [
         </p>
       </div>
 
+      <section class="guia-reinicio" aria-labelledby="guia-reinicio-titulo">
+        <h2 id="guia-reinicio-titulo">Cómo reiniciar una lección</h2>
+        <ol>
+          <li>
+            Abrí una terminal en la raíz del proyecto, es decir, en la carpeta que contiene
+            <code>package.json</code> (es la ubicación donde también se inició el servidor con
+            <code>npm start</code>). Por ejemplo:
+            <code>cd "C:\\Users\\...\\Angular-Lab"</code>.
+          </li>
+          <li>
+            Presioná el botón de reinicio del ejercicio o el botón global. Se copiará el comando
+            correspondiente al portapapeles.
+          </li>
+          <li>
+            Pegá el comando en la terminal y ejecutalo. Por ejemplo:
+            <code>npm run restore -- tutorial/01</code>. El script te pedirá confirmación antes de
+            restaurar los archivos.
+          </li>
+        </ol>
+        <p>
+          El botón global copia <code>npm run restore -- tutorial</code>; cada botón de lección copia
+          el comando específico de esa lección.
+        </p>
+      </section>
+
       <div class="acciones-globales">
         <reinicio-boton
           [claves]="restauracion.clavesDeSeccion('tutorial')"
-          etiqueta="Reiniciar todo"
-          descripcion="Vas a borrar los cambios que hiciste en TODAS las lecciones del tutorial y volver al estado original."
+          grupo="tutorial"
+          etiqueta="Copiar reinicio global"
         />
       </div>
 
@@ -115,6 +140,43 @@ const LECCIONES: Leccion[] = [
     .bajada {
       color: var(--texto-suave);
       line-height: 1.5;
+    }
+
+    .guia-reinicio {
+      margin: 1rem 0 1.25rem;
+      padding: 1rem 1.25rem;
+      border: 1px solid var(--borde);
+      border-inline-start: 4px solid var(--acento);
+      border-radius: 10px;
+      background: var(--acento-suave);
+    }
+
+    .guia-reinicio h2 {
+      margin: 0 0 0.5rem;
+      color: var(--acento);
+      font-size: 1.05rem;
+    }
+
+    .guia-reinicio ol {
+      margin: 0;
+      padding-inline-start: 1.25rem;
+    }
+
+    .guia-reinicio li,
+    .guia-reinicio p {
+      line-height: 1.55;
+    }
+
+    .guia-reinicio li + li {
+      margin-top: 0.35rem;
+    }
+
+    .guia-reinicio p {
+      margin: 0.65rem 0 0;
+    }
+
+    .guia-reinicio code {
+      overflow-wrap: anywhere;
     }
 
     /* El link externo usa el acento del tema en vez del azul default del navegador */
