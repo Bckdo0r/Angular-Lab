@@ -1,8 +1,6 @@
 # Angular Lab
 
-Laboratorio local para aprender Angular mediante ejercicios guiados. Incluye un tutorial para construir las bases del framework y prácticas avanzadas con escenarios inspirados en el trabajo cotidiano.
-
-El proyecto corre con **Angular 22.2**. El recorrido inicial está basado en [Learn Angular](https://v20.angular.dev/tutorials/learn-angular), la guía oficial de Angular v20.
+Laboratorio local para aprender Angular mediante ejercicios guiados. Incluye un tutorial para construir las bases del framework y prácticas avanzadas con escenarios inspirados en el trabajo cotidiano. El recorrido inicial está basado en [Learn Angular](https://v20.angular.dev/tutorials/learn-angular), la guía oficial de Angular.
 
 ## Contenidos
 

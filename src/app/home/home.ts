@@ -47,8 +47,7 @@ import { IconoSvg } from '../compartido/icono-svg';
           <code>TODO</code>s de cada ejercicio y compará con la solución.
         </p>
         <p class="nota-version">
-          Practicamos con <strong>Angular v22</strong>, pero el contenido sirve desde
-          <strong>v20</strong>: la documentación de referencia es la de esa versión.
+          Se practica con Angular v22, pero el contenido sirve desde v20.
         </p>
       </section>
 
