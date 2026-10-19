@@ -49,8 +49,8 @@ npm -v
 Cloná el repositorio, instalá las dependencias y levantá el servidor:
 
 ```bash
-git clone https://github.com/Bckdo0r/Practica-Angular.git
-cd Practica-Angular
+git clone https://github.com/Bckdo0r/Angular-Lab.git
+cd Angular-Lab
 npm install
 npm start
 ```
