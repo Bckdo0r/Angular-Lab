@@ -19,7 +19,7 @@
   <!-- Copia el comando de restauración del ejercicio visible. -->
   @if (claveEjercicio(); as clave) {
     @defer {
-      <reinicio-boton [claves]="[clave]" etiqueta="Copiar comando" />
+      <reinicio-boton [claves]="[clave]" etiqueta="Comando de Reinicio" />
     }
   }
 
@@ -38,6 +38,7 @@
 </header>
 
 <!-- Acá se renderiza cada lección según la ruta -->
+<navegacion-ejercicios />
 <router-outlet />
 
 <!-- Pie de página común a todas las vistas: marca de copyright -->

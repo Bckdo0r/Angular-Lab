@@ -6,10 +6,19 @@ import { filter, map } from 'rxjs';
 import { ReinicioBoton } from './restauracion/boton-reinicio';
 import { TemaService } from './tema.service';
 import { IconoSvg } from './compartido/icono-svg';
+import { NavegacionEjercicios } from './compartido/navegacion-ejercicios';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, ReinicioBoton, IconoSvg, NgOptimizedImage],
+  imports: [
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    ReinicioBoton,
+    IconoSvg,
+    NgOptimizedImage,
+    NavegacionEjercicios,
+  ],
   templateUrl: './app.html',
   styleUrl: './app.css',
   host: {

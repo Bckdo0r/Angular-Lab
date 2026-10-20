@@ -62,6 +62,12 @@ Abrí [http://localhost:4200](http://localhost:4200). El servidor permanece acti
 3. **Editá el código en tu editor.** Cada ejercicio incluye un `README.md` con los archivos de trabajo y los pasos a seguir; buscá los comentarios `TODO`.
 4. **Guardá los cambios** y volvé a la salida del navegador para ver el resultado.
 
+En la página de cada ejercicio, la barra de navegación permite ir al **Anterior** o al
+**Siguiente** dentro del mismo recorrido y abrir **Ver solución**. Desde la solución,
+**Volver al ejercicio** regresa a su output. Anterior y Siguiente siempre abren ejercicios,
+no soluciones; se deshabilitan al principio y al final del recorrido. La lección 25 es de
+solo lectura y no tiene solución.
+
 Para evitar conflictos al actualizar el repositorio, modificá los archivos de trabajo indicados por cada `README.md`. Cambiá archivos compartidos o de configuración solo cuando una consigna lo pida expresamente.
 
 ## Mantener el repositorio actualizado
