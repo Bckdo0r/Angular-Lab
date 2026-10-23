@@ -19,7 +19,8 @@
     "strictTemplates": true,
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true
+    "strictInputAccessModifiers": true,
+    "typeCheckHostBindings": true
   },
   "files": [],
   "references": [

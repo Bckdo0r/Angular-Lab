@@ -42,6 +42,9 @@ testem.log
 /typings
 __screenshots__/
 
+# Local tooling artifacts (agent harness, not part of the project)
+.atl/
+
 # System files
 .DS_Store
 Thumbs.db

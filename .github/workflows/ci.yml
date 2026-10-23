@@ -1,0 +1,61 @@
+name: Verificación
+
+# La verificación automática corre en cada cambio: el repositorio detecta
+# sus propios errores, sin depender de una revisión manual.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verificacion-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verificar:
+    name: Lint, compilación, pruebas y snapshot
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Clonar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      # El linter distingue el código de las consignas del código de las
+      # soluciones: en las consignas los imports sin usar son el andamiaje
+      # del ejercicio y solo generan avisos, no errores.
+      - name: Analizar el código
+        run: npm run lint
+
+      # Compila TODAS las rutas, incluidas las de los ejercicios con la
+      # lógica incompleta: si una consigna no compila, el curso se rompe.
+      - name: Compilar
+        run: npm run build
+
+      - name: Ejecutar las pruebas
+        run: npm test -- --watch=false
+
+      # Si alguien modifica un ejercicio sin regenerar el snapshot, el botón
+      # de reinicio dejaría de restaurar el estado inicial. Este paso lo
+      # detecta: al regenerar el snapshot, el archivo no debe cambiar.
+      - name: Verificar que el snapshot está actualizado
+        run: |
+          npm run snapshot
+          git diff --exit-code -- src/app/restauracion/snapshot.ts
+
+      - name: Comprobar que el catálogo de ejercicios es coherente
+        run: npm run restore -- --list

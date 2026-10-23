@@ -132,8 +132,63 @@ Los archivos compartidos por el ejercicio y la solución de una práctica viven 
 | `npm run build` | Genera la compilación de producción en `dist/AngularLab`. |
 | `npm run watch` | Compila en modo desarrollo y observa cambios. |
 | `npm test` | Ejecuta las pruebas con Vitest. Para una ejecución única: `npm test -- --watch=false`. |
+| `npm run lint` | Analiza el código con ESLint: TypeScript, plantillas de Angular y scripts. |
+| `npm run lint:fix` | Corrige automáticamente lo que ESLint puede corregir solo. |
+| `npm run verify` | Ejecuta lint, compilación y pruebas. Es lo que corre la verificación automática. |
+| `npm run format` | Formatea el código con Prettier. |
 | `npm run snapshot` | Regenera el snapshot de los ejercicios. |
 | `npm run restore -- <clave>` | Restaura ejercicios desde la terminal. |
+
+## Análisis estático
+
+El proyecto usa **ESLint 9 con `@angular-eslint`**, configurado en `eslint.config.mjs`.
+Las reglas elegidas detectan errores reales de Angular (no criterios de estilo discutibles):
+inyección con `inject()`, `standalone`, componentes que no se salen de OnPush, `input()`/`output()`
+declarados como `readonly`, contratos de pipes y lifecycle, y errores de plantilla.
+
+### La excepción de las consignas
+
+El curso tiene dos tipos de código y el linter los trata distinto:
+
+- **Soluciones y código compartido** (`solucion/`, servicios, modelos): el código muerto es un
+  **error**. Si algo está sin usar, está mal.
+- **Consignas** (`src/app/tutorial/**` y `src/app/extras/*/ejercicio/`): hay imports,
+  propiedades y parámetros sin usar que son **el andamiaje del ejercicio**: el estudiante los
+  va a usar al resolver el TODO. Ahí el linter **avisa pero no bloquea**.
+
+Esto permite que la verificación automática sea estricta con el material resuelto sin romper los
+ejercicios a medio hacer.
+
+> Los avisos en las consignas no son errores: si tu solución deja imports sin usar, el aviso te
+> está diciendo que sobren. `npm run lint:fix` los resuelve por vos.
+
+### Formato
+
+`npm run format` aplica Prettier (`.prettierrc`). **El formateo todavía no se verifica de forma
+automática**: el repositorio tiene más de cien archivos que nunca se pasaron por Prettier, y
+aplicarlo de golpe mezclaría el formato con los cambios de contenido. Conviene hacerlo en un
+cambio propio y aparte.
+
+## Verificación automática
+
+El repositorio se verifica solo en cada cambio. El flujo defined en
+`.github/workflows/ci.yml` ejecuta:
+
+1. `npm ci` — instala las dependencias exactas.
+2. `npm run lint` — análisis estático.
+3. `npm run build` — compila **todas** las rutas, incluidas las de los ejercicios con la lógica
+   incompleta: si una consigna no compila, el curso se rompe.
+4. `npm test -- --watch=false` — pruebas.
+5. Regenera el snapshot y comprueba que **no cambie**: si alguien modifica un ejercicio sin
+   regenerar el snapshot, el botón de reinicio dejaría de restaurar el estado inicial y el
+   cambio se rechaza.
+
+Para correr lo mismo en tu máquina antes de hacer push:
+
+```bash
+npm run verify
+```
+
 
 ## Mantenimiento del snapshot
 

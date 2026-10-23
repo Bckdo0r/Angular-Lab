@@ -10,6 +10,22 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 - Prefer type inference when the type is obvious.
 - Avoid the `any` type; use `unknown` when type is uncertain.
 
+## 1.b. Static analysis (ESLint)
+
+The project lints with **ESLint 9 + `@angular-eslint`** (`eslint.config.mjs`). Run `npm run lint`
+before finishing, and `npm run verify` (lint + build + tests) before pushing.
+
+- **Do NOT "fix" the unused-variable warnings in the exercise files.** In
+  `src/app/tutorial/**` and `src/app/extras/*/ejercicio/` the unused imports, properties and
+  parameters are the scaffolding the student is meant to use when solving the TODO. The linter
+  downgrades them to warnings there on purpose; removing them would gut the exercise.
+- In `solucion/` folders and shared material the same warnings are **errors**: dead code is a
+  real defect there.
+- `src/app/restauracion/snapshot.ts` is generated (`npm run snapshot`) and is excluded from linting.
+- The CI workflow (`.github/workflows/ci.yml`) also regenerates the snapshot and fails if it
+  changes. If you modify any exercise file, run `npm run snapshot` and commit the updated
+  `snapshot.ts` in the same change.
+
 ## 2. Angular Architecture & Core Standards (v20+)
 - Always use standalone components, directives, and pipes over NgModules.
 - Must NOT set `standalone: true` inside Angular decorators. It's the default in Angular v20+.

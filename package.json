@@ -7,6 +7,11 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"src/**/*.{ts,html}\" \"scripts/**/*.mjs\"",
+    "format:check": "prettier --check \"src/**/*.{ts,html}\" \"scripts/**/*.mjs\"",
+    "verify": "npm run lint && npm run build && npm test -- --watch=false",
     "snapshot": "node scripts/generar-snapshot.mjs",
     "restore": "node scripts/restaurar.mjs"
   },
@@ -31,9 +36,14 @@
     "@angular/build": "^22.2.2",
     "@angular/cli": "^22.2.2",
     "@angular/compiler-cli": "^22.2.0",
+    "@eslint/js": "^10.0.1",
+    "angular-eslint": "^22.6.0",
+    "eslint": "^10.13.0",
+    "eslint-config-prettier": "^10.1.8",
     "jsdom": "^30.0.0",
     "prettier": "^3.8.1",
     "typescript": "~6.0.2",
+    "typescript-eslint": "^8.72.0",
     "vitest": "^5.0.0"
   }
 }

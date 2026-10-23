@@ -13,7 +13,7 @@
  * (Corrélo después de agregar o modificar lecciones/prácticas para que el
  * snapshot refleje el estado original vigente.)
  */
-import { mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 
 const RAIZ = process.cwd();
