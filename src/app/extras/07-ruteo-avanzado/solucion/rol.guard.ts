@@ -21,12 +21,13 @@ export function fijarRol(rol: RolSimulado): void {
  * SOLUCIÓN del guard canMatch (Paso 7).
  *
  * canMatch se evalúa ANTES de cargar el bundle de la ruta: si devuelve false
- * la ruta se remueve del árbol de matching, no se baja ningún chunk y la
- * navegación sigue con las rutas restantes (acá, el '**' → 404). Eso la
- * distingue de canActivate, que se evalúa con la ruta ya cargada y decide
- * solo si se "entra" o se redirige.
+ * Angular prueba las siguientes candidatas (acá, el '**' → 404), sin borrar
+ * la configuración. canActivate decide la activación de la ruta reconocida;
+ * tampoco obliga a descargar antes un componente definido con loadComponent.
  */
-export const soloAdminCanMatchSolucion: CanMatchFn = (route, segments) => {
+export const soloAdminCanMatchSolucion: CanMatchFn = (_route, _segments) => {
   // La ruta de admin solo "existe" para quienes el rol simulado dice admin.
+  // Los parámetros los recibe la firma de CanMatchFn, pero acá no hacen
+  // falta: se marcan con `_` para dejar claro que no se usan.
   return rolSimulado() === 'admin';
 };

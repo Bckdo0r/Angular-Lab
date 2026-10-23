@@ -35,7 +35,10 @@ protected readonly data = inject<DialogoEditorData>(MAT_DIALOG_DATA);
 this.dialogRef.close(this.form.getRawValue()); // esto es lo que llega a afterClosed()
 ```
 
-Dos detalles que la solución comenta: cerrar con Cancelar o ESC devuelve `undefined` (por eso el `if (datos)`), y la **precarga es por data de entrada, NUNCA por `effect()`** — el diálogo se crea fresco en cada apertura, su data es fija y los `FormControl` nacen precargados. En la 05 el `effect()` tenía sentido porque el modal vivía siempre y su input cambiaba; acá no hay ninguna señal que reaccionar.
+Cancelar o ESC devuelve `undefined`, por eso se comprueba `if (datos)`. El diálogo
+se crea en cada apertura, con datos fijos, y los controles nacen precargados. En la
+práctica 05 el modal también se monta condicionalmente, pero recibe un `input()`;
+su sincronización con el formulario usa `effect()` como puente con la API de forms.
 
 ### 2. `MatTable`: columnas declarativas
 
@@ -108,7 +111,11 @@ provideAnimations(), // bundle + trabajo de JS en cada ciclo de detección
 // Angular 22 con Material: nada que proveer — las transiciones son CSS puro
 ```
 
-**En Angular 22, Material ya no depende de `@angular/animations`: sus transiciones están hechas con animaciones CSS puras** (las maneja el navegador, fuera del JS), así que esta práctica no necesita proveer nada y el costo en change detection de abrir un diálogo o mostrar un snackbar es prácticamente cero. La lección que queda: las animaciones "gratis" no existen — si animás desde el componente (Angular animations o JS), pagás con trabajo en cada ciclo; si lo podés resolver en CSS, el navegador se encarga.
+Esta combinación instalada de Angular y Material 22 funciona sin registrar
+`provideAnimations()`; `@angular/animations` no forma parte de sus dependencias
+requeridas. Eso no significa que abrir un diálogo no tenga costo: se crean vistas,
+se gestiona el foco y el navegador dibuja las transiciones. Medí antes de atribuir
+problemas de rendimiento a una técnica de animación.
 
 ### 7. ★ Design system interno: ¿cuándo Material y cuándo componentes propios? (solo lectura)
 
@@ -147,3 +154,9 @@ Probá en <http://localhost:4200/extras/08>:
 ## Solución
 
 La versión resuelta y comentada está en `src/app/extras/08-angular-material/solucion/` y se navega en `/extras/08/solucion`.
+
+Los pasos 1 a 7 son de implementación; las secciones marcadas «solo lectura» no
+requieren cambios. El servicio guarda datos en memoria durante la ejecución de la
+app y se comparte entre ejercicio y solución; una recarga restaura la semilla.
+La solución ajusta la página al borrar su última fila y usa identificadores que no
+se reutilizan para que «Deshacer» no choque con un alta posterior.

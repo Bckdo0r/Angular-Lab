@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 
 /**
  * LECCIÓN 12 — Activar el routing
@@ -22,8 +21,8 @@ import { RouterOutlet } from '@angular/router';
       |
       <a href="/tutorial/12/user">User</a>
     </nav>
-    <!-- TODO 1: Agregá <router-outlet /> acá, debajo del nav, para indicarle al router dónde mostrar el contenido de cada página -->
+    <!-- TODO: [Paso 3] - Importá RouterOutlet desde '@angular/router', agregalo a imports del componente e insertá <router-outlet /> debajo del nav. -->
   `,
-  imports: [RouterOutlet],
+  imports: [],
 })
 export class Leccion12 {}

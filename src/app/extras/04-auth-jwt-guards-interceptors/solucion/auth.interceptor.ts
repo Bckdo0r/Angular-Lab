@@ -7,15 +7,14 @@ import { TOKEN_KEY } from './auth.service';
  * Compará con ../ejercicio/auth.interceptor.ts (el stub): la diferencia es
  * leer el token de localStorage y clonar la petición con la cabecera.
  *
- * Nota: el interceptor registrado globalmente en app.config.ts es el del
- * EJERCICIO. Este de acá es la versión de referencia: una vez implementado
- * el del ejercicio, tanto /extras/04 como /extras/04/solucion funcionan.
+ * Se registra en rutas.ts junto con un HttpClient propio de la solución.
+ * El interceptor del ejercicio sigue registrado globalmente en app.config.ts.
  */
 export const authTokenInterceptorSolucion: HttpInterceptorFn = (req, next) => {
   // [Paso 7] HttpRequest es inmutable: clone() devuelve una copia nueva con
   // la cabecera agregada, sin tocar la petición original.
   const token = localStorage.getItem(TOKEN_KEY);
-  if (token) {
+  if (token && req.url === '/api/panel') {
     const reqConToken = req.clone({
       setHeaders: { Authorization: `Bearer ${token}` },
     });

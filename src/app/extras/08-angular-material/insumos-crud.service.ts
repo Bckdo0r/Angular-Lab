@@ -38,15 +38,17 @@ const SEMILLA: Insumo[] = [
  */
 @Injectable({ providedIn: 'root' })
 export class InsumosCrudService {
+  // Los identificadores no se reutilizan: puede haber un borrado pendiente de deshacer.
+  private nextId = Math.max(0, ...SEMILLA.map((insumo) => insumo.id)) + 1;
   /** Fuente de verdad: señal privada con la lista completa. */
   private readonly fuente = signal<Insumo[]>(SEMILLA);
 
   /** Lista de solo lectura para el resto de la app. */
   readonly insumos = this.fuente.asReadonly();
 
-  /** Alta: calcula el id (max + 1) y agrega al final. */
+  /** Alta: asigna un identificador nuevo y agrega al final. */
   alta(datos: InsumoNuevo): void {
-    const id = Math.max(0, ...this.fuente().map((i) => i.id)) + 1;
+    const id = this.nextId++;
     this.fuente.update((lista) => [...lista, { ...datos, id }]);
   }
 

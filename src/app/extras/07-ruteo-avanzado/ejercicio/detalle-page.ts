@@ -162,10 +162,11 @@ export class DetallePage {
     //     queryParams: { tab },
     //     queryParamsHandling: 'merge', // conserva ?q= y ?area= del listado
     //   });
-    //   y en el constructor restaurar la pestaña desde un input bindeado al
-    //   query param: declara `tab = input<string>()` y en el constructor hace
-    //   this.tabActiva.set(this.tab() ?? 'resumen');
-    //   Con eso, recargar /extras/07/detalle/7?tab=auditoria restaura el tab
+    //   Declarar tab = input<string>() y reemplazar tabActiva por un computed
+    //   que lea tab() y valide el valor contra empleado()?.tabs. Quitá el set()
+    //   de arriba: la pestaña pasará a derivarse de la URL. No leas inputs en
+    //   el constructor: el router todavía no les asignó sus valores.
+    //   Con eso, recargar /extras/07/detalle/3?tab=auditoria restaura el tab
     //   (criterio de aceptación de la práctica).
   }
 

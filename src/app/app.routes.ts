@@ -303,6 +303,12 @@ export const routes: Routes = [
             title: 'App Home Page',
           },
           {
+            path: 'home',
+            loadComponent: () =>
+              import('./tutorial/12-enable-routing/home/home').then((m) => m.Leccion12Home),
+            title: 'App Home Page',
+          },
+          {
             path: 'user',
             loadComponent: () =>
               import('./tutorial/12-enable-routing/user/user').then((m) => m.Leccion12User),
@@ -351,7 +357,7 @@ export const routes: Routes = [
   // ─── Lección 13 — Definir una ruta ───────────────────────────
   // ✏️ EJERCICIO de la lección 13: definí las rutas hijas de esta lección.
   // Las páginas ya existen (Leccion13Home y Leccion13User); te falta a vos:
-  // agregar el array `children` con `path: ''` (Home) y `path: 'user'` (User).
+  // agregar `children`: redirección inicial a 'home', 'home' y 'user' con carga diferida.
   // El snippet exacto está en src/app/tutorial/13-define-a-route/README.md
   //
   // ⚠️ SIN recuadro "Output" a propósito: el ejercicio consiste en editar
@@ -359,8 +365,9 @@ export const routes: Routes = [
   {
     path: 'tutorial/13',
     loadComponent: () => import('./tutorial/13-define-a-route/leccion').then((m) => m.Leccion13),
-    // TODO (Lección 13): agregá acá el array `children` con las rutas
-    // '' → Leccion13Home y 'user' → Leccion13User (ver README de la lección).
+    // TODO: [Paso 1 de la lección 13] - Conservá loadComponent y agregá children
+    // con redirección inicial a 'home', 'home' y 'user' (loadComponent + title).
+    // Ver src/app/tutorial/13-define-a-route/README.md.
     title: 'Lección 13 — Definir una ruta',
   },
   {
@@ -411,6 +418,12 @@ export const routes: Routes = [
         children: [
           {
             path: '',
+            loadComponent: () =>
+              import('./tutorial/14-routerlink/home/home').then((m) => m.Leccion14Home),
+            title: 'App Home Page',
+          },
+          {
+            path: 'home',
             loadComponent: () =>
               import('./tutorial/14-routerlink/home/home').then((m) => m.Leccion14Home),
             title: 'App Home Page',
@@ -835,7 +848,7 @@ export const routes: Routes = [
   // El store se provee a nivel de ruta (ver extras/09-ngrx-store/rutas.ts).
   ...rutasPractica09,
 
-  // ─── Práctica 10 — Testing de HTTP y componentes ─────────────
+  // ─── Práctica 10 — Testing de HTTP y validadores ─────────────
   {
     path: 'extras/10',
     children: [
@@ -844,7 +857,7 @@ export const routes: Routes = [
           import('./extras/10-testing-http-componentes/ejercicio/panel-page').then(
             (m) => m.PanelPage,
           ),
-        'Práctica 10 — Testing de HTTP y componentes',
+        'Práctica 10 — Testing de HTTP y validadores',
       ),
     ],
   },
@@ -856,7 +869,7 @@ export const routes: Routes = [
           import('./extras/10-testing-http-componentes/solucion/panel-page').then(
             (m) => m.PanelPageSolucion,
           ),
-        'Solución 10 — Testing de HTTP y componentes',
+        'Solución 10 — Testing de HTTP y validadores',
       ),
     ],
   },

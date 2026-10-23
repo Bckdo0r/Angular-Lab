@@ -20,8 +20,9 @@ import { visorFeatureSolucion } from './solucion/visor.store';
  *     Angular destruye solo el componente, no el inyector de la ruta padre →
  *     el Store, con sus filtros y capas, sigue exactamente igual. Ese es el
  *     criterio «cambiar de pantalla y volver → los filtros persisten».
- *     (Salí de la práctica — a otra de `/extras` — y el inyector sí se destruye:
- *     el estado vuelve a cero. El scope de la ruta ES el scope del estado.)
+ *     Al salir y volver, el inyector también se conserva en la configuración
+ *     actual. No activamos withAutoCleanupInjectors(): el estado se reinicia
+ *     con la acción restablecer o al recargar la aplicación.
  *  3. Ejercicio y solución llevan features DISTINTOS (`visorFeature` /
  *     `visorFeatureSolucion`) en injectores distintos: cada subárbol tiene su
  *     propio store y no se pisan.

@@ -116,3 +116,9 @@ Probá en <http://localhost:4200/extras/05>:
 ## Solución
 
 La versión resuelta y comentada está en `src/app/extras/05-crud-interactivo-con-modales/solucion/` y se navega en `/extras/05/solucion`.
+
+Los pasos 1 a 7 son obligatorios; la lectura de los archivos compartidos no implica
+completarlos. Los datos solo viven en memoria y una recarga recupera la semilla.
+La solución conserva una página válida también al borrar la última fila de la página
+final. El modal ya incluye gestión de foco, recorrido con teclado y cierre con Escape
+en ambas versiones; esa infraestructura no forma parte de los TODO.

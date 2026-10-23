@@ -65,7 +65,9 @@ export class AuthService {
    */
   decodificarToken(token: string): PayloadJwt | null {
     // TODO: [Paso 2] - Envolver en try/catch y devolver null en el catch:
-    //   const payload = JSON.parse(atob(token.split('.')[1])) as PayloadJwt;
+    //   Leé JSON.parse(atob(token.split('.')[1])) como unknown y comprobá su forma.
+    //   Validá usuario/nombre (string), rol ('admin' o 'user') y exp (número finito
+    //   mayor que Date.now() / 1000). Una aserción de tipo no valida esos campos.
     //   - token.split('.')[1] → el segmento "payload" del JWT (header.payload.firma).
     //   - atob(...) → decodifica base64 a texto.
     //   - JSON.parse(...) → texto a objeto.
@@ -82,8 +84,8 @@ export class AuthService {
   /** Guarda el token, decodifica el payload y setea la señal. Devuelve el usuario. */
   private guardarSesion(token: string): Usuario {
     // TODO: [Paso 3, parte 2] - En orden:
-    //   1. localStorage.setItem(TOKEN_KEY, token);
-    //   2. const payload = this.decodificarToken(token);
+    //   1. const payload = this.decodificarToken(token);
+    //   2. solo si es válido: localStorage.setItem(TOKEN_KEY, token);
     //   3. si hay payload: this.usuarioActual.set(payload) y return payload;
     //   4. si el token es basura: throw new Error('Token inválido');
     console.warn('guardarSesion() sin implementar (Paso 3)');

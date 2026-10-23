@@ -4,7 +4,11 @@
 
 Los formularios son una parte grande de muchas apps porque le permiten a tu app aceptar input del usuario. Veamos cómo se manejan los formularios en Angular.
 
-En Angular hay dos tipos de formularios: **template-driven** (basados en la plantilla) y **reactive** (reactivos). Vas a aprender sobre ambos en las próximas actividades.
+Estas lecciones comparan dos enfoques de formularios: **template-driven** (basados
+en la plantilla) y **reactive** (reactivos). Angular 22 también ofrece Signal Forms.
+Las lecciones 15 y 16 sirven para reconocer `ngModel` en código existente; las
+prácticas del curso usan formularios reactivos. Aprender este enfoque no obliga
+a elegirlo para formularios nuevos.
 
 En esta lección vas a aprender a armar un formulario usando el enfoque template-driven.
 

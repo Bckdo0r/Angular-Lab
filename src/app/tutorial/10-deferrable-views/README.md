@@ -30,7 +30,7 @@ Envolvé el componente de comentarios con un bloque `@defer` para cargarlo de fo
 
 ```html
 @defer {
-  <comments />
+  <leccion-10-comments />
 }
 ```
 
@@ -42,7 +42,7 @@ Agregá un bloque `@placeholder` al bloque `@defer`. El bloque `@placeholder` es
 
 ```html
 @defer {
-  <comments />
+  <leccion-10-comments />
 } @placeholder {
   <p>Future comments</p>
 }
@@ -54,7 +54,7 @@ Agregá un bloque `@loading` al bloque `@defer`. El bloque `@loading` es donde p
 
 ```html
 @defer {
-  <comments />
+  <leccion-10-comments />
 } @placeholder {
   <p>Future comments</p>
 } @loading {
@@ -68,7 +68,7 @@ Tanto las secciones `@placeholder` como `@loading` tienen parámetros opcionales
 
 ```html
 @defer {
-  <comments />
+  <leccion-10-comments />
 } @placeholder {
   <p>Future comments</p>
 } @loading (minimum 2s) {
@@ -82,7 +82,7 @@ Las vistas diferibles tienen varias opciones de disparadores. Agregá un dispara
 
 ```html
 @defer (on viewport) {
-  <comments />
+  <leccion-10-comments />
 } @placeholder {
   <p>Future comments</p>
 } @loading (minimum 2s) {

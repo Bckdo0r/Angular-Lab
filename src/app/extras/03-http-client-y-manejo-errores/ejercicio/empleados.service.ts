@@ -35,7 +35,7 @@ export class EmpleadosService {
     //   Sin esa cabecera el backend falso responde 400.
     const headers = new HttpHeaders();
 
-    // TODO: [Paso 5] - Pasá las opciones al get(): el tercer argumento es un
+    // TODO: [Paso 5] - Pasá las opciones al get(): el segundo argumento es un
     //   objeto `{ params, headers }`. Con catchError envolvé el error para que
     //   pase por manejarError() (ya está cableado abajo, no lo toques).
     return this.http

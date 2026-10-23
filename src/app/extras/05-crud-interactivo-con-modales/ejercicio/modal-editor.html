@@ -1,6 +1,7 @@
 <div class="overlay" (click)="cerrar.emit()">
-  <div class="tarjeta" (click)="$event.stopPropagation()">
-    <h2>{{ empleado() ? 'Editar empleado' : 'Nuevo empleado' }}</h2>
+  <div class="tarjeta" role="dialog" aria-modal="true" aria-labelledby="modal-editor-title"
+    cdkTrapFocus [cdkTrapFocusAutoCapture]="true" (click)="$event.stopPropagation()">
+    <h2 id="modal-editor-title">{{ empleado() ? 'Editar empleado' : 'Nuevo empleado' }}</h2>
 
     <form [formGroup]="form" (ngSubmit)="confirmar()">
       <label>

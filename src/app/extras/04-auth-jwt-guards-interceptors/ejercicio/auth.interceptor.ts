@@ -15,7 +15,7 @@ import { TOKEN_KEY } from './auth.service';
 export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
   // TODO: [Paso 7] - Inyectar el token en la petición:
   //   1. const token = localStorage.getItem(TOKEN_KEY);
-  //   2. si hay token: cloná la petición con la cabecera y seguí con el clon:
+  //   2. si hay token Y req.url === '/api/panel': cloná la petición y seguí con el clon:
   //      const reqConToken = req.clone({
   //        setHeaders: { Authorization: `Bearer ${token}` },
   //      });

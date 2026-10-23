@@ -24,7 +24,9 @@ Un buscador que dispara peticiones mientras el usuario tipea, **sin duplicar lla
 
 ### 2. El `Subject` como fuente de eventos
 
-El Subject es a la vez Observable y "emisor": el input le empuja cada tipeo con `.next()` y la tubería lo consume. Es **hot**: emitir `.next()` no "ejecuta" nada, los suscriptores comparten el mismo flujo. Por eso sirve de fuente de eventos de un input:
+El Subject permite suscribirse y emitir con `.next()`. Es **hot**: comparte sus
+emisiones entre suscriptores existentes y no repite el historial al suscribirse.
+Los operadores de cada suscripción sí se ejecutan al recibir una emisión.
 
 ```ts
 busqueda$ = new Subject<string>();                        // Paso 1: la fuente
@@ -44,7 +46,8 @@ this.busqueda$.pipe(
 )
 ```
 
-`debounceTime(300)` agrupa la ráfaga de tipeos: si el usuario tipea "san" en menos de 300 ms, solo el último "n" llega al final — 3 tipeos, 1 petición (criterio Nº 1).
+`debounceTime(300)` agrupa la ráfaga: si se escribe «san» en menos de 300 ms, emite
+el último valor completo, «san», después del silencio. Son tres eventos y una consulta.
 
 ### 4. `switchMap` vs `mergeMap` (la trampa clásica, Paso 3)
 
@@ -66,7 +69,14 @@ this.busqueda$.pipe(
 });
 ```
 
-Sin el cleanup, navegar fuera de la pantalla deja la suscripción viva para siempre: leak + peticiones fantasma (criterio Nº 3 roto). `takeUntilDestroyed()` es el atajo de Angular sobre `DestroyRef`: se destruye el componente, se desuscribe solo. Y `tap()` es el lugar ideal para encender `cargando` **antes** de la petición: hace un efecto secundario sin transformar el flujo.
+`takeUntilDestroyed()` vincula la suscripción con la destrucción del componente y
+cancela también una consulta pendiente. No toda suscripción sin cleanup produce una
+fuga permanente, pero los flujos duraderos deben tener un ciclo de vida explícito.
+`tap()` permite encender `cargando` antes de iniciar cada consulta.
+
+El callback `error` de `subscribe` **no recupera** el flujo: la suscripción termina.
+Para poder buscar otra vez, capturá el fallo **dentro del Observable que devuelve
+`switchMap`**. `catchError` con `EMPTY` termina esa consulta interna y conserva la fuente de tipeos.
 
 ### 6. Estados como signals (Paso 5)
 
@@ -95,11 +105,12 @@ Se puede evitar el `subscribe()` a mano dejando el pipeline "puro" y convirtiend
 private readonly resultados$ = this.busqueda$.pipe(
   debounceTime(300),
   distinctUntilChanged(),
-  switchMap((texto) => this.servicio.listar(texto)),
-  catchError((err: Error, _) => {
-    this.error.set(err.message);
-    return EMPTY;                 // el flujo sigue vivo para la próxima búsqueda
-  }),
+  switchMap((texto) => this.servicio.listar(texto).pipe(
+    catchError((err: Error) => {
+      this.error.set(err.message);
+      return EMPTY; // termina la consulta interna; el Subject sigue escuchando
+    }),
+  )),
 );
 protected readonly resultado = toSignal(this.resultados$, { initialValue: null });
 ```
@@ -113,18 +124,19 @@ Abrí el ejercicio (<http://localhost:4200/extras/06>) y probá: podés tipear p
 - [ ] **Paso 1 — `buscador-page.ts`:** declará `busqueda$ = new Subject<string>()` (importá `Subject` desde `rxjs`) y completá `buscar(texto)` con `this.busqueda$.next(texto)`. El (input) ya llama a `buscar()` vía `alTipear()`.
 - [ ] **Paso 2 — `buscador-page.ts`:** en el constructor, encadená `this.busqueda$.pipe(debounceTime(300), distinctUntilChanged())`. Pensá por qué va cada uno: `debounceTime` agrupa la ráfaga de tipeos; `distinctUntilChanged` evita pedir dos veces lo mismo.
 - [ ] **Paso 3 — `buscador-page.ts`:** agregá `switchMap((texto) => this.servicio.listar(texto))` al pipe. Experimento sugerido: reemplazalo por `mergeMap` y violá el criterio Nº 2 — después volvé.
-- [ ] **Paso 4 — `buscador-page.ts`:** suscribite en el constructor con `.subscribe({ next, error })`, apagando/encendiendo las signals (`cargando` en un `tap()` previo), y cerrá el pipe con `takeUntilDestroyed()` (de `@angular/core/rxjs-interop`). Sin eso: leak.
+- [ ] **Paso 4 — `buscador-page.ts`:** suscribite en el constructor con `next` para guardar los datos y apagar la carga; activala en un `tap()` previo. Dentro de `switchMap`, agregá `catchError` para limpiar resultados, mostrar el error, apagar la carga y devolver `EMPTY`. Terminá el pipe con `takeUntilDestroyed()`.
 - [ ] **Paso 5 — template:** los `@if (cargando)` / `@if (vacio)` / `@if (error)` ya están escritos; verificá que se comporten (escribí algo sin resultados, forzá un error si podés).
 - [ ] **Paso 6 — (desafío):** repetí la misma lógica exponiendo el resultado como signal: pipeline puro + `toSignal(...)`. Está resuelto como variante comentada en `solucion/buscador-page.ts` (y el inverso es `toObservable()`).
-- [ ] **Paso 7 — verificación con Network:** abrí DevTools → pestaña **Network**, filtrá por `empleados`, y recorré los criterios de aceptación de abajo: 1 sola petición por ráfaga de tipeos, ninguna respuesta vieja pintada tarde, y ninguna petición pendiente al navegar fuera.
+- [ ] **Paso 7 — verificación:** agregá temporalmente un `console.count('consulta')` en `listar()` y recorré los criterios de abajo. El backend es un interceptor con `timer(400)`: **no hay tráfico HTTP real en Network**. Para observar cancelaciones usá un `finalize` temporal en cada consulta o las pruebas de regresión.
 
 ## Criterios de aceptación
 
-Probá en <http://localhost:4200/extras/06> (con DevTools → pestaña **Network**, filtrando por `empleados`):
+Probá en <http://localhost:4200/extras/06>, instrumentando el servicio como indica el paso 7:
 
-1. Tipear "san" rápido → en Network aparece **1 sola** petición (el `debounceTime` agrupó los tipeos).
-2. Escribir "san", borrar y escribir "s" → jamás se pinta tarde la respuesta de "san" (el `switchMap` la canceló).
+1. Tipear "san" rápido → el servicio recibe **una sola** consulta con el texto completo `san`.
+2. Escribir "san", esperar más de 300 ms y cambiar a "s" → al llegar `s` al `switchMap`, se cancela la consulta anterior. El intervalo de debounce todavía puede dejar visible o llegar a mostrar el resultado anterior: la cancelación ocurre al emitir el texto estabilizado, no en cada pulsación.
 3. Navegar fuera de la pantalla → ninguna petición pendiente (cleanup efectivo de `takeUntilDestroyed()`).
+4. Con un servicio sustituto que falle una vez, la siguiente consulta con un texto diferente funciona sin recargar. `distinctUntilChanged` impide repetir el mismo texto; el reintento explícito y los fallos controlados serán parte de la práctica 11 de la etapa 3.
 
 ## Solución
 

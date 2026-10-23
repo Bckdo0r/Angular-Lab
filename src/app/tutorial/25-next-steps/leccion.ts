@@ -70,8 +70,8 @@ import { IconoSvg } from '../../compartido/icono-svg';
           <h3><icono-svg nombre="frasco" [tamano]="16" /> Prácticas Avanzadas</h3>
           <p>
             El aprendizaje sigue acá: escenarios de trabajo real para seguir practicando lo visto.
-            Los temas de los videos de esta página también se abordan en estas prácticas, con la
-            misma profundidad. ¡Y más, con nuevas actividades en camino!
+            Cada práctica indica su alcance y sus comprobaciones. Los videos y artículos son
+            recursos opcionales y pueden usar versiones distintas de Angular.
           </p>
         </a>
       </div>

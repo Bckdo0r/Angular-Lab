@@ -15,7 +15,7 @@ import {Leccion09SolucionChild} from './child';
   imports: [Leccion09SolucionChild],
 })
 export class Leccion09Solucion {
-  items = new Array();
+  items: string[] = [];
 
   addItem(item: string) {
     this.items.push(item);

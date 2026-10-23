@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
 
 /**
  * LECCIÓN 23 — Formatear datos con pipes
@@ -16,15 +15,15 @@ import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
   template: `
     <h2>Formatear datos con pipes</h2>
     <ul>
-      <!-- TODO 1: Usá el pipe "number" con el parámetro '3.2-2' sobre la expresión de num -->
+      <!-- TODO: [Paso 1] - Importá DecimalPipe desde '@angular/common', agregalo a imports y usá number: '3.2-2' sobre num. -->
       <li>Number with "decimal" {{ num }}</li>
-      <!-- TODO 2: Usá el pipe "date" con el parámetro 'medium' sobre la expresión de birthday -->
+      <!-- TODO: [Paso 2] - Importá DatePipe, agregalo a imports y usá date: 'medium' sobre birthday. -->
       <li>Date with "date" {{ birthday }}</li>
-      <!-- TODO 3: Usá el pipe "currency" sobre la expresión de cost -->
+      <!-- TODO: [Paso 3] - Importá CurrencyPipe, agregalo a imports y usá currency sobre cost. -->
       <li>Currency with "currency" {{ cost }}</li>
     </ul>
   `,
-  imports: [DecimalPipe, DatePipe, CurrencyPipe],
+  imports: [],
 })
 export class Leccion23 {
   num = 103.1234;

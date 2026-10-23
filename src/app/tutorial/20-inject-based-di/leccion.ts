@@ -20,7 +20,7 @@ import { Leccion20CarService } from './car.service';
   selector: 'leccion-20',
   // TODO 3: Actualizá la plantilla para mostrar la lista de autos:
   // <p>Car Listing: {{ display }}</p>
-  template: ``,
+  template: `<p>Completá los pasos 1 a 3 para mostrar la lista de autos con inject().</p>`,
 })
 export class Leccion20 {
   // TODO 1: Inyectá el Leccion20CarService con la función inject() y

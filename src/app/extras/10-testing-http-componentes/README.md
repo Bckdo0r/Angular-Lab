@@ -1,4 +1,4 @@
-# Práctica 10 — Testing de HTTP y componentes
+# Práctica 10 — Testing de HTTP y validadores
 
 ## Cómo hacer la práctica
 
@@ -14,7 +14,7 @@
 Acá el código de producción ya existe: en esta práctica hacés lo que más se hace en un equipo real, **testearlo**. Sin red real, sin backend y sin renderizar toda la app. La parte difícil no es llamar al `HttpClient` (eso fue la práctica 03) ni validar (la 02): es **controlar el entorno de test** para que las peticiones no salgan a la red y las respuestas las fabricás vos. En el camino:
 
 1. **`TestBed` + `provideHttpClientTesting()`**: un backend de testing que intercepta todo el `HttpClient`.
-2. **`HttpTestingController`**: `expectOne` captura la petición, `flush`/`error()` fabrican la respuesta y `verify()` caza requests colgados.
+2. **`HttpTestingController`**: `expectOne` captura la petición, `flush`/`error()` fabrican la respuesta y `verify()` detecta peticiones no capturadas.
 3. **Regla de negocio, no implementación**: el validador se testea con casos puros (entrada → salida), afirmando la DATA que devuelve, jamás un texto.
 
 ## Conceptos clave
@@ -32,7 +32,9 @@ service = TestBed.inject(ProductosApiService);
 controller = TestBed.inject(HttpTestingController);
 ```
 
-El orden importa: `provideHttpClientTesting()` va **después** de `provideHttpClient()`, así el backend de testing intercepta al HttpClient real. Con vitest (`isolate: false`) todos los specs comparten el mismo TestBed, por eso el `beforeEach` arranca con un `TestBed.resetTestingModule()` explícito y el `afterEach` lo vuelve a limpiar.
+Si configurás `provideHttpClient()`, colocá después `provideHttpClientTesting()` para
+que sustituya el backend. Angular gestiona TestBed entre pruebas; los resets explícitos
+de estos ejemplos son una limpieza adicional, no una regla general de Vitest.
 
 ### 2. `HttpTestingController`: `expectOne`, `flush`, `error()`, `verify()`
 
@@ -52,7 +54,8 @@ it('lista exitosa', () => {
 });
 ```
 
-- **`flush(datos)`** simula una respuesta exitosa; **`req.error(new ProgressEvent('error'), { status: 500 })`** simula un fallo (y el `catchError` del servicio es el que entra en acción).
+- **`flush(datos)`** simula éxito; `flush(null, { status: 500, statusText: 'Server Error' })`
+  simula un error del servidor. `error(new ProgressEvent('error'))` simula un fallo de red (status 0).
 - **`expectOne(url)`** compara la URL **completa**: si la petición lleva query params (`?categoria=...`), no matchea. En ese caso se usa la forma con **predicado** y las afirmaciones van sobre `req.request`.
 
 ### 3. Aserción de params y headers en la petición
@@ -66,7 +69,8 @@ controller.expectOne((req) => req.url === '/api/productos', 'listar con filtro')
 //   req.request.headers.get('X-Canal')   → 'practica-10'   (HttpHeaders)
 ```
 
-Probar esto es imposible sin un backend de testing: la petición nunca sale, pero el `HttpTestingController` te deja inspeccionarla **después** de que el servicio la armó.
+El backend de pruebas permite inspeccionar la petición después de que el servicio la
+armó, sin depender de una red o de un servidor real.
 
 ### 4. Testear la REGLA, no el texto
 
@@ -90,7 +94,7 @@ Por eso "cambiar el mensaje de error del código" nunca puede romper estos tests
 
 Regla práctica: testeás la pieza cuyo *contrato* te importa.
 
-### 6. `verify()`: la red que caza requests colgados
+### 6. `verify()`: detectar peticiones no esperadas
 
 ```ts
 afterEach(() => {
@@ -99,11 +103,17 @@ afterEach(() => {
 });
 ```
 
-Si un test dispara una petición y nadie la responde (ni `flush` ni `error`), `verify()` revienta. Sin ese `afterEach`, el request colgado pasaría desapercibido: el suite sería verde con un test que en realidad está incompleto. El `[Paso 7]` del spec lo demuestra a propósito: deja un request colgado y espera que `verify()` **explota**.
+`verify()` falla si hay peticiones que todavía no capturaste con `expectOne` o `match`.
+Una vez capturadas, salen de su lista: **no comprueba por sí solo que hayas llamado a
+`flush` o `error`**. Respondé cada petición y afirmá el resultado recibido. El paso 7
+deja una petición sin capturar, comprueba el fallo y luego la captura y responde.
 
 ### 7. El runner es vitest
 
-El proyecto corre los tests con **vitest** (`@angular/build:unit-test` vía `npm test`), no karma. Detalle que importa para esta práctica: vitest **falla** una suite que no tiene ningún test real (los `it.todo` no cuentan), por eso cada spec del ejercicio trae un test "dado" del Paso 1 que mantiene la suite verde mientras completás los demás.
+El proyecto ejecuta **Vitest** con `@angular/build:unit-test` mediante `npm test`.
+Los `it.todo` indican trabajo pendiente y no verifican comportamiento. Los tests dados
+del paso 1 comprueban la preparación del entorno. Para ejecutar una sola vez:
+`npm test -- --watch=false`.
 
 ## Consigna paso a paso (checklist)
 
@@ -111,7 +121,7 @@ Abrí los specs de `ejercicio/` y corré `npm test`: la suite está **verde** co
 
 - [ ] **Paso 1 (dado, no se toca) — `productos-api.service.spec.ts`:** el `beforeEach` con `TestBed` + `provideHttpClient()` + `provideHttpClientTesting()` y el test que verifica que el servicio y el controlador se inyectan ya están escritos. Usalos de ancla y de ejemplo.
 - [ ] **Paso 2 — `productos-api.service.spec.ts`:** `expectOne + flush`: `service.listar().subscribe()`, `controller.expectOne('/api/productos')`, afirmá el método `GET`, respondé con `req.flush([...])` y verificá que el subscribe recibió EXACTAMENTE esos datos.
-- [ ] **Paso 3 — `productos-api.service.spec.ts`:** `error()` simula fallo y el `catchError` mapea: `service.obtener(999)`, respondé con `req.error(new ProgressEvent('error'), { status: 500 })` y afirmá que el error llega como `Error` con mensaje **no vacío** — no la frase exacta.
+- [ ] **Paso 3 — `productos-api.service.spec.ts`:** probá el mapeo de errores de `service.obtener(999)` con `req.flush(null, { status: 500, statusText: 'Server Error' })`. Afirmá que llega un `Error` con mensaje no vacío. Como extensión opcional, probá un fallo de red con `req.error(new ProgressEvent('error'))`.
 - [ ] **Paso 4 — `productos-api.service.spec.ts`:** los `HttpParams` y el header viajan en la petición: `service.listar({ categoria })` y afirmá `req.request.params.get('categoria')` y `req.request.headers.get('X-Canal')`. Detalle: con query params, `expectOne('/api/productos')` no matchea; usá la forma con predicado. No olvidés el `flush` final.
 - [ ] **Paso 5 — `validadores.spec.ts`:** casos puros de `stockMinimo(5)`: por debajo del mínimo → `{ stockMinimo: { min: 5 } }` (con `toEqual`); justo el borde (`== min`) → `null`; por encima → `null`; vacío (`''`/`null`) → `null` (lo maneja `Validators.required`). Sin DOM, sin HTTP.
 - [ ] **Paso 6 (lectura):** la tabla de criterios de arriba (stub de servicio vs HTTP testing vs test puro). No hay código que escribir.
@@ -122,7 +132,14 @@ Abrí los specs de `ejercicio/` y corré `npm test`: la suite está **verde** co
 
 1. **`npm test` verde.**
 2. **Cambiar el mensaje de error del código no rompe el test del validador.**
-3. **Sin `verify()`, el suite falla con un request pendiente.**
+3. **Con `verify()`, una petición no capturada hace fallar la comprobación.**
+
+El código obligatorio está en los specs HTTP y del validador. El paso 6 (stub frente
+a backend HTTP) es de lectura; esta práctica todavía no propone implementar un test
+de componente. La demo web consulta datos del simulador local; los tests preparan
+respuestas independientes con `HttpTestingController`.
+
+Referencia: [pruebas de HTTP y tratamiento de errores](https://angular.dev/guide/http/testing).
 
 El runner del proyecto es vitest (`@angular/build:unit-test`), no karma.
 

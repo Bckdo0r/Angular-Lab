@@ -8,7 +8,10 @@
 2. Ejercicio: <http://localhost:4200/extras/07>
 3. Solución para comparar en otra pestaña: <http://localhost:4200/extras/07/solucion>
 4. Archivos de trabajo: `src/app/extras/07-ruteo-avanzado/ejercicio/` — buscá los comentarios `// TODO:` (Pasos 1–8). Tu trabajo está en `listado-page.ts` (Pasos 4a y 4b), `detalle-page.ts` (Pasos 2, 3 y 4c), `panel-layout.ts` (Paso 6, en su **plantilla**) y `rol.guard.ts` (Paso 7). Los Pasos 1, 5 y 8 no tienen TODO: son de lectura y experimento sobre `rutas.ts`.
-5. El material ya está hecho: `empleados-mock.ts` (en la raíz de la carpeta, compartido entre ejercicio y solución) no tiene TODOs — es ruteo puro, sin HTTP. `rutas.ts` también está completo: **se lee, no se completa**. Dos notas sobre el 404: hay un solo comodín `**` por aplicación, así que el 404 global es el de la página del ejercicio (la de la solución existe como espejo didáctico, sin ruta), y `app.routes.ts` registra esta práctica con un spread (`...rutasPractica07`) **al final** del array global — por eso el comodín no tapa las rutas de las otras prácticas.
+5. `empleados-mock.ts` y `rutas.ts` ya están completos y son de lectura. Este proyecto
+   usa un comodín **global**, registrado al final de `app.routes.ts`; muestra el 404
+   del ejercicio. También se pueden definir comodines en subárboles: Angular no limita
+   una aplicación a un único `**`. La página 404 de la solución queda como referencia.
 
 ## Objetivo
 
@@ -71,8 +74,12 @@ La directiva agrega y saca la clase sola: la clase sigue a la **URL**, no a clic
 
 ### 7. `canMatch` vs `canActivate`
 
-- **canActivate** (práctica 04): la ruta existe y su bundle ya se bajó; el guard decide recién ahí si te deja pasar o te redirige (con mensaje, `returnUrl`, etc.).
-- **canMatch**: el guard corre **antes del matching**; si devuelve `false`, la ruta se **remueve del árbol** — para vos esa pantalla no existe, no se baja ningún chunk y la navegación cae al comodín `**` (404). Ideal para ocultar features por rol o feature flag.
+- **canActivate** decide si se activa una ruta reconocida. No significa que un componente
+  con `loadComponent` ya se haya descargado: esa carga ocurre después de los guards.
+- **canMatch** participa en el reconocimiento. Si devuelve `false`, Angular intenta
+  otra ruta candidata; la configuración no se elimina. En este árbol puede terminar
+  en el 404. Sin precarga ni visitas anteriores, no se solicita el componente rechazado.
+- Ambos pueden redirigir mediante `UrlTree`. Ninguno sustituye la autorización del servidor.
 
 ```ts
 export const soloAdminCanMatch: CanMatchFn = () => rolSimulado() === 'admin';
@@ -103,11 +110,11 @@ Abrí el ejercicio (<http://localhost:4200/extras/07>) y recorré la app. Cada `
 - [ ] **Paso 2 — `detalle-page.ts`:** el `id = input.required<string>()` ya está declarado: leé el comentario y probá `/extras/07/detalle/9999` (la vista se muestra igual, con el mensaje de inexistente) y `/extras/07/detalle/3`.
 - [ ] **Paso 3 — `detalle-page.ts`:** implementá `volverAlListado()`: `Router.navigate` al listado reenviando los query params `q` y `area` que llegaron como inputs (el link "Ver ficha" los trajo con `queryParamsHandling="preserve"`).
 - [ ] **Paso 4a — `listado-page.ts`:** implementá `aplicarFiltros()` y `limpiarFiltros()`: `Router.navigate` con `queryParams` (`q` y `area`; `null` saca el param si está vacío). En `limpiarFiltros()` además reseteá las signals locales.
-- [ ] **Paso 4b — `listado-page.ts`:** en el constructor, restaurá los filtros desde los inputs `q` y `area` (`this.texto.set(this.q() ?? '')`, ídem `areaFiltro`). Con eso, un link compartido tipo `/extras/07?q=ana&area=Desarrollo` abre el listado ya filtrado.
-- [ ] **Paso 4c — `detalle-page.ts`:** en `seleccionarTab(tab)`, sincronizá la pestaña con la URL (`navigate` con `queryParams: { tab }` y `queryParamsHandling: 'merge'`) y restaurala en el constructor desde un input `tab`. Recargar `/extras/07/detalle/7?tab=auditoria` debe mantener el tab.
+- [ ] **Paso 4b — `listado-page.ts`:** reemplazá `texto` y `areaFiltro` por `linkedSignal` derivados de `q()` y `area()`. Derivá `filtrados` de esos inputs de URL. No los copies en el constructor: todavía no están asignados y esa copia tampoco seguirá Atrás/Adelante. Un enlace directo como `/extras/07?q=ana&area=Desarrollo` debe abrir la vista filtrada.
+- [ ] **Paso 4c — `detalle-page.ts`:** declará un input `tab`, derivá la pestaña activa con `computed` validando contra las pestañas disponibles y quitá el `.set()` local. En `seleccionarTab`, navegá con `queryParams: { tab }` y `queryParamsHandling: 'merge'`. Recargar `/extras/07/detalle/3?tab=auditoria` debe mantenerla.
 - [ ] **Paso 5 — experimento (sin TODO en el código):** razoná (o probá en una copia) qué pasa si `**` estuviera primera en `rutas.ts`: TODA la app caería en el 404. Por eso es la última entrada y el spread global va al final.
 - [ ] **Paso 6 — `panel-layout.ts` (plantilla):** agregá a cada `<a>` del menú `routerLinkActive="activo"` y `[routerLinkActiveOptions]="{ exact: true }"`. Navegá entre Equipo y Admin: el ítem de la ruta actual queda resaltado (la clase `.activo` ya está estilada).
-- [ ] **Paso 7 — `rol.guard.ts`:** implementá `soloAdminCanMatch` leyendo el rol simulado de localStorage (clave `practica07-rol`; el toggle vive en el panel). Con rol "visitante", la ruta `admin` **desaparece**: caés al 404 y en Network **no baja ningún chunk** de la página admin.
+- [ ] **Paso 7 — `rol.guard.ts`:** implementá `soloAdminCanMatch` leyendo el rol simulado de localStorage (clave `practica07-rol`; el selector vive en el panel). Con rol visitante, Angular descarta la candidata admin y continúa hasta el 404. Observá la carga diferida en una sesión nueva, sin precarga ni visitas anteriores.
 - [ ] **Paso 8 — lectura de `rutas.ts`:** recorré línea por línea el bloque de `panel`: el layout se carga lazy una vez y `equipo`/`admin` se pintan en su `<router-outlet />` (en la 04 solo leíste esta estructura; acá está escrita entera).
 - [ ] **Paso final:** probá los criterios de aceptación de abajo.
 
@@ -116,7 +123,7 @@ Abrí el ejercicio (<http://localhost:4200/extras/07>) y recorré la app. Cada `
 Probá en <http://localhost:4200/extras/07>:
 
 1. **Detalle por input():** entrar directo a `/extras/07/detalle/9999` muestra la vista (el ID llega por `input()`, no por subscribe).
-2. **Tab restaurado:** recargar `/extras/07/detalle/7?tab=auditoria` restaura el tab.
+2. **Tab restaurado:** recargar `/extras/07/detalle/3?tab=auditoria` restaura el tab.
 3. **Listado compartible:** el listado filtrado se puede compartir por link y al abrirlo los filtros reaparecen.
 4. **404 sin romper nada:** cualquier path inválido cae en 404 sin romper el menú.
 
@@ -126,4 +133,10 @@ La versión resuelta y comentada está en `src/app/extras/07-ruteo-avanzado/solu
 
 - El rol simulado **comparte la clave de localStorage** con el ejercicio: es el mismo "usuario" en las dos, así que cambiar el rol en una afecta a la otra.
 - En el listado, la solución usa `linkedSignal()` para los controles del formulario: nacen del query param, se pueden editar mientras se tipea, y vuelven a computarse si la URL cambia.
-- Para ver el lazy: DevTools → **Network** (filtrá por JS) — cada página baja su chunk recién al navegar a su ruta, y con rol "visitante" la ruta admin **no baja ninguno** (`canMatch` la remueve antes de pedir el bundle).
+- Para observar la carga diferida, usá una sesión nueva sin precarga: cada página
+  carga su módulo al navegar. Los nombres de los chunks pueden ser hashes, y un
+  módulo visitado antes puede estar en caché. `canMatch: false` descarta la candidata;
+  no borra la configuración ni garantiza que su código no se haya descargado antes.
+
+Referencias: [guards](https://angular.dev/guide/routing/route-guards) y
+[inputs desde rutas](https://angular.dev/guide/routing/common-router-tasks).

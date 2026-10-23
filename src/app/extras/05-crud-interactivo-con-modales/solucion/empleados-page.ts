@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, linkedSignal, signal } from '@angular/core';
 import { Empleado } from '../empleado';
 import { EmpleadosCrudService } from '../empleados-crud.service';
 import { ModalEditorSolucion } from './modal-editor';
@@ -19,7 +19,6 @@ export class EmpleadosPageSolucion {
   private readonly servicio = inject(EmpleadosCrudService);
 
   protected readonly filtro = signal('');
-  protected readonly pagina = signal(1);
   protected readonly porPagina = 4;
 
   protected readonly seleccionado = signal<Empleado | null>(null);
@@ -51,6 +50,12 @@ export class EmpleadosPageSolucion {
   protected readonly totalPaginas = computed(() =>
     Math.max(1, Math.ceil(this.filtrados().length / this.porPagina)),
   );
+
+  // Conservamos la página elegida, ajustándola si un borrado reduce el total.
+  protected readonly pagina = linkedSignal<number, number>({
+    source: this.totalPaginas,
+    computation: (total, previous) => Math.min(previous?.value ?? 1, total),
+  });
 
   protected cambiarPagina(delta: number): void {
     // [Paso 2] Clampeo: Math.max con 1 y Math.min con el total, todo en un update.

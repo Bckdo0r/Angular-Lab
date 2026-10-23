@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * SOLUCIÓN — Lección 6
@@ -9,7 +9,7 @@ import {Component} from '@angular/core';
   selector: 'leccion-06-solucion',
   styleUrl: './leccion.css',
   template: `
-    <div [contentEditable]="isEditable"></div>
+    <div [contentEditable]="isEditable" role="textbox" aria-label="Texto editable"></div>
   `,
 })
 export class Leccion06Solucion {

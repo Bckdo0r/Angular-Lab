@@ -24,9 +24,7 @@ describe('ProductosApiService', () => {
   // Este `beforeEach` corre antes de CADA test: crea el TestBed con los dos
   // providers HTTP y te entrega el servicio y el controlador listos para usar.
   beforeEach(() => {
-    // Con vitest (isolate: false) todos los specs comparten el MISMO TestBed:
-    // arrancar con un reset explícito garantiza que este spec es independiente
-    // de qué otros archivos corrieron antes en la misma suite.
+    // Limpieza explícita adicional; Angular también gestiona el entorno entre tests.
     TestBed.resetTestingModule();
 
     TestBed.configureTestingModule({
@@ -42,9 +40,8 @@ describe('ProductosApiService', () => {
 
   // ─── Paso 7 (YA RESUELTO) — verify() como red de seguridad ─────────────
   // Este `afterEach` corre después de CADA test: si algún test disparó una
-  // petición y no la respondió (ni con flush() ni con error()), acá explota
-  // con "Expected no open requests, found 1: ...". Es la red que caza
-  // "requests colgados" que nadie contestó.
+  // petición y no la capturó con expectOne/match, la comprobación falla.
+  // Las peticiones ya capturadas deben responderse y comprobarse en cada test.
   afterEach(() => {
     controller.verify();
     // Y dejamos el TestBed limpio para el test que venga después.
@@ -59,8 +56,7 @@ describe('ProductosApiService', () => {
   //   3. `req.flush(datos)` (simula la respuesta) o `req.error(...)`.
   //   4. Afirmar lo que recibió el `subscribe`.
   //
-  // Nota: vitest falla una suite que NO tiene ningún test real (los
-  // `it.todo` no cuentan), por eso el Paso 1 viene ya como test dado acá abajo.
+  // Los it.todo registran tareas pendientes. El test dado comprueba el entorno.
 
   // [Paso 1] (DADO, no se toca) — el entorno de test quedó armado y el
   // servicio inyectado es el real (interceptado por el backend de testing).
@@ -81,10 +77,10 @@ describe('ProductosApiService', () => {
   //   el subscribe recibió EXACTAMENTE esos datos.
   it.todo('[Paso 2] expectOne + flush: lista exitosa');
 
-  // TODO: [Paso 3] - error() simula fallo y el catchError mapea.
+  // TODO: [Paso 3] - Simulá un error de servidor y comprobá el mapeo de catchError.
   //   Hacé `service.obtener(999).subscribe({ error: ... })`. Pedí la petición
-  //   y respondé con `req.error(new ProgressEvent('error'), { status: 500 })`
-  //   (fallo, no flush). Afirmá que el error llegó como `Error` con un
+  //   y respondé con req.flush(null, { status: 500, statusText: 'Server Error' }).
+  //   Afirmá que el error llegó como Error con un
   //   mensaje no vacío (el mapeo del catchError) — no la frase exacta.
   it.todo('[Paso 3] error() simula fallo y el catchError mapea');
 
@@ -92,8 +88,8 @@ describe('ProductosApiService', () => {
   //   Hacé `service.listar({ categoria: 'perifericos' }).subscribe()`. Pedí
   //   la petición con expectOne y afirmá sobre la MISMA petición:
   //   `req.request.params.get('categoria')` y `req.request.headers.get('X-Canal')`.
-  //   No te olvides del `flush` final para que el verify() del afterEach
-  //   no explote.
+  //   Respondé con flush y comprobá los datos recibidos; verify no revisa
+  //   si se respondieron las peticiones que ya capturaste.
   it.todo('[Paso 4] los HttpParams y el header viajan en la petición');
 
   // TODO: [Paso 7] - verify() en afterEach caza requests colgados.

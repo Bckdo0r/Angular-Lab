@@ -21,7 +21,7 @@ En esta lección vas a aprender a configurar tu app para usar el **Angular Route
 
 `src/app/tutorial/12-enable-routing/leccion.ts`
 
-Buscá el comentario `// TODO 1` y completalo. Al guardar, el navegador se recarga solo.
+Buscá el comentario `TODO: [Paso 3]` y completalo. Al guardar, el navegador se recarga solo.
 
 ## Pasos
 
@@ -65,7 +65,7 @@ En esta app ese archivo es `src/app/app.config.ts`, que ya llama a `provideRoute
 
 Para que la app esté lista para usar el Angular Router, tenés que decirle **dónde** esperás que el router muestre el contenido. Eso se logra con la directiva `RouterOutlet` de `@angular/router`.
 
-Actualizá el template de `Leccion12` (en `leccion.ts`) agregando `<router-outlet />` debajo del `<nav>`:
+Importá `RouterOutlet` desde `@angular/router`, agregalo a `imports` y actualizá el template de `Leccion12` (en `leccion.ts`) agregando `<router-outlet />` debajo del `<nav>`:
 
 ```ts
 @Component({
@@ -85,7 +85,9 @@ export class Leccion12 {}
 
 > **Nota:** en el tutorial original los links son `href="/"` y `href="/user"`. Acá apuntan a `/tutorial/12/home` y `/tutorial/12/user` para no salir del tutorial. En la lección 14 los vas a reemplazar por `routerLink`.
 
-Al mirar la vista vas a ver que `<router-outlet />` por sí solo no muestra nada todavía: es solo el "agujero" donde el router va a insertar las páginas. En la próxima lección definimos qué mostrar ahí.
+En esta app las rutas hijas ya están registradas: al agregar el outlet vas a ver
+«Home Page» en `/tutorial/12` y `/tutorial/12/home`, y el usuario en `/tutorial/12/user`.
+Antes del paso 3 solo se ve el menú. En la próxima lección vas a definir las rutas vos.
 
 ## Para cerrar
 

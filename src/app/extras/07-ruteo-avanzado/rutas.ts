@@ -31,9 +31,8 @@ import { soloAdminCanMatchSolucion } from './solucion/rol.guard';
  * (provideRouter(routes, withComponentInputBinding())): por eso ':id' y los
  * query params llegan como inputs a los componentes, sin ActivatedRoute.
  *
- * Nota: hay un solo '**' posible por aplicación, así que es compartido por
- * el ejercicio y la solución (la página 404 de la solución existe como
- * espejo didáctico, pero la ruta comodín apunta a la del ejercicio).
+ * Nota: este proyecto elige un único '**' global, compartido por ejercicio
+ * y solución. Angular permite también comodines dentro de subárboles.
  *
  * Recuadro "Output" (SalidaDemo): todas las páginas de la práctica se
  * renderizan dentro del recuadro. Rutas planas → `component: SalidaDemo`
@@ -90,8 +89,8 @@ export const rutasPractica07: Routes = [
             path: 'admin',
             loadComponent: () => import('./ejercicio/admin-page').then((m) => m.AdminPage),
             // canMatch se evalúa ANTES de cargar el bundle: si el rol no da,
-            // la ruta se remueve del árbol (ni siquiera existe) y el navegador
-            // cae al '**' → 404. Comparalo con el canActivate de la práctica 04.
+            // se descarta esta candidata y Angular prueba otras rutas hasta
+            // llegar al '**' → 404. La configuración de la ruta se conserva.
             canMatch: [soloAdminCanMatch],
             title: 'Práctica 07 — Panel admin',
           },

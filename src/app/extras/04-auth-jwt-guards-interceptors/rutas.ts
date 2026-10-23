@@ -1,7 +1,11 @@
 import { Routes } from '@angular/router';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { backendFalso } from '../backend-falso';
 import { SalidaDemo } from '../../compartido/salida-demo';
 import { authGuard, roleGuard } from './ejercicio/auth.guard';
 import { authGuardSolucion, roleGuardSolucion } from './solucion/auth.guard';
+import { AuthServiceSolucion } from './solucion/auth.service';
+import { authTokenInterceptorSolucion } from './solucion/auth.interceptor';
 
 /**
  * RUTAS DE LA PRÁCTICA 04 — rutas hijas con guards.
@@ -60,6 +64,12 @@ export const rutasPractica04: Routes = [
   {
     path: 'extras/04/solucion',
     component: SalidaDemo,
+    // El servicio se crea aquí para recibir este HttpClient, con el interceptor resuelto.
+    // La solución funciona aunque el interceptor global del ejercicio siga incompleto.
+    providers: [
+      AuthServiceSolucion,
+      provideHttpClient(withInterceptors([authTokenInterceptorSolucion, backendFalso])),
+    ],
     children: [
       {
         path: '',

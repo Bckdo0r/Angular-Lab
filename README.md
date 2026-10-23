@@ -24,7 +24,10 @@ Lecciones para aprender componentes, plantillas, control de flujo, comunicación
 
 Ejercicios sobre comunicación con RxJS, formularios reactivos, `HttpClient`, autenticación con JWT, guards, CRUD, Angular Material, NgRx, rutas avanzadas y testing.
 
-Cada ejercicio tiene una salida visible en el navegador, archivos de trabajo con comentarios `TODO` y una solución para comparar. La salida se modifica editando el código desde un editor; el servidor de desarrollo actualiza la vista al guardar.
+Los ejercicios tienen una salida en el navegador, archivos con comentarios `TODO` y
+una solución para comparar. La lección 25 es de lectura; en la práctica 10 se completan
+specs de HTTP y validadores y la web muestra una demo ya implementada. La salida se
+modifica desde el editor y el servidor de desarrollo actualiza la vista al guardar.
 
 **Stack principal:** Angular 22.2, TypeScript 6, RxJS 7.8, Angular Material, NgRx y Vitest.
 
@@ -142,3 +145,10 @@ npm run build
 ```
 
 Incluí el `snapshot.ts` actualizado en el mismo cambio. El generador excluye las carpetas `solucion/`.
+
+Generá el snapshot desde un punto de partida **sin respuestas personales**: el script
+lee los archivos tal como están en disco y no distingue una solución del estudiante
+de una modificación del material. Si ya resolviste ejercicios, usá una copia de
+mantenimiento con sus estados iniciales antes de regenerarlo. La restauración de
+`tutorial/13` también sobrescribe `src/app/app.routes.ts` completo; guardá antes tus
+otros cambios en ese archivo.

@@ -10,7 +10,7 @@ En esta actividad vas a aprender a crear un servicio `inyectable`.
 
 Una forma de usar un servicio es como intermediario para interactuar con datos y APIs. Para que un servicio sea reutilizable, la lógica debe quedarse en el servicio y compartirse por toda la aplicación cuando haga falta.
 
-Para que una clase pueda ser inyectada por el sistema de DI, se usa un decorador. El tutorial oficial usa `@Service()` (una API muy reciente que se auto-provee en el inyector raíz), pero en esta versión de Angular el equivalente es **`@Injectable({ providedIn: 'root' })`**. Por ejemplo:
+En este curso usamos **`@Injectable({ providedIn: 'root' })`** para registrar un servicio en el inyector raíz. Está disponible en la versión del proyecto, Angular 22.2; no hace falta migrar este ejercicio a `@Service()`. Por ejemplo:
 
 ```ts {highlight:[1]}
 @Injectable({ providedIn: 'root' })
@@ -31,7 +31,10 @@ Muy bien, ahora probalo vos:
 2. Ejercicio: <http://localhost:4200/tutorial/19>
 3. Solución para comparar en otra pestaña: <http://localhost:4200/tutorial/19/solucion>
 
-> ⚠️ Mientras no completes el TODO, la página del ejercicio va a mostrar un error `NG0201: No provider found for Leccion19CarService` (en pantalla en blanco y en la consola). Es esperado: justamente ese es el problema que esta lección resuelve. Al agregar el decorador, la página va a funcionar.
+> Antes de completar el TODO, la página muestra una indicación para registrar el servicio.
+> El componente usa `inject(Leccion19CarService, { optional: true })`: sin provider devuelve
+> `null`, y así el ejercicio se puede abrir sin errores. Al completar el paso 1 aparece
+> la lista de autos. La solución usa inyección obligatoria porque el servicio ya está registrado.
 
 ## Archivo de trabajo
 
@@ -47,7 +50,7 @@ Actualizá el código en `car.service.ts` agregando el decorador `@Injectable({ 
 
 ```ts
 @Injectable({ providedIn: 'root' })
-export class CarService {
+export class Leccion19CarService {
   cars = ['Sunflower GT', 'Flexus Sport', 'Sprout Mach One'];
 
   getCars(): string[] {

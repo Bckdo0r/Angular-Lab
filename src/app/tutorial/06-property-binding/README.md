@@ -8,13 +8,15 @@ Usá property binding para asignar dinámicamente valores a propiedades y atribu
 
 En esta lección vas a aprender a usar property binding en las plantillas.
 
-Para bindear el atributo de un elemento, envolvé el nombre del atributo en corchetes. Acá hay un ejemplo:
+Para enlazar una **propiedad del DOM**, envolvé su nombre en corchetes. Acá hay un ejemplo:
 
 ```html
 <img alt="photo" [src]="imageURL" />
 ```
 
-En este ejemplo, el valor del atributo `src` queda bindeado a la propiedad de clase `imageURL`. El valor que tenga `imageURL` se asigna como atributo `src` de la etiqueta `img`.
+En este ejemplo, la propiedad DOM `src` recibe el valor de `imageURL`. Para un atributo
+sin propiedad DOM equivalente, usá `[attr.nombre]`, por ejemplo `[attr.aria-label]`.
+En las imágenes del proyecto aplicamos `NgOptimizedImage`, que se estudia en la lección 11.
 
 ## Cómo verla en el navegador
 
@@ -42,7 +44,7 @@ export class Leccion06 {
 
 ### 2. Bindear `contentEditable`
 
-A continuación, bindeá el atributo `contentEditable` del `div` a la propiedad `isEditable` usando la sintaxis de [corchetes]:
+A continuación, enlazá la propiedad DOM `contentEditable` del `div` con `isEditable` usando corchetes:
 
 ```ts
 @Component({

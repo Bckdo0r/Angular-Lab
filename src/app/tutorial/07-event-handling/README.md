@@ -59,3 +59,7 @@ Y con unos pocos pasos en el código creaste tu primer manejador de eventos en A
 ## Para cerrar
 
 Pasá el mouse sobre la sección y mirá cómo aparece el mensaje secreto. Compará tu resultado con la solución en `/tutorial/07/solucion` y seguí con la [Lección 8](http://localhost:4200/tutorial/08).
+
+La solución agrega además un botón «Revelar mensaje» para poder activar la misma
+acción con teclado o en una pantalla táctil. Es una mejora de accesibilidad; el
+evento `mouseover` sigue siendo el objetivo del ejercicio.

@@ -22,12 +22,11 @@ export function fijarRol(rol: RolSimulado): void {
  * GUARD canMatch: ¿esta ruta EXISTE para el usuario actual?
  *
  * Diferencia con canActivate (la práctica 04 usaba canActivate):
- * - **canActivate** se evalúa DESPUÉS de cargar el bundle de la ruta: la ruta
- *   existe, se bajó el chunk, y el guard recién ahí decide si dejarte pasar
- *   (o redirigirte al login, como en la 04).
- * - **canMatch** se evalúa ANTES: si devuelve false, Angular remueve la ruta
- *   del árbol de matching. La ruta NO existe para vos: no se baja el chunk y,
- *   si no hay otra ruta que coincida, la navegación cae al comodín '**' → 404.
+ * - canActivate decide si se activa una ruta reconocida, antes de cargar
+ *   un componente con loadComponent. Puede bloquear o redirigir.
+ * - canMatch participa en el reconocimiento: false descarta esa candidata
+ *   para esta navegación y permite probar otras rutas, incluido el comodín.
+ *   La configuración no se borra. Ningún guard protege por sí solo una API.
  *
  * Cuándo usar cada uno: canActivate para "estás logueado pero sin permiso,
  * te mando a un lugar con mensaje" (necesitas explicar el rechazo); canMatch

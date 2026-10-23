@@ -13,17 +13,15 @@ import { Producto, ProductosApiService } from '../productos-api.service';
  *   3. Responder: `flush(datos)` (éxito) o `error(evento, { status })` (fallo).
  *   4. Afirmar lo que recibió el `subscribe`.
  *
- * El `afterEach` con `verify()` es la red de seguridad: si un test deja una
- * petición sin responder, el suite falla ahí ("Expected no open requests").
+ * verify() detecta peticiones sin capturar. Cada test también debe responder
+ * las que capturó y comprobar el resultado recibido.
  */
 describe('ProductosApiService', () => {
   let service: ProductosApiService;
   let controller: HttpTestingController;
 
   beforeEach(() => {
-    // Con vitest (isolate: false) todos los specs comparten el MISMO TestBed:
-    // arrancar con un reset explícito garantiza que este spec es independiente
-    // de qué otros archivos corrieron antes en la misma suite.
+    // Limpieza explícita adicional; Angular también gestiona el entorno entre tests.
     TestBed.resetTestingModule();
 
     TestBed.configureTestingModule({
@@ -36,7 +34,7 @@ describe('ProductosApiService', () => {
 
   afterEach(() => {
     // Sin esta línea, una petición colgada pasaría desapercibida.
-    // Con ella, cualquier request sin respuesta revienta el test acá abajo.
+    // Con ella, cualquier petición sin capturar hace fallar esta comprobación.
     controller.verify();
 
     // Dejamos el TestBed limpio para el spec que venga después (mismo
@@ -66,15 +64,15 @@ describe('ProductosApiService', () => {
     expect(recibidas).toEqual(productosDeMentira);
   });
 
-  it('[Paso 3] error() simula fallo y el catchError mapea', () => {
+  it('[Paso 3] un error del servidor se transforma en un mensaje comprensible', () => {
     // El error que le llega al componente.
     const errores: Error[] = [];
     service.obtener(999).subscribe({ error: (err: Error) => errores.push(err) });
 
     const req = controller.expectOne('/api/productos/999');
 
-    // Simulamos un 500 SIN flush: la respuesta nunca llega, el servidor falla.
-    req.error(new ProgressEvent('error'), { status: 500, statusText: 'Server Error' });
+    // flush con status de error simula una respuesta del servidor; error() es para la red.
+    req.flush(null, { status: 500, statusText: 'Server Error' });
 
     // REGLA, no implementación: probamos que el catchError MAPEA el fallo
     // a un Error con un mensaje amigable (no vacío), que es el contrato con

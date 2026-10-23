@@ -12,7 +12,7 @@ import { buscarEmpleado } from '../empleados-mock';
  * - '?tab' (pestaña activa) → input opcional
  *
  * El estado de la pestaña NO es una signal suelta: es la URL. Por eso
- * recargar /extras/07/solucion/detalle/7?tab=auditoria restaura el tab, y
+ * recargar /extras/07/solucion/detalle/3?tab=auditoria restaura el tab, y
  * cambiar de pestaña es, literalmente, navegar.
  */
 @Component({

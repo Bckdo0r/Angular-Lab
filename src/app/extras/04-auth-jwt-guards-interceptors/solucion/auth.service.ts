@@ -48,7 +48,7 @@ export class AuthServiceSolucion {
 
   login(credenciales: Credenciales): Observable<Usuario> {
     // [Paso 3] POST → { token } → guardarSesion() lo convierte en Usuario.
-    // map() es el lugar perfecto para ese "efecto + transformación".
+    // map() transforma la respuesta en el usuario que consume el componente.
     return this.http
       .post<{ token: string }>('/api/login', credenciales)
       .pipe(map((respuesta) => this.guardarSesion(respuesta.token)));
@@ -56,11 +56,32 @@ export class AuthServiceSolucion {
 
   decodificarToken(token: string): PayloadJwt | null {
     // [Paso 2] JWT simulado = header.payload.firma, todo en base64.
-    // Si el token es basura, JSON.parse/atob explotan: el try/catch devuelve
-    // null y el servicio nunca setea una sesión corrupta.
+    // JSON válido no garantiza un usuario válido: comprobamos la estructura
+    // y la vigencia. Esto no verifica una firma ni prueba autenticidad.
     try {
-      const payload = JSON.parse(atob(token.split('.')[1])) as PayloadJwt;
-      return payload;
+      if (token.split('.').length !== 3) return null;
+      const payload: unknown = JSON.parse(atob(token.split('.')[1]));
+      if (
+        typeof payload !== 'object' ||
+        payload === null ||
+        !('usuario' in payload) ||
+        typeof payload.usuario !== 'string' ||
+        !('nombre' in payload) ||
+        typeof payload.nombre !== 'string' ||
+        !('rol' in payload) ||
+        (payload.rol !== 'admin' && payload.rol !== 'user') ||
+        !('exp' in payload) ||
+        typeof payload.exp !== 'number' ||
+        !Number.isFinite(payload.exp) ||
+        payload.exp <= Date.now() / 1000
+      )
+        return null;
+      return {
+        usuario: payload.usuario,
+        nombre: payload.nombre,
+        rol: payload.rol,
+        exp: payload.exp,
+      };
     } catch {
       return null;
     }
@@ -73,13 +94,12 @@ export class AuthServiceSolucion {
   }
 
   private guardarSesion(token: string): Usuario {
-    // [Paso 3, parte 2] El orden importa: primero persistir, después setear
-    // la señal. Si el token es basura, fallamos rápido con un error claro.
-    localStorage.setItem(TOKEN_KEY, token);
+    // [Paso 3, parte 2] Validamos antes de persistir para no guardar una sesión inválida.
     const payload = this.decodificarToken(token);
     if (!payload) {
       throw new Error('Token inválido');
     }
+    localStorage.setItem(TOKEN_KEY, token);
     this.usuarioActual.set(payload);
     return payload;
   }

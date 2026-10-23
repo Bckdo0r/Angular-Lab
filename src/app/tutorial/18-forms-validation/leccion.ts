@@ -15,8 +15,8 @@ import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
   selector: 'leccion-18',
   template: `
     <form [formGroup]="profileForm">
-      <input type="text" formControlName="name" name="name" />
-      <input type="email" formControlName="email" name="email" />
+      <label>Nombre <input type="text" formControlName="name" name="name" /></label>
+      <label>Email <input type="email" formControlName="email" name="email" /></label>
       <!-- TODO 3: Deshabilitá el botón mientras el formulario no sea válido
            con el binding [disabled]="!profileForm.valid" -->
       <button type="submit">Submit</button>

@@ -11,8 +11,8 @@ interface PanelResponse {
  * SOLUCIÓN — Panel admin: consumir un endpoint protegido.
  *
  * Compará con ../ejercicio/admin-page.ts: el TODO del Paso 9 se resuelve
- * en `consultar()`. El token lo agrega el interceptor registrado en
- * app.config.ts (el del EJERCICIO): implementado ese, esta página funciona.
+ * en `consultar()`. El token lo agrega el interceptor de la solución,
+ * registrado con su HttpClient en rutas.ts.
  */
 @Component({
   selector: 'admin-page-solucion',

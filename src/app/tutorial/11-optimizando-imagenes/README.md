@@ -17,6 +17,7 @@ En esta actividad vas a aprender a usar `NgOptimizedImage` para asegurarte de qu
 - `src/app/tutorial/11-optimizando-imagenes/user.ts`
 - `src/app/tutorial/11-optimizando-imagenes/leccion.ts`
 
+El trabajo está en `user.ts`; `leccion.ts` solo monta ese componente y es de lectura.
 Buscá los comentarios `// TODO` y completalos. Al guardar, el navegador se recarga solo.
 
 > El logo que usa esta lección está en `public/tut-logo.svg` y se sirve en la ruta `/tut-logo.svg`.
@@ -47,7 +48,7 @@ import { NgOptimizedImage } from '@angular/common';
 template: `     ...
     <li>
       Static Image:
-      <img ngSrc="/logo.svg" alt="Angular logo" width="32" height="32" />
+      <img ngSrc="/tut-logo.svg" alt="Angular logo" width="32" height="32" />
     </li>
     <li>
       Dynamic Image:

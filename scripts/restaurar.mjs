@@ -19,7 +19,7 @@
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
-import { createInterface } from 'node:readline';
+import { createInterface } from 'node:readline/promises';
 import { pathToFileURL } from 'node:url';
 
 const RAIZ = process.cwd();

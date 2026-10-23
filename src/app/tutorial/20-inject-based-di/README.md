@@ -36,14 +36,14 @@ Buscá los comentarios `// TODO` y completalos. Al guardar, el navegador se reca
 En `leccion.ts`, usando la función `inject()`, inyectá el servicio de autos y asignalo a una propiedad llamada `carService`:
 
 ```ts
-carService = inject(CarService);
+carService = inject(Leccion20CarService);
 ```
 
-> Nota: fijate la diferencia entre la propiedad `carService` (en minúsculas) y la clase `CarService`.
+> Nota: `carService` es la propiedad; `Leccion20CarService` es la clase ya importada en el archivo de trabajo.
 
 ### 2. Usar la instancia `carService`
 
-Llamar a `inject(CarService)` te dio una instancia del servicio que podés usar en tu aplicación, guardada en la propiedad `carService`.
+Llamar a `inject(Leccion20CarService)` te dio una instancia del servicio que podés usar en tu aplicación, guardada en la propiedad `carService`.
 
 Inicializá la propiedad `display` con la siguiente implementación:
 

@@ -10,8 +10,8 @@ import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angula
   selector: 'leccion-18-solucion',
   template: `
     <form [formGroup]="profileForm">
-      <input type="text" formControlName="name" name="name" />
-      <input type="email" formControlName="email" name="email" />
+      <label>Nombre <input type="text" formControlName="name" name="name" /></label>
+      <label>Email <input type="email" formControlName="email" name="email" /></label>
       <button type="submit" [disabled]="!profileForm.valid">Submit</button>
     </form>
   `,

@@ -69,10 +69,12 @@ export class BuscadorPage {
     //   switchMap CANCELA la petición anterior cuando llega un texto nuevo:
     //   es la garantía de que nunca se pinta una respuesta vieja.
     //   ⚠ Trampa clásica: con mergeMap las respuestas se acumulan en desorden.
-    // TODO: [Paso 4] - Suscribite acá (el constructor es contexto de inyección,
-    //   que `takeUntilDestroyed()` exige) con `.subscribe({ next, error })`:
+    // TODO: [Paso 4] - Capturá los errores DENTRO del Observable de switchMap:
+    //   catchError debe limpiar resultado, guardar el mensaje, apagar cargando
+    //   y devolver EMPTY. Así termina solo esa consulta y podés seguir buscando.
+    //   Suscribite acá (el constructor es contexto de inyección) con next:
     //     - next: resultado.set(empleados) y cargando.set(false)
-    //     - error: error.set(err.message) y cargando.set(false)
+    //   Un callback error de subscribe no recupera una suscripción terminada.
     //   y activá `cargando` ANTES de la petición (un tap() antes del
     //   switchMap es un buen lugar). Terminá el pipe con
     //   `takeUntilDestroyed()` (viene de '@angular/core/rxjs-interop'):

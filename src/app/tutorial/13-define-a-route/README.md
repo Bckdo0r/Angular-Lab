@@ -31,8 +31,8 @@ En tu app hay dos páginas para mostrar: (1) la **Home Page** y (2) la **User Pa
 
 Para definir una ruta, agregá un objeto de ruta al array de rutas que contenga:
 
-- El `path` de la ruta (que arranca automáticamente desde la raíz, es decir, `/`)
-- El `component` que querés que esa ruta muestre
+- El `path`, relativo a su padre y sin una barra inicial: `home` bajo `tutorial/13` forma `/tutorial/13/home`.
+- El `loadComponent` que carga el componente de esa página de forma diferida.
 
 Así se ve en el tutorial original, donde `Home` se agrega como ruta por defecto:
 
@@ -48,37 +48,37 @@ export const routes: Routes = [
 ];
 ```
 
-**Adaptación a esta app:** en `src/app/app.routes.ts`, buscá la ruta con `path: 'tutorial/13'` y agregale un array `children` con los objetos de ruta de las páginas de la lección, usando las clases `Leccion13Home` y `Leccion13User`:
+**Adaptación a esta app:** en `src/app/app.routes.ts`, buscá la ruta con `path: 'tutorial/13'`. **Conservá su `loadComponent`**, que monta el shell y su `<router-outlet />`. Agregale este `children`; no reemplaces el array global ni importes las páginas de forma estática:
 
 ```ts
-import { Leccion13Home } from './tutorial/13-define-a-route/home/home';
-import { Leccion13User } from './tutorial/13-define-a-route/user/user';
-
 // ... dentro del array `routes`, en la ruta path: 'tutorial/13':
 {
   path: 'tutorial/13',
+  loadComponent: () => import('./tutorial/13-define-a-route/leccion').then(m => m.Leccion13),
   children: [
+    { path: '', pathMatch: 'full', redirectTo: 'home' },
     {
-      path: '',
+      path: 'home',
       title: 'App Home Page',
-      component: Leccion13Home,
+      loadComponent: () => import('./tutorial/13-define-a-route/home/home').then(m => m.Leccion13Home),
     },
     {
       path: 'user',
       title: 'App User Page',
-      component: Leccion13User,
+      loadComponent: () => import('./tutorial/13-define-a-route/user/user').then(m => m.Leccion13User),
     },
   ],
 },
 ```
 
-Usá `'user'` como path para `Leccion13User`, tal como pide el original.
+Los enlaces existentes apuntan a `home` y `user`, por eso registramos ambos.
+La ruta vacía redirige a `home`; `pathMatch: 'full'` evita redirigir también sus rutas hermanas.
 
 ### 2. Agregar `title` a la definición de la ruta
 
 Además de definir las rutas correctamente, el Angular Router te permite establecer el título de la página cada vez que el usuario navega, agregando la propiedad `title` a cada ruta.
 
-Agregá la propiedad `title` a la ruta por defecto (`path: ''`) y a la ruta `user`. Ya están incluidas en el snippet del paso 1, pero así se ve en el original:
+Agregá la propiedad `title` a las rutas `home` y `user`. Ya están incluidas en el ejemplo adaptado del paso 1. El siguiente fragmento del original es solo lectura:
 
 ```ts
 import { Routes } from '@angular/router';
@@ -94,6 +94,11 @@ export const routes: Routes = [
 ```
 
 Al navegar, vas a ver que el título de la pestaña del navegador cambia según la página.
+
+Verificá `/tutorial/13`, `/tutorial/13/home` y `/tutorial/13/user`. Antes de completar
+el ejercicio, solo la primera muestra el shell; las dos rutas hijas caen en el 404.
+El reinicio de esta lección también restaura **todo `src/app/app.routes.ts`**:
+guardá antes cualquier otro cambio personal que hayas hecho en ese archivo.
 
 ## Para cerrar
 

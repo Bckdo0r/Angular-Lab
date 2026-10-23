@@ -41,14 +41,11 @@ export class ListadoPage {
   });
 
   constructor() {
-    // TODO: [Paso 4b] - Restaurar los filtros al iniciar el componente:
-    //   1. this.texto.set(this.q() ?? '');
-    //   2. this.areaFiltro.set(this.area() ?? '');
-    //   Con eso, si abrís un link compartido tipo
-    //   /extras/07?q=ana&area=Desarrollo, los controles del formulario
-    //   reaparecen con esos valores (criterio de aceptación de la práctica).
-    //   Ojo: q y area son inputs bindeados desde los query params por
-    //   withComponentInputBinding — no hace falta ActivatedRoute ni subscribe.
+    // TODO: [Paso 4b] - Reemplazá texto y areaFiltro por linkedSignal() derivados
+    //   de q() y area(); importá linkedSignal desde '@angular/core'. Los inputs
+    //   se asignan DESPUÉS del constructor: copiarlos aquí pierde el valor inicial.
+    //   Derivá también filtrados de q()/area() para aplicar solo filtros de la URL.
+    //   Comprobá un enlace directo y Atrás/Adelante sin recrear el componente.
   }
 
   protected cambiarTexto(valor: string): void {

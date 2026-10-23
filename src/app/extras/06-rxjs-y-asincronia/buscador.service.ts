@@ -36,8 +36,8 @@ export class BusquedaService {
    * mayúsculas ni acentos de mayúsculas: comparamos en minúsculas).
    *
    * - Cabecera `X-Canal: practica-03`: sin ella el backend responde 400.
-   * - HttpParams `nombre=<texto>`: viaja igual, para que en Network se vea
-   *   la búsqueda completa (y si mañana el backend lo soportara, ya sirve).
+   * - HttpParams `nombre=<texto>`: forma parte de la petición simulada.
+   *   El interceptor responde sin red: no aparece una solicitud en Network.
    * - Devuelve Observable (no Promise): es justo lo que permite encadenar
    *   `debounceTime`/`switchMap` en el componente.
    */

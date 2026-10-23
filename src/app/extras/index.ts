@@ -67,7 +67,7 @@ const PRACTICAS: Practica[] = [
   },
   {
     numero: '10',
-    titulo: 'Testing de HTTP y Componentes',
+    titulo: 'Testing de HTTP y Validadores',
     foco: 'TestBed + provideHttpClientTesting, HttpTestingController (expectOne/flush/error/verify), stub de servicios y tests puros de un ValidatorFn: probar la regla, no el texto.',
     disponible: true,
   },
@@ -85,8 +85,7 @@ const PRACTICAS: Practica[] = [
           <li>
             Abrí una terminal en la raíz del proyecto, es decir, en la carpeta que contiene
             <code>package.json</code> (es la ubicación donde también se inició el servidor con
-            <code>npm start</code>). Por ejemplo:
-            <code>cd "C:\\Users\\...\\Angular-Lab"</code>.
+            <code>npm start</code>). Por ejemplo: <code>cd "C:\\Users\\...\\Angular-Lab"</code>.
           </li>
           <li>
             Presioná el botón de reinicio del ejercicio o el botón global. Se copiará el comando

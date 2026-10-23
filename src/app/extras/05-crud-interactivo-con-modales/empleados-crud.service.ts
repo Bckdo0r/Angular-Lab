@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { Area, Empleado, EmpleadoNuevo } from './empleado';
+import { Empleado, EmpleadoNuevo } from './empleado';
 
 /** Semilla de empleados para que la tabla no arranque vacía. */
 const SEMILLA: Empleado[] = [

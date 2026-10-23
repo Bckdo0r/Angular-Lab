@@ -1,6 +1,14 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Subject, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs';
+import {
+  EMPTY,
+  Subject,
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { BusquedaService, EmpleadoBuscado } from '../buscador.service';
 
 /**
@@ -27,8 +35,7 @@ export class BuscadorPageSolucion {
   protected readonly servicio = inject(BusquedaService);
 
   // [Paso 1] El Subject es el "puente" entre el mundo del DOM y el mundo RxJS:
-  // es HOT (las suscripciones no disparan ejecuciones, solo escuchan lo que
-  // se le empuja con .next()), por eso sirve de fuente de eventos de un input.
+  // es HOT: los suscriptores existentes reciben las emisiones de .next().
   protected readonly busqueda$ = new Subject<string>();
 
   /** [Paso 1] El input no llama al service directamente: solo empuja al Subject. */
@@ -55,7 +62,7 @@ export class BuscadorPageSolucion {
     this.busqueda$
       .pipe(
         // [Paso 2] debounceTime(300): espera 300ms de silencio antes de emitir.
-        // Si el usuario tipea "san" en menos de 300ms, solo el último "n"
+        // Si el usuario tipea "san" en menos de 300ms, solo el texto completo "san"
         // llega al final: 3 tipeos, 1 petición (criterio de aceptación Nº 1).
         debounceTime(300),
         // distinctUntilChanged(): si el texto nuevo es IGUAL al anterior
@@ -81,7 +88,19 @@ export class BuscadorPageSolucion {
         //     nuevo. Solo la última búsqueda puede pintar. Justo lo que un
         //     buscador necesita.
         // Regla mental: "muchos a la vez" → mergeMap; "solo el último" → switchMap.
-        switchMap((texto) => this.servicio.listar(texto)),
+        switchMap((texto) =>
+          this.servicio.listar(texto).pipe(
+            // Capturamos el fallo de ESTA consulta; el Subject sigue escuchando búsquedas.
+            catchError((err: unknown) => {
+              this.resultado.set(null);
+              this.error.set(
+                err instanceof Error ? err.message : 'No se pudo completar la búsqueda.',
+              );
+              this.cargando.set(false);
+              return EMPTY;
+            }),
+          ),
+        ),
         // [Paso 4 - parte B] takeUntilDestroyed() debe llamarse en contexto
         // de inyección (el constructor lo es). Sin esto, navegar fuera deja
         // la suscripción viva para siempre: leak + peticiones fantasma
@@ -96,12 +115,6 @@ export class BuscadorPageSolucion {
           this.resultado.set(empleados);
           this.cargando.set(false);
         },
-        // [Paso 5] error: el service ya tradjo el HttpErrorResponse a un
-        // Error con mensaje legible; acá solo lo mostramos.
-        error: (err: Error) => {
-          this.error.set(err.message);
-          this.cargando.set(false);
-        },
       });
   }
 
@@ -114,11 +127,12 @@ export class BuscadorPageSolucion {
   //   private readonly resultados$ = this.busqueda$.pipe(
   //     debounceTime(300),
   //     distinctUntilChanged(),
-  //     switchMap((texto) => this.servicio.listar(texto)),
-  //     catchError((err: Error, _) => {
-  //       this.error.set(err.message);
-  //       return EMPTY; // el flujo sigue vivo para la próxima búsqueda
-  //     }),
+  //     switchMap((texto) => this.servicio.listar(texto).pipe(
+  //       catchError((err: Error) => {
+  //         this.error.set(err.message);
+  //         return EMPTY; // termina solo la consulta interna, no la búsqueda completa
+  //       }),
+  //     )),
   //   );
   //   protected readonly resultado = toSignal(this.resultados$, { initialValue: null });
   //
@@ -138,8 +152,8 @@ export class BuscadorPageSolucion {
  *   fríos hasta que alguien se suscribe, y CADA suscripción dispara una
  *   petición nueva. Si dos cosas se suscribieran a `resultados$`, habría
  *   DOS peticiones por búsqueda.
- * - El Subject es HOT: emitir .next() no "ejecuta" nada; los suscriptores
- *   comparten el mismo flujo. Por eso usamos uno como fuente de eventos.
+ * - El Subject es HOT: comparte las emisiones entre suscriptores actuales.
+ *   Los operadores posteriores se ejecutan para cada suscripción.
  *
  * ¿Y si varias partes del componente quisieran el RESULTADO sin re-pedir?
  * Ahí entra shareReplay(1) sobre la fuente fría: cachea la última emisión

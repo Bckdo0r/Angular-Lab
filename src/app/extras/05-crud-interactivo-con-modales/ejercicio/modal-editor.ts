@@ -1,4 +1,5 @@
 import { Component, effect, input, output } from '@angular/core';
+import { CdkTrapFocus } from '@angular/cdk/a11y';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Area, Empleado } from '../empleado';
 
@@ -16,7 +17,8 @@ type NombreControl = 'nombre' | 'email' | 'area' | 'seniority';
  */
 @Component({
   selector: 'modal-editor',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CdkTrapFocus],
+  host: { '(keydown.escape)': 'cerrar.emit()' },
   templateUrl: './modal-editor.html',
   styleUrl: './modal-editor.css',
 })

@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, linkedSignal, signal } from '@angular/core';
 import { CurrencyPipe, registerLocaleData } from '@angular/common';
 // Registro local del locale es-AR (mismo razonamiento que ../ejercicio).
 import localeEsAr from '@angular/common/locales/es-AR';
@@ -39,11 +39,17 @@ export class AbmPageSolucion {
   // el par (entrada del array ↔ ng-container) es el contrato de la MatTable.
   protected readonly columnas = ['nombre', 'categoria', 'stock', 'precio', 'subtotal', 'acciones'];
 
-  protected readonly pagina = signal(0);
   protected readonly porPagina = signal(5);
   protected readonly opcionesPorPagina = [5, 10, 20];
 
   protected readonly totalInsumos = computed(() => this.lista().length);
+
+  // Si se elimina la última fila de una página, volvemos a una página existente.
+  protected readonly pagina = linkedSignal({
+    source: () => ({ total: this.totalInsumos(), size: this.porPagina() }),
+    computation: ({ total, size }, previous): number =>
+      Math.min(previous?.value ?? 0, Math.max(0, Math.ceil(total / size) - 1)),
+  });
 
   protected readonly paginados = computed(() => {
     const inicio = this.pagina() * this.porPagina();

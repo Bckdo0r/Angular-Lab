@@ -60,8 +60,9 @@ const LECCIONES: Leccion[] = [
         </p>
         <p>
           Antes de arrancar con la ejercitación conviene tener las bases de
-          <strong>HTML, CSS y JavaScript</strong> (o TypeScript) y
-          <strong>Node.js 20 o superior</strong> instalado en tu máquina.
+          <strong>HTML, CSS y JavaScript</strong> (o TypeScript) y una versión de
+          <strong>Node.js compatible con Angular 22</strong>: 22.22.3 o posterior de la rama 22.x,
+          24.15.0 o posterior de la rama 24.x, o 26.x.
         </p>
       </div>
 
@@ -71,8 +72,7 @@ const LECCIONES: Leccion[] = [
           <li>
             Abrí una terminal en la raíz del proyecto, es decir, en la carpeta que contiene
             <code>package.json</code> (es la ubicación donde también se inició el servidor con
-            <code>npm start</code>). Por ejemplo:
-            <code>cd "C:\\Users\\...\\Angular-Lab"</code>.
+            <code>npm start</code>). Por ejemplo: <code>cd "C:\\Users\\...\\Angular-Lab"</code>.
           </li>
           <li>
             Presioná el botón de reinicio del ejercicio o el botón global. Se copiará el comando
@@ -85,8 +85,8 @@ const LECCIONES: Leccion[] = [
           </li>
         </ol>
         <p>
-          El botón global copia <code>npm run restore -- tutorial</code>; cada botón de lección copia
-          el comando específico de esa lección.
+          El botón global copia <code>npm run restore -- tutorial</code>; cada botón de lección
+          copia el comando específico de esa lección.
         </p>
       </section>
 

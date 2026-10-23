@@ -32,6 +32,10 @@ La salida es `Jun 15, 2015, 9:43:11 PM`.
 
 Es hora de personalizar la salida de algunos pipes:
 
+En cada paso, importá el pipe indicado desde `@angular/common` y agregalo al array
+`imports` del componente. El punto de partida deja ese array vacío para evitar
+advertencias antes de que uses los pipes en la plantilla.
+
 ### 1. Formatear un número con `DecimalPipe`
 
 En `leccion.ts`, actualizá la plantilla para incluir un parámetro en el pipe `number`:

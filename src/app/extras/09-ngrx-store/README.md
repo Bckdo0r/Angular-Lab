@@ -17,7 +17,11 @@
 > 2. El estado **sobrevive a las navegaciones internas** de `/extras/09`: al navegar a `/extras/09/ayuda` Angular destruye solo el componente, no el inyector de la ruta padre → el store sigue intacto. Es el criterio «cambiar de pantalla y volver → los filtros persisten».
 > 3. Ejercicio y solución llevan features **distintos** (`visorFeature` / `visorFeatureSolucion`) en injectores distintos: cada subárbol tiene su propio store y no se pisan.
 >
-> Salí de la práctica (a otra de `/extras`) y el inyector sí se destruye: el estado vuelve a cero. El alcance de la ruta es el alcance del estado.
+> En la configuración actual **salir y volver no destruye automáticamente el inyector
+> de la ruta**. El estado permanece durante la misma ejecución de la app.
+> «Restablecer» reinicia el feature y recargar crea una nueva aplicación.
+> El alcance de inyección y su destrucción son conceptos distintos. Angular 22.2 ofrece
+> `withAutoCleanupInjectors()` como opción explícita; este proyecto no la activa.
 
 ## Objetivo
 
@@ -133,16 +137,27 @@ Abrí el ejercicio (<http://localhost:4200/extras/09>) y probá: tildar capas no
 - [ ] **Paso 3 — `visor.store.ts`:** agregá el selector derivado `selectCapasVisibles` (capas con `visible === true`) con `createSelector`. `selectCapasFiltradas` ya está resuelto como ejemplo y `selectCapaPorId` es **solo lectura** (normalización / selector por ID — leé el comentario).
 - [ ] **Paso 4 — `ejercicio/visor-page.ts`:** puenté `selectFiltro` y `selectSeleccionadaId` a signals con `toSignal()` y borrá los placeholders. `capasFiltradas` ya está resuelto como ejemplo.
 - [ ] **Paso 5 — `ejercicio/visor-page.ts`:** implementá los dispatch: `alternarCapa`, `alTipearFiltro` y `restablecer` (`seleccionarCapa` ya está resuelto como ejemplo).
-- [ ] **Paso 6:** instalá Redux DevTools y verificá los criterios de aceptación de abajo.
+- [ ] **Paso 6:** verificá los criterios de aceptación. Instalar Redux DevTools y
+  observar su historial es opcional; no hace falta para resolver el reducer ni los selectors.
 
 ## Criterios de aceptación
 
 Probá en <http://localhost:4200/extras/09>:
 
-1. **Cambiar de pantalla y volver → los filtros persisten.** (Tipeá un filtro y tildá algunas capas → andá a la página de ayuda — el panel muestra el estado actual del store — → volvé: filtro y capas siguen exactos. Ahora salí a otra práctica y volvé: el estado vuelve a cero, esa es la frontera del scope.)
+1. **Cambiar de pantalla y volver → los filtros persisten.** Tipeá un filtro y cambiá
+   capas, entrá a Ayuda y volvé. Salí a otra práctica y regresá: el estado también
+   permanece en esta configuración. «Restablecer» o una recarga lo reinician.
 2. **En DevTools del navegador se ven las acciones apareciendo en orden.** (Con la extensión Redux instalada, la pestaña Redux muestra cada acción `[Visor] ...` con su payload, en orden, y el estado luego de cada una.)
 3. **Un reducer con `push()` a propósito rompe la verificación de inmutabilidad y el alumno lo corrige.** (En `solucion/visor.store.ts` está comentado el reducer roto: descomentalo y desactivá el bueno — la UI deja de reaccionar y el historial de DevTools se vuelve inconsistente. Corregilo con el patrón spread + `map`.)
 
 ## Solución
 
 La versión resuelta y comentada está en `src/app/extras/09-ngrx-store/solucion/` (`visor.store.ts` con el reducer completo y la trampa del `push()` comentada, y los componentes con sufijo `Solucion`) y se navega en `/extras/09/solucion`.
+
+Los pasos 2 a 5 son de implementación. El paso 1, los selectors ya resueltos y la
+teoría de effects son de lectura. El experimento de mutación con `push()` es
+opcional y debe hacerse en una copia; no es un defecto activo en la solución.
+Según la configuración, los runtime checks de NgRx pueden lanzar un error al mutar
+antes de que se observe una interfaz congelada.
+
+Referencia: [limpieza opcional de inyectores de rutas](https://angular.dev/api/router/withAutoCleanupInjectors).

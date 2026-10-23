@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { fijarRol, rolSimulado } from './rol.guard';
 
 /**

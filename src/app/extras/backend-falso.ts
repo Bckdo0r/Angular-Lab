@@ -46,7 +46,7 @@ interface CredencialesBackend {
 }
 
 interface PayloadJwt {
-  sub: string;
+  usuario: string;
   nombre: string;
   rol: 'admin' | 'user';
   exp: number;
@@ -62,10 +62,25 @@ const EMPLEADOS: EmpleadoBackend[] = [
   { id: 6, nombre: 'Fabio Luna', area: 'IT', seniority: 'Semi Senior' },
 ];
 
+/** Datos de la demo HTTP de la práctica 10; los specs fabrican sus propias respuestas. */
+const PRODUCTOS = [
+  { id: 1, nombre: 'Teclado', categoria: 'perifericos', stock: 12 },
+  { id: 2, nombre: 'Monitor', categoria: 'perifericos', stock: 4 },
+  { id: 3, nombre: 'Cuaderno', categoria: 'oficina', stock: 25 },
+];
+
 /** Credenciales válidas de la práctica 04 (admin y una usuaria común). */
 const USUARIOS: Record<string, CredencialesBackend & { payload: Omit<PayloadJwt, 'exp'> }> = {
-  admin: { usuario: 'admin', clave: 'admin123', payload: { sub: 'admin', nombre: 'Admin General', rol: 'admin' } },
-  ana: { usuario: 'ana', clave: 'ana123', payload: { sub: 'ana', nombre: 'Ana Pérez', rol: 'user' } },
+  admin: {
+    usuario: 'admin',
+    clave: 'admin123',
+    payload: { usuario: 'admin', nombre: 'Admin General', rol: 'admin' },
+  },
+  ana: {
+    usuario: 'ana',
+    clave: 'ana123',
+    payload: { usuario: 'ana', nombre: 'Ana Pérez', rol: 'user' },
+  },
 };
 
 /**
@@ -80,7 +95,24 @@ function crearJwt(payload: PayloadJwt): string {
 /** Decodifica el segmento medio de un JWT simulado (solo para leer el rol). */
 function leerPayloadJwt(token: string): PayloadJwt | null {
   try {
-    return JSON.parse(atob(token.split('.')[1])) as PayloadJwt;
+    if (token.split('.').length !== 3) return null;
+    const payload: unknown = JSON.parse(atob(token.split('.')[1]));
+    if (
+      typeof payload !== 'object' ||
+      payload === null ||
+      !('usuario' in payload) ||
+      typeof payload.usuario !== 'string' ||
+      !('nombre' in payload) ||
+      typeof payload.nombre !== 'string' ||
+      !('rol' in payload) ||
+      (payload.rol !== 'admin' && payload.rol !== 'user') ||
+      !('exp' in payload) ||
+      typeof payload.exp !== 'number' ||
+      !Number.isFinite(payload.exp) ||
+      payload.exp <= Date.now() / 1000
+    )
+      return null;
+    return { usuario: payload.usuario, nombre: payload.nombre, rol: payload.rol, exp: payload.exp };
   } catch {
     return null;
   }
@@ -106,14 +138,28 @@ export const backendFalso: HttpInterceptorFn = (req: HttpRequest<unknown>, next:
   }
 
   // timer(400) + switchMap = latencia simulada de 400ms antes de responder.
-  return timer(400).pipe(
-    switchMap(() => manejarPeticion(req)),
-  );
+  return timer(400).pipe(switchMap(() => manejarPeticion(req)));
 };
 
 /** Despacho por URL + método: la lógica de cada endpoint simulado. */
 function manejarPeticion(req: HttpRequest<unknown>): Observable<HttpEvent<unknown>> {
   const url = req.urlWithParams;
+
+  // La demo de la práctica 10 consulta estos datos; sus tests usan HttpTestingController.
+  if (req.method === 'GET' && /^\/api\/productos(?:\/\d+)?$/.test(req.url)) {
+    if (req.headers.get('X-Canal') !== 'practica-10') return fallar(400, url);
+    const id = req.url.match(/^\/api\/productos\/(\d+)$/)?.[1];
+    if (id) {
+      const producto = PRODUCTOS.find((item) => item.id === Number(id));
+      return producto ? responder(producto, 200, url) : fallar(404, url);
+    }
+    const categoria = req.params.get('categoria');
+    return responder(
+      categoria ? PRODUCTOS.filter((item) => item.categoria === categoria) : PRODUCTOS,
+      200,
+      url,
+    );
+  }
 
   // ─── GET /api/empleados (y /:id) — Práctica 03 ───────────────────────────
   if (req.method === 'GET' && req.url.startsWith('/api/empleados')) {
@@ -126,9 +172,7 @@ function manejarPeticion(req: HttpRequest<unknown>): Observable<HttpEvent<unknow
     const matchId = req.url.match(/^\/api\/empleados\/(\d+)$/);
     if (matchId) {
       const empleado = EMPLEADOS.find((e) => e.id === Number(matchId[1]));
-      return empleado
-        ? responder(empleado, 200, url)
-        : fallar(404, url);
+      return empleado ? responder(empleado, 200, url) : fallar(404, url);
     }
 
     // GET /api/empleados?area=IT → filtra vía HttpParams.
@@ -150,7 +194,7 @@ function manejarPeticion(req: HttpRequest<unknown>): Observable<HttpEvent<unknow
     if (!valido) {
       return fallar(401, url);
     }
-    const payload: PayloadJwt = { ...usuario.payload, exp: Date.now() + 1000 * 60 * 60 };
+    const payload: PayloadJwt = { ...usuario.payload, exp: Math.floor(Date.now() / 1000) + 3600 };
     return responder({ token: crearJwt(payload) }, 200, url);
   }
 
@@ -162,13 +206,18 @@ function manejarPeticion(req: HttpRequest<unknown>): Observable<HttpEvent<unknow
       return fallar(401, url); // sin token: no autenticado
     }
     const payload = leerPayloadJwt(token);
-    if (payload?.rol !== 'admin') {
+    if (!payload) return fallar(401, url);
+    if (payload.rol !== 'admin') {
       return fallar(403, url); // autenticado pero sin permisos
     }
     return responder(
       {
         rolRecibido: payload.rol,
-        secretos: ['El café del equipo es lavar la taza propia', 'Los viernes se deploya temprano', 'El WiFi de invitados es "invitados-2024"'],
+        secretos: [
+          'El café del equipo es lavar la taza propia',
+          'Los viernes se deploya temprano',
+          'El WiFi de invitados es "invitados-2024"',
+        ],
       },
       200,
       url,
