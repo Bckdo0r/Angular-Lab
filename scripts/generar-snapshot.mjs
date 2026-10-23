@@ -34,7 +34,10 @@ function carpetasDe(directorio) {
 /** Lista recursiva de archivos de una carpeta, excluyendo carpetas `solucion`. */
 function archivosDe(carpeta) {
   const encontrados = [];
-  for (const entrada of readdirSync(carpeta, { withFileTypes: true })) {
+  const entradas = readdirSync(carpeta, { withFileTypes: true }).sort((a, b) =>
+    a.name.localeCompare(b.name),
+  );
+  for (const entrada of entradas) {
     const ruta = join(carpeta, entrada.name);
     if (entrada.isDirectory()) {
       if (entrada.name === 'solucion') continue; // la solución no se restaura
@@ -56,7 +59,9 @@ for (const seccion of ['tutorial', 'extras']) {
     const rutas = [
       ...archivosDe(join(RAIZ, 'src', 'app', seccion, carpeta)),
       ...(ARCHIVOS_GLOBALES[clave] ?? []),
-    ].map((rutaAbsoluta) => relative(RAIZ, rutaAbsoluta).split(sep).join('/'));
+    ]
+      .map((rutaAbsoluta) => relative(RAIZ, rutaAbsoluta).split(sep).join('/'))
+      .sort();
 
     for (const ruta of rutas) {
       if (!(ruta in contenidos)) {
