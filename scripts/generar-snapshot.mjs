@@ -60,7 +60,12 @@ for (const seccion of ['tutorial', 'extras']) {
 
     for (const ruta of rutas) {
       if (!(ruta in contenidos)) {
-        contenidos[ruta] = readFileSync(join(RAIZ, ruta), 'utf8');
+        // Los finales de línea se normalizan a LF: el snapshot guarda el
+        // CONTENIDO LÓGICO del ejercicio, no la convención de la plataforma.
+        // Git hace lo mismo al commitear (core.autocrlf), así que el snapshot
+        // es idéntico en Windows, Linux y macOS y la verificación automática
+        // puede comparar contra el archivo versionado sin falsos positivos.
+        contenidos[ruta] = readFileSync(join(RAIZ, ruta), 'utf8').replace(/\r\n/g, '\n');
       }
     }
     ejercicios[clave] = rutas;
