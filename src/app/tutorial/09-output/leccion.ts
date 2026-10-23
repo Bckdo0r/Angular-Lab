@@ -21,7 +21,7 @@ import {Leccion09Child} from './child';
   imports: [Leccion09Child],
 })
 export class Leccion09 {
-  items = new Array();
+  items: string[] = [];
 
   addItem(item: string) {
     this.items.push(item);
