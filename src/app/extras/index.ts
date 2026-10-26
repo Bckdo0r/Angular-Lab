@@ -1,77 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { PRACTICAS } from '../curso/actividades';
 import { ReinicioBoton } from '../restauracion/boton-reinicio';
 import { RestauracionService } from '../restauracion/restauracion.service';
-
-interface Practica {
-  numero: string;
-  titulo: string;
-  foco: string;
-  disponible: boolean;
-}
-
-const PRACTICAS: Practica[] = [
-  {
-    numero: '01',
-    titulo: 'Comunicación y Bus de Eventos',
-    foco: 'Enlace bidireccional personalizado con model() y un bus de eventos desacoplado con RxJS (Subject + Observable) para que un nieto hable con su abuelo.',
-    disponible: true,
-  },
-  {
-    numero: '02',
-    titulo: 'Formularios Reactivos Avanzados',
-    foco: 'FormGroup/FormControl, estados (dirty, touched, invalid) en la UI y un validador personalizado parametrizable (ValidatorFn) que bloquea dominios de email.',
-    disponible: true,
-  },
-  {
-    numero: '03',
-    titulo: 'HttpClient y Manejo de Errores',
-    foco: 'HttpClient con HttpHeaders y HttpParams, y captura elegante de errores 404/500 con catchError para mostrar alertas amigables.',
-    disponible: true,
-  },
-  {
-    numero: '04',
-    titulo: 'Auth JWT: Guards e Interceptores',
-    foco: 'Login con JWT simulado en localStorage, HttpInterceptorFn que inyecta el Bearer token y authGuard/roleGuard con createUrlTree.',
-    disponible: true,
-  },
-  {
-    numero: '05',
-    titulo: 'CRUD Interactivo con Modales',
-    foco: 'Tabla con paginación y filtrado local, confirmación de borrado y edición con un modal que precarga el formulario con setValue()/patchValue().',
-    disponible: true,
-  },
-  {
-    numero: '06',
-    titulo: 'RxJS y Asincronía Reactiva',
-    foco: 'Buscador con Subject + debounceTime/distinctUntilChanged + switchMap para cancelar respuestas viejas, takeUntilDestroyed() contra fugas y estados (cargando/vacio/error) como signals.',
-    disponible: true,
-  },
-  {
-    numero: '07',
-    titulo: 'Ruteo Avanzado SPA',
-    foco: 'Parámetros :id con input() y withComponentInputBinding, query params para compartir filtros por link, 404 con ruta comodín, routerLinkActive, canMatch y rutas hijas.',
-    disponible: true,
-  },
-  {
-    numero: '08',
-    titulo: 'Angular Material: Diálogo, Tabla y Feedback',
-    foco: 'Refactor de CRUD a la forma oficina: MatTable + MatPaginator, alta/edición en MatDialog con MAT_DIALOG_DATA y feedback con MatSnackBar con acción deshacer.',
-    disponible: true,
-  },
-  {
-    numero: '09',
-    titulo: 'Estado Global con NgRx',
-    foco: 'Acciones como única fuente de mutación, reducer puro e inmutable, createFeature con selectors memoizados y el puente store.select() → toSignal() para la plantilla.',
-    disponible: true,
-  },
-  {
-    numero: '10',
-    titulo: 'Testing de HTTP y Validadores',
-    foco: 'TestBed + provideHttpClientTesting, HttpTestingController (expectOne/flush/error/verify), stub de servicios y tests puros de un ValidatorFn: probar la regla, no el texto.',
-    disponible: true,
-  },
-];
 
 @Component({
   selector: 'extras-index',
@@ -126,7 +57,7 @@ const PRACTICAS: Practica[] = [
                 <span class="titulo">{{ practica.numero }} — {{ practica.titulo }}</span>
                 <span class="foco">{{ practica.foco }}</span>
               </div>
-              @if (practica.disponible) {
+              @if (practica.disponible !== false) {
                 <span class="links">
                   <a class="accion" [routerLink]="['/extras', practica.numero]">ejercicio</a>
                   <a class="accion" [routerLink]="['/extras', practica.numero, 'solucion']"
@@ -137,7 +68,7 @@ const PRACTICAS: Practica[] = [
                 <span class="badge">próximamente</span>
               }
             </div>
-            @if (practica.disponible) {
+            @if (practica.disponible !== false) {
               <!-- El reset compacto queda FUERA del recuadro de la práctica -->
               <reinicio-boton compacto [claves]="['extras/' + practica.numero]" />
             }

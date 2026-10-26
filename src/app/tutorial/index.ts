@@ -1,41 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { LECCIONES } from '../curso/actividades';
 import { ReinicioBoton } from '../restauracion/boton-reinicio';
 import { RestauracionService } from '../restauracion/restauracion.service';
-
-interface Leccion {
-  numero: string;
-  titulo: string;
-  /** true si la lección no tiene código (solo lectura) */
-  soloLectura?: boolean;
-}
-
-const LECCIONES: Leccion[] = [
-  { numero: '01', titulo: 'Anatomía de un Componente' },
-  { numero: '02', titulo: 'Actualizar la clase del componente' },
-  { numero: '03', titulo: 'Componer componentes' },
-  { numero: '04', titulo: 'Control de flujo: @if' },
-  { numero: '05', titulo: 'Control de flujo: @for' },
-  { numero: '06', titulo: 'Property binding (enlace de propiedades)' },
-  { numero: '07', titulo: 'Manejo de eventos' },
-  { numero: '08', titulo: 'Inputs: comunicación padre → hijo' },
-  { numero: '09', titulo: 'Outputs: comunicación hijo → padre' },
-  { numero: '10', titulo: 'Vistas diferibles (@defer)' },
-  { numero: '11', titulo: 'Optimización de imágenes (NgOptimizedImage)' },
-  { numero: '12', titulo: 'Habilitar el routing' },
-  { numero: '13', titulo: 'Definir una ruta' },
-  { numero: '14', titulo: 'Navegación con routerLink' },
-  { numero: '15', titulo: 'Formularios' },
-  { numero: '16', titulo: 'Valores de controles de formulario' },
-  { numero: '17', titulo: 'Formularios reactivos' },
-  { numero: '18', titulo: 'Validación de formularios' },
-  { numero: '19', titulo: 'Crear un servicio inyectable' },
-  { numero: '20', titulo: 'Inyección de dependencias con inject()' },
-  { numero: '22', titulo: 'Pipes' },
-  { numero: '23', titulo: 'Formatear datos con pipes' },
-  { numero: '24', titulo: 'Crear un pipe personalizado' },
-  { numero: '25', titulo: 'Próximos pasos', soloLectura: true },
-];
 
 @Component({
   selector: 'tutorial-index',
