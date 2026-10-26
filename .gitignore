@@ -45,6 +45,14 @@ __screenshots__/
 # Local tooling artifacts (agent harness, not part of the project)
 .atl/
 
+# Documentación de trabajo local: planes, informes, temarios y notas de sesión.
+# El material publicable del curso vive en los README.md (guías de lecciones y
+# prácticas), que se mantienen versionados.
+*.md
+!README.md
+!AGENTS.md
+!LICENSES.md
+
 # System files
 .DS_Store
 Thumbs.db
